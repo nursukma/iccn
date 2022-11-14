@@ -16,6 +16,8 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('build/assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+    <title>Admin Page</title>
 </head>
 
 <body id="page-top">

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +18,8 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
-Route::get('/sliders', function () {
-    return view('sliders.action');
-});
+Route::resource('sliders', SliderController::class);
+Route::get('/getSliders', [SliderController::class, 'getSliders'])->name('sliders.all');
 
 Route::get('/about', function () {
     return view('about.action');

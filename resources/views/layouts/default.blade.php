@@ -21,6 +21,11 @@
     <link href="{{ asset('build/assets/vendor/quill/quill.snow.css') }}" rel="stylesheet">
     <link href="{{ asset('build/assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
 
+    {{-- Datatables --}}
+    {{-- <link href="{{ asset('build/assets/vendor/datatables/jquery.dataTables.min.css') }}" rel="stylesheet"> --}}
+    {{-- <link href="{{ asset('build/assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet"> --}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+
     <title>Admin Page</title>
     @yield('page-style')
 </head>
@@ -63,6 +68,11 @@
     <script src="{{ asset('build/assets/vendor/chart.js/Chart.min.js') }}"></script>
 
     <script src="{{ asset('build/assets/vendor/quill/quill.min.js') }}"></script>
+
+    {{-- datatables --}}
+    {{-- <script src="{{ asset('build/vendor/datatables/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('build/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script> --}}
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
 
     @yield('page-script')
 

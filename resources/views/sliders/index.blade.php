@@ -94,6 +94,8 @@
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Form Sliders</h6>
+                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                            class="fas fa-plus fa-sm text-white-50"></i> Tambah</a>
                 </div>
                 <!-- Card Body -->
                 <form class="row g-3 needs-validation" action="#" method="post" novalidate>
@@ -101,33 +103,16 @@
                     <div class="card-body">
                         <div class="row mx-auto mt-1">
                             <div class="col-12">
-                                <div class="col-6 mb-2" id="form-sliders" name="form-sliders">
-                                    <label for="link" class="form-label">Pranala Pendukukng</label>
-                                    <input type="text" class="form-control" id="link" name="link[]" required>
-                                </div>
-                                <div class="col-6">
-                                    <div class="upload__box">
-                                        <div class="upload__btn-box">
-                                            <label class="btn upload__btn">
-                                                <p>Upload images</p>
-                                                <input type="file" multiple="" data-max_length="20"
-                                                    class="upload__inputfile" name="file_url[]" id="file_url" multiple>
-                                            </label>
-                                        </div>
-                                        <div class="upload__img-wrap" id="imgwrap">
-                                            <div class="upload__img-box">
-                                                <div class="img-bg"
-                                                    style="background-image: url('{{ url('build/assets/img/user.png') }}')">
-                                                    <input type="hidden" name="old_photo_remains[]" value="">
-                                                    <div class="upload__img-close"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 mt-3 ml-2">
-                                <button type="submit" class="btn btn-success">Simpan</button>
+                                <table class="table" id="table-sliders">
+                                    <thead>
+                                        <tr>
+                                            <td>No</td>
+                                            <td>Judul</td>
+                                            <td>Pranala</td>
+                                            <td>Gambar</td>
+                                        </tr>
+                                    </thead>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -220,5 +205,28 @@
                 $(this).parent().parent().remove();
             });
         }
+    </script>
+
+    <script>
+        $(function() {
+            $('#table-sliders').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '/getSliders',
+                columns: [{
+                        data: 'no'
+                    },
+                    {
+                        data: 'title'
+                    },
+                    {
+                        data: 'link'
+                    },
+                    {
+                        data: 'image'
+                    },
+                ]
+            });
+        });
     </script>
 @endsection

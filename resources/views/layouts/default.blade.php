@@ -17,7 +17,12 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('build/assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
+    {{-- Form Editor Quill --}}
+    <link href="{{ asset('build/assets/vendor/quill/quill.snow.css') }}" rel="stylesheet">
+    <link href="{{ asset('build/assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
+
     <title>Admin Page</title>
+    @yield('page-style')
 </head>
 
 <body id="page-top">
@@ -44,7 +49,6 @@
         </div>
     </div>
 
-
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('build/assets/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('build/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -58,9 +62,7 @@
     <!-- Page level plugins -->
     <script src="{{ asset('build/assets/vendor/chart.js/Chart.min.js') }}"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="{{ asset('build/assets/js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('build/assets/js/demo/chart-pie-demo.js') }}"></script>
+    <script src="{{ asset('build/assets/vendor/quill/quill.min.js') }}"></script>
 
     @yield('page-script')
 

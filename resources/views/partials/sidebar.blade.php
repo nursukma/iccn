@@ -29,7 +29,7 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="/sliders">
             <i class="fas fa-fw fa-images"></i>
             <span>Sliders</span>
         </a>
@@ -37,7 +37,7 @@
 
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="/about">
             <i class="fas fa-fw fa-info"></i>
             <span>About</span>
         </a>

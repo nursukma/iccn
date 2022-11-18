@@ -1,0 +1,48 @@
+/* navbar */
+.navbar{
+    background-color: #000011;
+    height: 68px;
+}
+
+/* For all ilustration */
+#ilustration img {
+    height: 500px;
+    width: 500px;
+}
+
+/* Title */
+#title{
+    color: rgb(228, 133, 8);
+}
+
+/* banner */
+#banner{
+    margin-top: 68px;
+    position: relative;
+}
+
+.carousel-inner img{
+    height: auto;
+    width: inherit;
+}
+
+.carousel-inner .carousel-item {
+    max-width: 1440px;
+    max-height: 570px;
+}
+
+/* about */
+#about{
+    margin-top: 100px;
+}
+
+/* collab */
+#collab{
+    margin-top: 68px;
+    background-color: rgba(221, 218, 218, 0.712);
+}
+
+/* Principe */
+#prinsip{
+    margin-top: 68px;
+}

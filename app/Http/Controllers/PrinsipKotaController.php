@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Slider;
+use App\Models\PrinsipKota;
 use Illuminate\Http\Request;
-use Response;
 
-class SliderController extends Controller
+class PrinsipKotaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,8 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $data = Slider::all();
-        return view('sliders.index', compact('data'));
+        $data = PrinsipKota::all();
+        return view('prinsip_kota.index', compact('data'));
     }
 
     /**
@@ -27,7 +26,7 @@ class SliderController extends Controller
     public function create()
     {
         $action = 'add';
-        return view('sliders.action', compact('action'));
+        return view('prinsip_kota.action', compact('action'));
     }
 
     /**
@@ -40,24 +39,25 @@ class SliderController extends Controller
     {
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'link' => 'required',
+            'desc' => 'required',
             'title' => 'required'
         ]);
 
+        // $imageName = $request->image;
+
         $image_path = $request->file('image')->store('image', 'public');
 
-        $data = Slider::create(['link' => $request->link, 'image' => $image_path, 'title' =>  $request->title]);
-        // dd($data);
-        return redirect('/sliders');
+        $data = PrinsipKota::create(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title]);
+        return redirect('/prinsip-kota');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Slider  $slider
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Slider $slider)
+    public function show($id)
     {
         //
     }
@@ -65,54 +65,60 @@ class SliderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Slider  $slider
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Slider $slider)
+    public function edit($id)
     {
         $action = 'edit';
-        return view('sliders.action', compact('action', 'slider'));
+        $prinsip = PrinsipKota::findOrFail($id)->first();
+        return view('prinsip_kota.action', compact('action', 'prinsip'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Slider  $slider
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Slider $slider)
+    public function update(Request $request, $id)
     {
+        $prinsip = PrinsipKota::findOrFail($id)->first();
+
         $request->validate([
             'image' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'link' => 'required',
+            'desc' => 'required',
             'title' => 'required'
         ]);
 
+        // $imageName = $request->image;
+
         if ($request->file('image') == null) {
-            $image_path = $slider->image;
+            $image_path = $prinsip->image;
         } else {
             $image_path = $request->file('image')->store('image', 'public');
         }
 
-        $data = $slider->update(['link' => $request->link, 'image' => $image_path, 'title' =>  $request->title]);
+        $data = $prinsip->update(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title]);
         // dd($data);
-        return redirect('/sliders');
+        return redirect('/prinsip-kota');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Slider  $slider
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Slider $slider)
+    public function destroy($id)
     {
-        $slider->delete();
+        $prinsip = PrinsipKota::findOrFail($id)->first();
+        $prinsip->delete();
         return back();
     }
 
-    public function getSliders(Request $request)
+    public function getPrinsip(Request $request)
     {
         ## Read value
         $draw = $request->get('draw');
@@ -130,8 +136,8 @@ class SliderController extends Controller
         $searchValue = $search_arr['value']; // Search value
 
         // Total records
-        $totalRecords = Slider::select('count(*) as allcount')->count();
-        $filter = Slider::query();
+        $totalRecords = PrinsipKota::select('count(*) as allcount')->count();
+        $filter = PrinsipKota::query();
         $filter->when($searchValue, function ($query) use ($searchValue) {
             return $query->where('title', 'like', '%' . $searchValue . '%');
         });
@@ -139,7 +145,7 @@ class SliderController extends Controller
         $totalRecordswithFilter = $filter->count();
 
         // Fetch records
-        $query = Slider::query();
+        $query = PrinsipKota::query();
         $query->when($searchValue, function ($query) use ($searchValue) {
             return $query->where('title', 'like', '%' . $searchValue . '%');
         });
@@ -154,14 +160,14 @@ class SliderController extends Controller
         foreach ($records as $record) {
             $id = $record->id;
             $title = $record->title;
-            $link = $record->link;
+            $desc = $record->desc;
             $image = $record->image;
 
             $data_arr[] = array(
                 "no" => $no++,
                 "id" => $id,
                 "title" => $title,
-                "link" => $link,
+                "desc" => $desc,
                 "image" => $image
             );
         }

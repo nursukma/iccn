@@ -96,17 +96,25 @@
                     <h6 class="m-0 font-weight-bold text-primary">Form Sliders</h6>
                 </div>
                 <!-- Card Body -->
-                <form class="row g-3 needs-validation" action="#" method="post" novalidate>
-                    @csrf
-                    <div class="card-body">
-                        <div class="row mx-auto mt-1">
-                            <div class="col-12">
-                                <div class="col-6 mb-2" id="form-sliders" name="form-sliders">
-                                    <label for="link" class="form-label">Pranala Pendukukng</label>
-                                    <input type="text" class="form-control" id="link" name="link[]" required>
-                                </div>
-                                <div class="col-6">
-                                    <div class="upload__box">
+                <div class="card-body">
+                    <form class="row g-3 needs-validation"
+                        action="{{ $action == 'add' ? route('sliders.store') : route('sliders.update', $slider->id) }}"
+                        method="post" novalidate enctype="multipart/form-data">
+                        @csrf
+                        @if ($action == 'edit')
+                            @method('put')
+                        @endif
+                        {{-- <div class="row mx-auto mt-1"> --}}
+                        <div class="col-6 mb-2" id="form-sliders" name="form-sliders">
+                            <label for="link" class="form-label">Judul</label>
+                            <input type="text" class="form-control" id="title" name="title"
+                                value="{{ $action == 'edit' ? $slider->title : '' }}" required>
+
+                            <label for="link" class="form-label">Pranala Pendukukng</label>
+                            <input type="text" class="form-control" id="link" name="link"
+                                value="{{ $action == 'edit' ? $slider->link : '' }}" required>
+                        </div>
+                        {{-- <div class="upload__box">
                                         <div class="upload__btn-box">
                                             <label class="btn upload__btn">
                                                 <p>Upload images</p>
@@ -123,22 +131,31 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 mt-3 ml-2">
-                                <button type="submit" class="btn btn-success">Simpan</button>
-                            </div>
+                                    </div> --}}
+                        <div class="col-md-6 mb-2 mt-2">
+                            <label class="btn btn-primary mt-4" style="{{ $action == 'edit' ? 'position:relative' : '' }}">
+                                Upload Images
+                                <input type="file" name="image" class="upload__inputfile" id="up_images"
+                                    onchange="previewImage()" accept="image/*">
+                            </label>
+                            <img src="{{ $action == 'edit' ? asset('storage/' . $slider->image) : '' }}"
+                                class="img-preview img-fluid col-sm-5"
+                                style="display:block; object-fit:cover; margin: 0 -25px" />
                         </div>
-                    </div>
-                </form>
+                        <div class="col-12 mt-3 ml-2">
+                            <button type="submit" class="btn btn-success">Simpan</button>
+                            <a href="/sliders" class="btn btn-secondary">Kembali</a>
+                        </div>
+                        {{-- </div> --}}
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 @endsection
 
 @section('page-script')
-    <script>
+    {{-- <script>
         jQuery(document).ready(function() {
             ImgUpload();
         });
@@ -219,6 +236,31 @@
                 }
                 $(this).parent().parent().remove();
             });
+        }
+    </script> --}}
+
+    <script>
+        function previewImage() {
+            const image = document.querySelector('#up_images');
+            const imgPreview = document.querySelector('.img-preview');
+
+            // imgPreview.style.display = 'block';
+            // imgPreview.style.objectFit = 'cover';
+
+            var fileName = document.getElementById("up_images").value;
+            var idxDot = fileName.lastIndexOf(".") + 1;
+            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+
+            if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
+                const reader = new FileReader();
+                reader.readAsDataURL(image.files[0]);
+
+                reader.onload = function(event) {
+                    imgPreview.src = event.target.result;
+                }
+            } else {
+                alert("Only jpg/jpeg and png files are allowed!");
+            }
         }
     </script>
 @endsection

@@ -28,12 +28,12 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Form About</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Form Materi</h6>
                 </div>
                 <!-- Card Body -->
                 <form class="form-add row g-3 needs-validation"
-                    action="{{ $action == 'add' ? route('about.store') : route('about.update', $about->id) }}" method="post"
-                    novalidate enctype="multipart/form-data">
+                    action="{{ $action == 'add' ? route('materi.store') : route('materi.update', $materi->id) }}"
+                    method="post" novalidate enctype="multipart/form-data">
                     @csrf
                     @if ($action == 'edit')
                         @method('put')
@@ -44,7 +44,7 @@
                                 <div class="col-md-6">
                                     <label for="floatingName">Judul</label>
                                     <input type="text" class="form-control" id="floatingName" placeholder="Judul"
-                                        name="title" value="{{ $action == 'edit' ? $about->title : '' }}">
+                                        name="title" value="{{ $action == 'edit' ? $materi->title : '' }}">
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label class="btn btn-primary mt-4">
@@ -52,15 +52,38 @@
                                         <input type="file" name="image" class="upload__inputfile" id="up_images"
                                             onchange="previewImage()">
                                     </label>
-                                    <img class="img-preview img-fluid col-sm-5"
-                                        src="{{ $action == 'edit' ? asset('storage/' . $about->image) : '' }}"
+                                    <img class="img-preview img-fluid col-sm-2"
+                                        src="{{ $action == 'edit' ? asset('storage/' . $materi->image) : '' }}"
                                         style="display:block; object-fit:cover; margin: 0 -15px" />
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="btn btn-primary mt-4">
+                                        Upload Berkas Materi
+                                        <input type="file" name="materi" class="upload__inputfile" id="up_images"
+                                            onchange="previewFile()">
+                                    </label>
+                                    @if ($action == 'edit')
+                                        @if ($materi->file != '')
+                                            <img class="file-preview img-fluid col-sm-2"
+                                                src="{{ asset('build/assets/img/file-ada.svg') }}"
+                                                style="display:block; object-fit:cover; margin: 0 -15px"
+                                                title="Sudah ada materi" />
+                                        @else
+                                            <img class="file-preview img-fluid col-sm-2"
+                                                src="{{ asset('build/assets/img/file-kosong.svg') }}"
+                                                style="display:block; object-fit:cover; margin: 0 -15px"
+                                                title="Belum ada materi" />
+                                        @endif
+                                    @else
+                                        <img class="file-preview img-fluid col-sm-2"
+                                            style="display:block; object-fit:cover; margin: 0 -15px" />
+                                    @endif
                                 </div>
                                 <div class="col-12">
                                     <label for="floatingEmail">Deskripsi</label>
 
                                     <input type="hidden" name="desc"
-                                        value="{{ $action == 'edit' ? $about->desc : '' }}">
+                                        value="{{ $action == 'edit' ? $materi->desc : '' }}">
                                     <input type="hidden" name="action" value="{{ $action == 'edit' ? 'edit' : 'add' }}">
 
                                     <div id="editor" class="form-control" style="height: 200px">
@@ -69,7 +92,7 @@
                                 </div>
                                 <div class="col-12 mt-3">
                                     <button type="submit" class="btn btn-success">Simpan</button>
-                                    <a href="/about" class="btn btn-secondary">Kembali</a>
+                                    <a href="/materi" class="btn btn-secondary">Kembali</a>
                                 </div>
                             </div>
                         </div>
@@ -158,6 +181,17 @@
             reader.onload = function(event) {
                 imgPreview.src = event.target.result;
             }
+        }
+
+        function previewFile() {
+            const image = document.querySelector('#up_images');
+            const imgPreview = document.querySelector('.file-preview');
+
+            imgPreview.style.display = 'block';
+            imgPreview.style.objectFit = 'cover';
+
+            imgPreview.src = '/build/assets/img/file-ada.svg';
+
         }
     </script>
 @endsection

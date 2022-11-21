@@ -28,12 +28,12 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Form About</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Form Prinsip Kota</h6>
                 </div>
                 <!-- Card Body -->
                 <form class="form-add row g-3 needs-validation"
-                    action="{{ $action == 'add' ? route('about.store') : route('about.update', $about->id) }}" method="post"
-                    novalidate enctype="multipart/form-data">
+                    action="{{ $action == 'add' ? route('prinsip-kota.store') : route('prinsip-kota.update', $prinsip->id) }}"
+                    method="post" novalidate enctype="multipart/form-data">
                     @csrf
                     @if ($action == 'edit')
                         @method('put')
@@ -44,7 +44,7 @@
                                 <div class="col-md-6">
                                     <label for="floatingName">Judul</label>
                                     <input type="text" class="form-control" id="floatingName" placeholder="Judul"
-                                        name="title" value="{{ $action == 'edit' ? $about->title : '' }}">
+                                        name="title" value="{{ $action == 'edit' ? $prinsip->title : '' }}">
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label class="btn btn-primary mt-4">
@@ -53,23 +53,23 @@
                                             onchange="previewImage()">
                                     </label>
                                     <img class="img-preview img-fluid col-sm-5"
-                                        src="{{ $action == 'edit' ? asset('storage/' . $about->image) : '' }}"
+                                        src="{{ $action == 'edit' ? asset('storage/' . $prinsip->image) : '' }}"
                                         style="display:block; object-fit:cover; margin: 0 -15px" />
                                 </div>
                                 <div class="col-12">
                                     <label for="floatingEmail">Deskripsi</label>
 
                                     <input type="hidden" name="desc"
-                                        value="{{ $action == 'edit' ? $about->desc : '' }}">
+                                        value="{{ $action == 'edit' ? $prinsip->desc : '' }}" id="desc">
                                     <input type="hidden" name="action" value="{{ $action == 'edit' ? 'edit' : 'add' }}">
 
                                     <div id="editor" class="form-control" style="height: 200px">
-
+                                        <p>Hello Mam</p>
                                     </div>
                                 </div>
                                 <div class="col-12 mt-3">
                                     <button type="submit" class="btn btn-success">Simpan</button>
-                                    <a href="/about" class="btn btn-secondary">Kembali</a>
+                                    <a href="/prinsip-kota" class="btn btn-secondary">Kembali</a>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +133,6 @@
         var about = document.querySelector('input[name=desc]');
         var action = document.querySelector('input[name=action]');
 
-        // var action = {!! json_encode($action) !!};
         if (action.value === 'edit') {
             quill.root.innerHTML = about.value
         }

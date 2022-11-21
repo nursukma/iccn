@@ -12,6 +12,7 @@
         "vite": "^3.0.0"
     },
     "dependencies": {
+        "datatables.net": "^1.13.1",
         "quill": "^1.3.6"
     }
 }

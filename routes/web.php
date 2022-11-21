@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\MateriController;
+use App\Http\Controllers\PrinsipKotaController;
 use App\Http\Controllers\SliderController;
+use App\Http\Controllers\TimelineController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,19 +22,17 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
-<<<<<<< HEAD
 Route::resource('sliders', SliderController::class);
 Route::get('/getSliders', [SliderController::class, 'getSliders'])->name('sliders.all');
-=======
-Route::get('/home', function () {
-    return view('home.index');
-});
 
-Route::get('/sliders', function () {
-    return view('sliders.action');
-});
->>>>>>> bf2389fe795cb693b564a8d00f5692008f283cb5
+Route::resource('about', AboutController::class);
+Route::get('/getAbout', [AboutController::class, 'getAbout'])->name('about.all');
 
-Route::get('/about', function () {
-    return view('about.action');
-});
+Route::resource('prinsip-kota', PrinsipKotaController::class);
+Route::get('/getPrinsip', [PrinsipKotaController::class, 'getPrinsip'])->name('prinsip.all');
+
+Route::resource('materi', MateriController::class);
+Route::get('/getMateri', [MateriController::class, 'getMateri'])->name('materi.all');
+
+Route::resource('timeline', TimelineController::class);
+Route::get('/getTimeline', [TimelineController::class, 'getTimeline'])->name('timeline.all');

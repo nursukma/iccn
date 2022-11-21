@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Slider;
+use App\Models\Materi;
 use Illuminate\Http\Request;
-use Response;
 
-class SliderController extends Controller
+class MateriController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,8 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $data = Slider::all();
-        return view('sliders.index', compact('data'));
+        $data = Materi::all();
+        return view('materi.index', compact('data'));
     }
 
     /**
@@ -27,7 +26,7 @@ class SliderController extends Controller
     public function create()
     {
         $action = 'add';
-        return view('sliders.action', compact('action'));
+        return view('materi.action', compact('action'));
     }
 
     /**
@@ -40,24 +39,27 @@ class SliderController extends Controller
     {
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'link' => 'required',
-            'title' => 'required'
+            'desc' => 'required',
+            'title' => 'required',
+            'materi' =>  'required|mimes:docx,doc,pdf|max:4096'
         ]);
 
-        $image_path = $request->file('image')->store('image', 'public');
+        // $imageName = $request->image;
 
-        $data = Slider::create(['link' => $request->link, 'image' => $image_path, 'title' =>  $request->title]);
-        // dd($data);
-        return redirect('/sliders');
+        $image_path = $request->file('image')->store('image', 'public');
+        $materi_path = $request->file('materi')->store('materi', 'public');
+
+        $data = Materi::create(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title, 'file' => $materi_path]);
+        return redirect('/materi');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Slider  $slider
+     * @param  \App\Models\Materi  $materi
      * @return \Illuminate\Http\Response
      */
-    public function show(Slider $slider)
+    public function show(Materi $materi)
     {
         //
     }
@@ -65,54 +67,56 @@ class SliderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Slider  $slider
+     * @param  \App\Models\Materi  $materi
      * @return \Illuminate\Http\Response
      */
-    public function edit(Slider $slider)
+    public function edit(Materi $materi)
     {
         $action = 'edit';
-        return view('sliders.action', compact('action', 'slider'));
+        return view('materi.action', compact('action', 'materi'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Slider  $slider
+     * @param  \App\Models\Materi  $materi
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Slider $slider)
+    public function update(Request $request, Materi $materi)
     {
         $request->validate([
             'image' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'link' => 'required',
-            'title' => 'required'
+            'desc' => 'required',
+            'title' => 'required',
+            'materi' => 'mimes:docx, doc, pdf|max:4096'
         ]);
 
         if ($request->file('image') == null) {
-            $image_path = $slider->image;
+            $image_path = $materi->image;
+            $materi_path = $materi->file;
         } else {
             $image_path = $request->file('image')->store('image', 'public');
+            $materi_path = $request->file('materi')->store('materi', 'public');
         }
 
-        $data = $slider->update(['link' => $request->link, 'image' => $image_path, 'title' =>  $request->title]);
-        // dd($data);
-        return redirect('/sliders');
+        $data = $materi->update(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title, 'file' => $materi_path]);
+        return redirect('/materi');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Slider  $slider
+     * @param  \App\Models\Materi  $materi
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Slider $slider)
+    public function destroy(Materi $materi)
     {
-        $slider->delete();
+        $materi->delete();
         return back();
     }
 
-    public function getSliders(Request $request)
+    public function getMateri(Request $request)
     {
         ## Read value
         $draw = $request->get('draw');
@@ -130,8 +134,8 @@ class SliderController extends Controller
         $searchValue = $search_arr['value']; // Search value
 
         // Total records
-        $totalRecords = Slider::select('count(*) as allcount')->count();
-        $filter = Slider::query();
+        $totalRecords = Materi::select('count(*) as allcount')->count();
+        $filter = Materi::query();
         $filter->when($searchValue, function ($query) use ($searchValue) {
             return $query->where('title', 'like', '%' . $searchValue . '%');
         });
@@ -139,7 +143,7 @@ class SliderController extends Controller
         $totalRecordswithFilter = $filter->count();
 
         // Fetch records
-        $query = Slider::query();
+        $query = Materi::query();
         $query->when($searchValue, function ($query) use ($searchValue) {
             return $query->where('title', 'like', '%' . $searchValue . '%');
         });
@@ -154,15 +158,17 @@ class SliderController extends Controller
         foreach ($records as $record) {
             $id = $record->id;
             $title = $record->title;
-            $link = $record->link;
+            $desc = $record->desc;
             $image = $record->image;
+            $materi = $record->file;
 
             $data_arr[] = array(
                 "no" => $no++,
                 "id" => $id,
                 "title" => $title,
-                "link" => $link,
-                "image" => $image
+                "desc" => $desc,
+                "image" => $image,
+                "file" => $materi
             );
         }
 

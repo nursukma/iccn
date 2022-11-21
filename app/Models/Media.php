@@ -6,19 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Slider extends Model
+class Media extends Model
 {
     use HasFactory;
 
-    protected $table = 'beranda.sliders';
-    protected $fillable = ['title', 'link', 'image'];
+    protected $table = 'beranda.iccn_media';
+    protected $fillable = ['title', 'link'];
 
     protected $primaryKey = 'id';
     protected $keyType = 'string';
-
-    // protected $casts = [
-    //     'id' => 'string'
-    // ];
 
     public $incrementing = false;
 

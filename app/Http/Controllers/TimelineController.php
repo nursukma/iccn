@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Slider;
+use App\Models\Timeline;
 use Illuminate\Http\Request;
-use Response;
 
-class SliderController extends Controller
+class TimelineController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,8 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $data = Slider::all();
-        return view('sliders.index', compact('data'));
+        $data = Timeline::all();
+        return view('timeline.index', compact('data'));
     }
 
     /**
@@ -27,7 +26,7 @@ class SliderController extends Controller
     public function create()
     {
         $action = 'add';
-        return view('sliders.action', compact('action'));
+        return view('timeline.action', compact('action'));
     }
 
     /**
@@ -40,24 +39,22 @@ class SliderController extends Controller
     {
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'link' => 'required',
             'title' => 'required'
         ]);
 
         $image_path = $request->file('image')->store('image', 'public');
 
-        $data = Slider::create(['link' => $request->link, 'image' => $image_path, 'title' =>  $request->title]);
-        // dd($data);
-        return redirect('/sliders');
+        $data = Timeline::create(['image' => $image_path, 'title' =>  $request->title]);
+        return redirect('/timeline');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Slider  $slider
+     * @param  \App\Models\Timeline  $timeline
      * @return \Illuminate\Http\Response
      */
-    public function show(Slider $slider)
+    public function show(Timeline $timeline)
     {
         //
     }
@@ -65,54 +62,53 @@ class SliderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Slider  $slider
+     * @param  \App\Models\Timeline  $timeline
      * @return \Illuminate\Http\Response
      */
-    public function edit(Slider $slider)
+    public function edit(Timeline $timeline)
     {
         $action = 'edit';
-        return view('sliders.action', compact('action', 'slider'));
+        return view('timeline.action', compact('action', 'timeline'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Slider  $slider
+     * @param  \App\Models\Timeline  $timeline
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Slider $slider)
+    public function update(Request $request, Timeline $timeline)
     {
         $request->validate([
             'image' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'link' => 'required',
             'title' => 'required'
         ]);
 
         if ($request->file('image') == null) {
-            $image_path = $slider->image;
+            $image_path = $timeline->image;
         } else {
             $image_path = $request->file('image')->store('image', 'public');
         }
 
-        $data = $slider->update(['link' => $request->link, 'image' => $image_path, 'title' =>  $request->title]);
+        $data = $timeline->update(['image' => $image_path, 'title' =>  $request->title]);
         // dd($data);
-        return redirect('/sliders');
+        return redirect('/timeline');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Slider  $slider
+     * @param  \App\Models\Timeline  $timeline
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Slider $slider)
+    public function destroy(Timeline $timeline)
     {
-        $slider->delete();
+        $timeline->delete();
         return back();
     }
 
-    public function getSliders(Request $request)
+    public function getTimeline(Request $request)
     {
         ## Read value
         $draw = $request->get('draw');
@@ -130,8 +126,8 @@ class SliderController extends Controller
         $searchValue = $search_arr['value']; // Search value
 
         // Total records
-        $totalRecords = Slider::select('count(*) as allcount')->count();
-        $filter = Slider::query();
+        $totalRecords = Timeline::select('count(*) as allcount')->count();
+        $filter = Timeline::query();
         $filter->when($searchValue, function ($query) use ($searchValue) {
             return $query->where('title', 'like', '%' . $searchValue . '%');
         });
@@ -139,7 +135,7 @@ class SliderController extends Controller
         $totalRecordswithFilter = $filter->count();
 
         // Fetch records
-        $query = Slider::query();
+        $query = Timeline::query();
         $query->when($searchValue, function ($query) use ($searchValue) {
             return $query->where('title', 'like', '%' . $searchValue . '%');
         });
@@ -154,14 +150,13 @@ class SliderController extends Controller
         foreach ($records as $record) {
             $id = $record->id;
             $title = $record->title;
-            $link = $record->link;
+            $desc = $record->desc;
             $image = $record->image;
 
             $data_arr[] = array(
                 "no" => $no++,
                 "id" => $id,
                 "title" => $title,
-                "link" => $link,
                 "image" => $image
             );
         }

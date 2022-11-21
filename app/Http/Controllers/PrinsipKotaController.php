@@ -14,7 +14,7 @@ class PrinsipKotaController extends Controller
      */
     public function index()
     {
-        $data = PrinsipKota::all();
+        $data = PrinsipKota::orderBy('created_at', 'desc')->get();
         return view('prinsip_kota.index', compact('data'));
     }
 
@@ -91,8 +91,6 @@ class PrinsipKotaController extends Controller
             'desc' => 'required',
             'title' => 'required'
         ]);
-
-        // $imageName = $request->image;
 
         if ($request->file('image') == null) {
             $image_path = $prinsip->image;

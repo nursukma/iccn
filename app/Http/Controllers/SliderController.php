@@ -15,7 +15,7 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $data = Slider::all();
+        $data = Slider::orderBy('created_at', 'desc')->get();
         return view('sliders.index', compact('data'));
     }
 
@@ -48,7 +48,7 @@ class SliderController extends Controller
 
         $data = Slider::create(['link' => $request->link, 'image' => $image_path, 'title' =>  $request->title]);
         // dd($data);
-        return redirect('/sliders');
+        return redirect('/sliders')->with('message', 'Data Berhasil ditambahkan!');
     }
 
     /**

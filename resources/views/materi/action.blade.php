@@ -22,42 +22,41 @@
 @endsection
 
 @section('content')
-    <div class="row">
-        <!--  -->
-        <div class="col-xl-12 col-lg-10 mx-auto">
-            <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Form Materi</h6>
-                </div>
-                <!-- Card Body -->
-                <form class="form-add row g-3 needs-validation"
-                    action="{{ $action == 'add' ? route('materi.store') : route('materi.update', $materi->id) }}"
-                    method="post" novalidate enctype="multipart/form-data">
-                    @csrf
-                    @if ($action == 'edit')
-                        @method('put')
-                    @endif
-                    <div class="card-body">
-                        <div class="row g-3">
-                            <div class="col-12 ">
-                                <div class="col-md-6">
-                                    <label for="floatingName">Judul</label>
-                                    <input type="text" class="form-control" id="floatingName" placeholder="Judul"
-                                        name="title" value="{{ $action == 'edit' ? $materi->title : '' }}">
+    <main class="main" id="main">
+        <div class="pagetitle">
+            <h1>Form Materi</h1>
+        </div>
+        <div class="row">
+            <!--  -->
+            <div class="col-xl-12 col-lg-10 mx-auto">
+                <div class="card shadow mb-4">
+                    <!-- Card Body -->
+                    <form class="form-add row g-3 needs-validation"
+                        action="{{ $action == 'add' ? route('materi.store') : route('materi.update', $materi->id) }}"
+                        method="post" novalidate enctype="multipart/form-data">
+                        @csrf
+                        @if ($action == 'edit')
+                            @method('put')
+                        @endif
+                        <div class="card-body">
+                            <div class="col-12">
+                                <div class="col-md-6 mt-2">
+                                    <label for="title">Judul</label>
+                                    <input type="text" id="title" class="form-control" placeholder="Judul"
+                                        name="title" value="{{ $action == 'edit' ? $materi->title : '' }}" required>
                                 </div>
                                 <div class="col-md-6 mb-2">
-                                    <label class="btn btn-primary mt-4">
+                                    <label class="btn btn-primary mt-2">
                                         Upload Images
                                         <input type="file" name="image" class="upload__inputfile" id="up_images"
                                             onchange="previewImage()">
                                     </label>
-                                    <img class="img-preview img-fluid col-sm-2"
+                                    <img class="img-preview img-fluid col-sm-3 mt-2"
                                         src="{{ $action == 'edit' ? asset('storage/' . $materi->image) : '' }}"
                                         style="display:block; object-fit:cover; margin: 0 -15px" />
                                 </div>
                                 <div class="col-md-6 mb-2">
-                                    <label class="btn btn-primary mt-4">
+                                    <label class="btn btn-primary mt-2">
                                         Upload Berkas Materi
                                         <input type="file" name="materi" class="upload__inputfile" id="up_images"
                                             onchange="previewFile()">
@@ -66,17 +65,17 @@
                                         @if ($materi->file != '')
                                             <img class="file-preview img-fluid col-sm-2"
                                                 src="{{ asset('build/assets/img/file-ada.svg') }}"
-                                                style="display:block; object-fit:cover; margin: 0 -15px"
+                                                style="display:block; object-fit:cover; margin-top: 10px"
                                                 title="Sudah ada materi" />
                                         @else
                                             <img class="file-preview img-fluid col-sm-2"
                                                 src="{{ asset('build/assets/img/file-kosong.svg') }}"
-                                                style="display:block; object-fit:cover; margin: 0 -15px"
+                                                style="display:block; object-fit:cover; margin-top: 10px"
                                                 title="Belum ada materi" />
                                         @endif
                                     @else
                                         <img class="file-preview img-fluid col-sm-2"
-                                            style="display:block; object-fit:cover; margin: 0 -15px" />
+                                            style="display:block; object-fit:cover; margin-top: 10px" />
                                     @endif
                                 </div>
                                 <div class="col-12">
@@ -96,11 +95,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 @endsection
 
 @section('page-script')

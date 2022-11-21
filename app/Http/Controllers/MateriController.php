@@ -14,7 +14,7 @@ class MateriController extends Controller
      */
     public function index()
     {
-        $data = Materi::all();
+        $data = Materi::orderBy('created_at', 'desc')->get();
         return view('materi.index', compact('data'));
     }
 
@@ -85,6 +85,7 @@ class MateriController extends Controller
      */
     public function update(Request $request, Materi $materi)
     {
+        // dd($request->image);
         $request->validate([
             'image' => 'image|mimes:jpeg,png,jpg|max:2048',
             'desc' => 'required',
@@ -94,9 +95,13 @@ class MateriController extends Controller
 
         if ($request->file('image') == null) {
             $image_path = $materi->image;
-            $materi_path = $materi->file;
         } else {
             $image_path = $request->file('image')->store('image', 'public');
+        }
+
+        if ($request->file('materi') == null) {
+            $materi_path = $materi->file;
+        } else {
             $materi_path = $request->file('materi')->store('materi', 'public');
         }
 

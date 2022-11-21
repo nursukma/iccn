@@ -158,15 +158,15 @@
                 </div>
 
                 {{-- Modal tambah --}}
-                <div class="modal fade" id="addModal" tabindex="-1">
-                    <div class="modal-dialog modal-md modal-dialog-centered">
+                <div class="modal fade" id="addModal" tabindex="-1" data-bs-backdrop="static">
+                    <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Tambah Data Slider</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form class="row g-3 needs-validation" action="{{ route('sliders.store') }}" method="post"
+                            <form class="row g-2 needs-validation" action="{{ route('sliders.store') }}" method="post"
                                 enctype="multipart/form-data" novalidate>
                                 @csrf
                                 <div class="modal-body">
@@ -198,15 +198,15 @@
                 </div>
 
                 {{-- Modal edit --}}
-                <div class="modal fade" id="editModal" tabindex="-1">
-                    <div class="modal-dialog modal-md modal-dialog-centered">
+                <div class="modal fade" id="editModal" tabindex="-1" data-bs-backdrop="static">
+                    <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Ubah Data Slider</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form class="row g-3 needs-validation" id="update-form" action="/" method="post"
+                            <form class="row g-2 needs-validation" id="update-form" action="/" method="post"
                                 enctype="multipart/form-data" novalidate>
                                 @csrf
                                 @method('put')
@@ -222,7 +222,7 @@
                                             required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="btn btn-primary mt-4">
+                                        <label class="btn btn-primary mt-2">
                                             Upload Images
                                             <input type="file" name="image" class="upload__inputfile"
                                                 id="edit_images" onchange="editImage()" accept="image/*">
@@ -242,8 +242,8 @@
                 </div>
 
                 {{-- Modal hapus --}}
-                <div class="modal fade" id="deleteModal" tabindex="-1">
-                    <div class="modal-dialog modal-md modal-dialog-centered">
+                <div class="modal fade" id="deleteModal" tabindex="-1" data-bs-backdrop="static">
+                    <div class="modal-dialog" role="dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Konfirmasi</h5>
@@ -261,8 +261,7 @@
                                     </p>
                                     <div class="alert alert-danger text-center" role="alert">
                                         <i class="bi bi-exclamation-octagon me-1"></i>
-                                        <span class=""> Perhatian! Menghapus visitor juga berarti menghapus akun
-                                            visitor.</span>
+                                        <span class="">Perhatian! data akan terhapus dari sistem.</span>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -417,7 +416,6 @@
             } else {
                 alert("Only jpg/jpeg and png files are allowed!");
             }
-            console.log(fileName)
         }
 
         function editImage() {
@@ -438,8 +436,6 @@
             } else {
                 alert("Only jpg/jpeg and png files are allowed!");
             }
-
-            console.log(imgPreview)
         }
     </script>
 @endsection

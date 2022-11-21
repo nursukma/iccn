@@ -1,25 +1,6 @@
 @extends('layouts.default')
 
-@section('page-style')
-    <style>
-        .upload__inputfile {
-            width: 0.1px;
-            height: 0.1px;
-            opacity: 0;
-            overflow: hidden;
-            position: absolute;
-            z-index: -1;
-        }
 
-        .img-bg {
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-            position: relative;
-            padding-bottom: 100%;
-        }
-    </style>
-@endsection
 
 @section('content')
     <div class="row">

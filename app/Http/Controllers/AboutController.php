@@ -14,7 +14,7 @@ class AboutController extends Controller
      */
     public function index()
     {
-        $data = About::all();
+        $data = About::orderBy('created_at', 'desc')->get();
         return view('about.index', compact('data'));
     }
 

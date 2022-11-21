@@ -22,41 +22,42 @@
 @endsection
 
 @section('content')
-    <div class="row">
-        <!--  -->
-        <div class="col-xl-12 col-lg-10 mx-auto">
-            <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Form About</h6>
-                </div>
-                <!-- Card Body -->
-                <form class="form-add row g-3 needs-validation"
-                    action="{{ $action == 'add' ? route('about.store') : route('about.update', $about->id) }}" method="post"
-                    novalidate enctype="multipart/form-data">
-                    @csrf
-                    @if ($action == 'edit')
-                        @method('put')
-                    @endif
-                    <div class="card-body">
-                        <div class="row g-3">
-                            <div class="col-12 ">
-                                <div class="col-md-6">
+    <main class="main" id="main">
+        <div class="pagetitle">
+            <h1>Form About</h1>
+        </div>
+
+        <div class="row">
+            <!--  -->
+            <div class="col-xl-12 col-lg-10 mx-auto">
+                <div class="card shadow mb-4">
+                    <!-- Card Body -->
+                    <form class="form-add row g-2 needs-validation"
+                        action="{{ $action == 'add' ? route('about.store') : route('about.update', $about->id) }}"
+                        method="post" novalidate enctype="multipart/form-data">
+                        @csrf
+                        @if ($action == 'edit')
+                            @method('put')
+                        @endif
+                        <div class="card-body">
+                            {{-- <div class="row g-3"> --}}
+                            <div class="col-12">
+                                <div class="col-md-6 mt-2">
                                     <label for="floatingName">Judul</label>
                                     <input type="text" class="form-control" id="floatingName" placeholder="Judul"
                                         name="title" value="{{ $action == 'edit' ? $about->title : '' }}">
                                 </div>
-                                <div class="col-md-6 mb-2">
-                                    <label class="btn btn-primary mt-4">
+                                <div class="col-md-6 mt-2">
+                                    <label class="btn btn-primary mt-2">
                                         Upload Images
                                         <input type="file" name="image" class="upload__inputfile" id="up_images"
                                             onchange="previewImage()">
                                     </label>
-                                    <img class="img-preview img-fluid col-sm-5"
+                                    <img class="img-preview img-fluid col-sm-5 mt-2"
                                         src="{{ $action == 'edit' ? asset('storage/' . $about->image) : '' }}"
-                                        style="display:block; object-fit:cover; margin: 0 -15px" />
+                                        style="display:block; object-fit:cover" />
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12 mt-2">
                                     <label for="floatingEmail">Deskripsi</label>
 
                                     <input type="hidden" name="desc"
@@ -72,12 +73,13 @@
                                     <a href="/about" class="btn btn-secondary">Kembali</a>
                                 </div>
                             </div>
+                            {{-- </div> --}}
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 @endsection
 
 @section('page-script')

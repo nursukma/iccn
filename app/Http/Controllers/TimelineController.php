@@ -14,7 +14,7 @@ class TimelineController extends Controller
      */
     public function index()
     {
-        $data = Timeline::all();
+        $data = Timeline::orderBy('created_at', 'desc')->get();
         return view('timeline.index', compact('data'));
     }
 

@@ -308,39 +308,37 @@
 <section id="program_mitra">
     <div class="container">
         <h2 id="title" class="text-center mt-4">Program Kemitraan ICCF</h2>
-        <div class="row">
-            <div class="row mt-2">
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="..\img\rakornas.png" alt="" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-text">Jenama Lokal (JELO)</h5>
-                        </div>
-                        <div class="card-footer">
-                            <p class="footer">Bekerja sama dengan Kementrian Koperasi dan UKM</p>
-                        </div>
+        <div class="row mt-2">
+            <div class="col-lg-4">
+                <div class="card">
+                    <img src="..\img\rakornas.png" alt="" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-text">Jenama Lokal (JELO)</h5>
+                    </div>
+                    <div class="card-footer">
+                        <p class="footer">Bekerja sama dengan Kementrian Koperasi dan UKM</p>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="..\img\rakornas.png" alt="" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-text">Hyundai Start-Up Challange</h5>
-                        </div>
-                        <div class="card-footer">
-                            <p class="footer"></p>
-                        </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <img src="..\img\rakornas.png" alt="" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-text">Hyundai Start-Up Challange</h5>
+                    </div>
+                    <div class="card-footer">
+                        <p class="footer"></p>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="card">
-                        <img src="..\img\rakornas.png" alt="" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-text">Bootcamp Accelerator for Mayir Office (BAMO)</h5>
-                        </div>
-                        <div class="card-footer">
-                            <p class="footer"></p>
-                        </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <img src="..\img\rakornas.png" alt="" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-text">Bootcamp Accelerator for Mayir Office (BAMO)</h5>
+                    </div>
+                    <div class="card-footer">
+                        <p class="footer"></p>
                     </div>
                 </div>
             </div>
@@ -422,22 +420,48 @@
             <div class="text-center col-lg-6">
                 <h4 id="title">Belanja Barang Indonesia</h4>
                 <a href="#"><img src="..\img\ics.png" alt="Logo"
-                        style="width: 100px!important; height:130px; margin-top:50px"></a>
+                        style="width: 100px!important; height:130px; margin-top:40px"></a>
             </div>
             <div class="col-lg-6">
                 <h4 id="title" class="text-center">ICCN Media</h4>
-                {{-- <div class="col-lg-2">
-                    <a href=""><img src="..\img\youtube.png" alt="Youtube"
-                            style="width: 50px!important; height:50px;"></a>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-4">
+                        <button type="button" class="btn-icon btn btn-facebook">
+                            <span class="btn-inner--icon"><i class="fa-brands fa-facebook"></i></span>
+                            <span class="btn-inner--text">Press Release</span>
+                        </button>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-4">
+                        <button type="button" class="btn-icon btn btn-facebook">
+                            <span class="btn-inner--icon"><i class="fa-brands fa-facebook"></i></span>
+                            <span class="btn-inner--text">ICCN Media</span>
+                        </button>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-4">
+                        <button type="button" class="btn-icon btn btn-facebook">
+                            <span class="btn-inner--icon"><i class="fa-brands fa-facebook"></i></span>
+                            <span class="btn-inner--text">ICCN Media</span>
+                        </button>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-4">
+                        <button type="button" class="btn-icon btn btn-facebook">
+                            <span class="btn-inner--icon"><i class="fa-brands fa-facebook"></i></span>
+                            <span class="btn-inner--text">Kabar Jejaring</span>
+                        </button>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-4">
+                        <button type="button" class="btn-icon btn btn-facebook">
+                            <span class="btn-inner--icon"><i class="fa-brands fa-facebook"></i></span>
+                            <span class="btn-inner--text">ICCN Media</span>
+                        </button>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-4">
+                        <button type="button" class="btn-icon btn btn-facebook">
+                            <span class="btn-inner--icon"><i class="fa-brands fa-facebook"></i></span>
+                            <span class="btn-inner--text">ICCN Media</span>
+                        </button>
+                    </div>
                 </div>
-                <div class="col-lg-2">
-                    <a href=""><img src="..\img\instagram.png" alt="Instagram"
-                            style="width: 50px!important; height:50px;"></a>
-                </div>
-                <div class="col-lg-2">
-                    <a href=""><img src="..\img\facebook.png" alt="Facebook"
-                            style="width: 50px!important; height:50px;"></a>
-                </div> --}}
             </div>
         </div>
     </div>
@@ -447,18 +471,131 @@
     <div class="container">
         <h2 id="title" class="text-center">Berita Terbaru</h2>
         <p class="text-center">Berita dan Blog ICCN</p>
-        <div class="row">
+        <div class="row mt-2">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header p-0 mx-3 mt-n4">
+                        <a class="d-block blur-shadow-image">
+                            <img src="../img/news/avpn.jpg" alt="AVPN" class="img-fluid border-radius-lg">
+                        </a>
+                    </div>
+                    <div class="card-body pt-3">
+                        <p class="text-dark mb-2 text-sm">Senin, 20 Juni 2022</p>
+                        <a href="javascript:;">
+                            <h5>
+                                AVPN 2022
+                            </h5>
+                        </a>
+                        <p>
+                            Dwinita (Tita) Larasati studied product design at Institut Teknologi Bandung (ITB), where
+                            she currently works as a lecturer and researcher, and pursued her study at Design Academy
+                            Eindhoven and Delft University of Technology, The Netherlands.
+                        </p>
+                        <button type="button" class="btn btn-outline-primary btn-sm mb-0">Selengkapnya</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header p-0 mx-3 mt-n4">
+                        <a class="d-block blur-shadow-image">
+                            <img src="../img/news/iccn_news.jpg" alt="ITB" class="img-fluid border-radius-lg">
+                        </a>
+                    </div>
+                    <div class="card-body pt-3">
+                        <p class="text-dark mb-2 text-sm">Senin, 25 Januari 2021</p>
+                        <a href="javascript:;">
+                            <h5>
+                                ICCN Berkolaborasi dengan ITB Menggunakan Teknologi untuk Membantu Korban Sulawesi Barat
+                            </h5>
+                        </a>
+                        <p>
+                            Dalam misi membantu tanggap darurat gempa di Majene ini, Tim ITB berkoordinasi dengan Tim
+                            Rumah Sakit Terapung Ksatria Airlangga (RSTKA Unair) yang dipimpin oleh dr. Agus Harianto,
+                            Sp.B. dan Tim Unhas, serta perwakilan dari Indonesia Creative Cities Network (ICCN), juga
+                            sukarelawan Bulan Sabit Merah Indonesia (BSMI).
+                        </p>
+                        <button type="button" class="btn btn-outline-primary btn-sm mb-0">Selengkapnya</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header p-0 mx-3 mt-n4">
+                        <a class="d-block blur-shadow-image">
+                            <img src="../img/news/iccf_bali.jpg" alt="ICCF Bali" class="img-fluid border-radius-lg">
+                        </a>
+                    </div>
+                    <div class="card-body pt-3">
+                        <p class="text-dark mb-2 text-sm">Rabu, 25 November 2020</p>
+                        <a href="javascript:;">
+                            <h5>
+                                ICCF 2020: Refleksi Potensi Daya Cipta Demi Kepulihan yang Harmonis
+                            </h5>
+                        </a>
+                        <p>
+                            ICCF 2020 mengambil tema "Siwam, Satyam, Sundharam", frasa Bali yang berarti Kesucian,
+                            Kebenaran/Kemuliaan, Keindahan/Kreativitas, yang mengandung pesan inti memaknai momentum
+                            pandemi untuk meraih kembali kemuliaan spiritual, kemanusiaan, dan alam, melalui
+                            kreativitas.
+                        </p>
+                        <button type="button" class="btn btn-outline-primary btn-sm mb-0">Selengkapnya</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
 
+<section id="vid_collab">
+    <div class="container">
+        <h2 id="title" class="text-center">Kolaborasi</h2>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card" style="background-color: black; height: 200px">
+                    <div class="card-header text-center text-white">
+                        <h5>Play Video</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4" style="background-color: brown; height: 200px">
+                <div class="card-header text-center text-white">
+                    <h5 class="mt-2">List Video</h5>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-<section id="vid_collab">
-
-</section>
-
 <section id="hub">
-
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <h3 id="title">ICCN Newslatter</h3>
+            </div>
+            <div class="col-lg-6">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <h2 id="title" class="text-center">Hubungi Kami</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Untuk pertanyaan lebih lanjut, termasuk peluang kemitraan, silakan hubungi menggunakan
+                            formulir kontak kami.</p>
+                            <div class="input-group">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <input type="text" placeholder="Nama Lengkap" style="border-radius: 1px; height: 50px">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" placeholder="Email" style="border-radius: 1px; height: 50px">
+                                    </div>
+                                </div>
+                                <input type="text" placeholder="Pesan" class="mt-4" style="width: 100%; height: 100px">
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 @endsection
 

@@ -24,6 +24,14 @@ Route::get('/home', function () {
     return view('home.index');
 });
 
+Route::get('/organisasi', function () {
+    return view('organisasi.index');
+});
+
+Route::get('/berita', function () {
+    return view('news.index');
+});
+
 Route::get('/sliders', function () {
     return view('sliders.action');
 });

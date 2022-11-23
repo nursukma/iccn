@@ -4,6 +4,34 @@
     height: 68px;
 }
 
+.navbar-header{
+    float: none;
+    margin-left: 100px;
+}
+
+.navbar-toggler{
+    display: block;
+    margin-right: 100px;
+}
+
+.navbar-collapse .collapse{
+    display: none!important;
+}
+
+.navbar-nav{
+    float: none!important;
+}
+
+.navbar-nav>li{
+    float: none!important;
+}
+
+#navigation{
+    background-color: #000011;
+    justify-content: end;
+    width: 100%;
+}
+
 /* For all ilustration */
 #ilustration img {
     height: 500px;
@@ -158,6 +186,22 @@
     margin-top: 68px;
 }
 
+.btn-icon{
+    margin-top: 40px;
+    background-color: #000011;
+    width: 150px;
+    height: 50px;
+}
+
+.btn-icon .btn-inner--icon {
+    color: rgb(228, 133, 8);   
+}
+
+.btn-icon .btn-inner--text {
+    /* color: rgb(228, 133, 8);*/
+    color: white;
+}
+
 /* AJAR */
 #ajar{
     margin-top: 68px;
@@ -167,3 +211,21 @@
 #news{
     margin-top: 68px;
 }
+
+.card-header{
+    position: relative;
+    z-index: 2;
+    border-radius: 5px;
+}
+
+/* Video Kolaborasi */
+#vid_collab{
+    margin-top: 68px;
+}
+
+/* Hubungi Kami */
+#hub{
+    margin-top: 68px;
+    background-color: rgb(224, 224, 224);
+}
+

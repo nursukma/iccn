@@ -15,45 +15,46 @@
 </head>
 
 <body>
-    <div class="wrapper">
-        <div class="fixed-top">
-            <nav class="navbar navbar-expand-md navbar-light topbar static-top shadow">
-                <div class="container">
-                    <a class="navbar-brand text-white" href="/home">
-                        Logo ICCN
-                    </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon text-white"></span>
-                      </button>
-                    <div id="navigation" class="collapse navbar-collapse">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="navbar-item">
-                                <a class="nav-link text-white active" aria-current="page" href="#">Beranda</a>
-                            </li>
-                            <li class="navbar-item">
-                                <a class="nav-link text-white" aria-current="page" href="#">Organisasi</a>
-                            </li>
-                            <li class="navbar-item">
-                                <a class="nav-link text-white" aria-current="page" href="#">Program</a>
-                            </li>
-                            <li class="navbar-item">
-                                <a class="nav-link text-white" aria-current="page" href="#">Berita</a>
-                            </li>
-                            <li class="navbar-item">
-                                <a class="nav-link text-white" aria-current="page" href="#">Kontak</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+    <nav class="navbar navbar-expand-md navbar-light topbar static-top shadow fixed-top">
+        <div class="navbar-header mb-0">
+            <a class="navbar-brand" href="/home">
+                <img src="..\img\iccn.png" alt="Logo">
+            </a>
         </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigation"
+            aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon">
+                <span class="icon-bar bar1"></span>
+                <span class="icon-bar bar2"></span>
+                <span class="icon-bar bar3"></span>
+            </span>
+        </button>
+        <div class="collapse navbar-collapse" id="navigation">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="navbar-item active">
+                    <a class="nav-link text-white" aria-current="page" href="/home">Beranda</a>
+                </li>
+                <li class="navbar-item ">
+                    <a class="nav-link text-white" aria-current="page" href="/organisasi">Organisasi</a>
+                </li>
+                <li class="navbar-item ">
+                    <a class="nav-link text-white" aria-current="page" href="#">Program</a>
+                </li>
+                <li class="navbar-item ">
+                    <a class="nav-link text-white" aria-current="page" href="/berita">Berita</a>
+                </li>
+                <li class="navbar-item ">
+                    <a class="nav-link text-white" aria-current="page" href="#">Kontak</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-        <main>
-            @yield('content')
-        </main>
+    <main>
+        @yield('content')
+    </main>
 
-        @include('partials.footer')
-    </div>
+    @include('partials.footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">

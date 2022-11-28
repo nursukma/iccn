@@ -26,15 +26,15 @@
                     <div class="card-body">
                         <div class="row mx-auto mt-1">
                             <div class="col-12">
-                                <table class="table" id="table-materi">
+                                <table class="table datatable" id="table-materi">
                                     <thead>
                                         <tr>
-                                            <td>No</td>
-                                            <td>Judul</td>
-                                            <td>Deskripsi</td>
-                                            <td>File</td>
-                                            <td>Gambar</td>
-                                            <td>Aksi</td>
+                                            <th scope="col">No</th>
+                                            <th scope="col">Judul</th>
+                                            <th scope="col">Deskripsi</th>
+                                            <th scope="col">File</th>
+                                            <th scope="col">Gambar</th>
+                                            <th scope="col">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>

@@ -124,7 +124,7 @@ class AksiBersamaController extends Controller
         $dataItem['image'] = $imageItem_path;
         $dataItem['aksi_besama_id'] = $id;
 
-        $data = AksiBersamaItem::create($dataItem);
+        $data = AksiBersamaItem::create(['title' => $dataItem['title'], 'link' => $dataItem['link'], 'image' => $dataItem['image'], 'aksi_bersama_id' => $id]);
         // dd($dataItem);
         return redirect('/aksi-bersama')->with('message', 'Data berhasil ditambahkan!');
     }
@@ -261,7 +261,31 @@ class AksiBersamaController extends Controller
 
     public function detailAksi($id)
     {
-        $data = AksiBersamaItem::where('aksi_bersama_id', $id)->get();
+        $data = AksiBersamaItem::where('aksi_bersama_id', $id)->orderBy('created_at', 'desc')->get();
         return response()->json($data);
+    }
+
+    public function deleteItem($id)
+    {
+        $data = AksiBersamaItem::findOrFail($id);
+        $data->delete();
+        return redirect('/aksi-bersama')->with('message', 'Data berhasil dihapus!');
+    }
+
+    public function updateItem(Request $request, $id)
+    {
+        $data = AksiBersamaItem::findOrFail($id);
+        $dataItem = $request->only(self::itemData);
+
+        if ($request->file('edit_item_image') == null) {
+            $dataItem['image'] = $data->image;
+        } else {
+            $imageItem_path = $request->file('edit_item_image')->store('image', 'public');
+            $dataItem['image'] = $imageItem_path;
+        }
+        $dataItem['aksi_besama_id'] = $id;
+
+        $data->update(['title' => $dataItem['title'], 'link' => $dataItem['link'], 'image' => $dataItem['image']]);
+        return redirect('/aksi-bersama')->with('message', 'Data berhasil diubah!');
     }
 }

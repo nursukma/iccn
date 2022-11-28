@@ -83,11 +83,11 @@
                                 <table class="table datatable" id="table-aksi">
                                     <thead>
                                         <tr>
-                                            <td>No</td>
-                                            <td>Judul</td>
-                                            <td>Deskripsi</td>
-                                            <td>Gambar</td>
-                                            <td>Aksi</td>
+                                            <th scope="col">No</th>
+                                            <th scope="col">Judul</th>
+                                            <th scope="col">Deskripsi</th>
+                                            <th scope="col">Gambar</th>
+                                            <th scope="col">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -108,11 +108,11 @@
                                                         width="60px" height="40px">
                                                 </td>
                                                 <td>
-                                                    {{-- <button type="button" class="btn btn-light rounded-pill"
+                                                    <button type="button" class="btn btn-light rounded-pill"
                                                         title="Tambah Item" id='itemAdd' name='itemAdd'
                                                         data-bs-toggle="modal" data-bs-target="#itemModal"
                                                         data-bs-act="{{ route('aksi-bersama.item', $item->id) }}">
-                                                        <i class="ri-add-circle-line"></i></button> --}}
+                                                        <i class="ri-add-circle-line"></i></button>
                                                     <button type="button" class="btn btn-light rounded-pill" title="Ubah"
                                                         id='edit' name='edit' data-bs-toggle="modal"
                                                         data-bs-target="#editModal"
@@ -170,7 +170,8 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Tutup</button>
                                     <button type="submit" class="btn btn-success">Simpan</button>
                                 </div>
                             </form>
@@ -179,8 +180,7 @@
                 </div>
 
                 <!-- Modal Detail Item -->
-                <div class="modal fade" id="itemDetailModal" data-bs-backdrop="static" tabindex="-1" role="dialog"
-                    aria-labelledby="addModalLabel" aria-hidden="true">
+                <div class="modal fade" id="itemDetailModal" style="z-index: 1400;">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -188,27 +188,7 @@
                                 <button class="btn-close" type="button" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
-                                {{-- <table class="table datatable" id="table-item-detail">
-                                    <thead>
-                                        <tr>
-                                            <td>No</td>
-                                            <td>Judul</td>
-                                            <td>Pranala</td>
-                                            <td>Gambar</td>
-                                            <td>Aksi</td>
-                                        </tr>
-                                    </thead> --}}
-                                {{-- <tbody>
-                                        <tr id="row">
-                                            <td id="no"></td>
-                                            <td id="title"></td>
-                                            <td id="link"></td>
-                                            <td id="image"></td>
-                                            <td id="aksi"></td>
-                                        </tr>
-                                    </tbody> 
-                                    </table> --}}
+                            <div class="modal-body" id="body-detail">
                             </div>
                         </div>
                     </div>
@@ -336,7 +316,7 @@
                 </div>
 
                 {{-- Modal edit item --}}
-                <div class="modal fade" id="editItemModal" tabindex="-1" data-bs-backdrop="static">
+                <div class="modal fade" id="editItemModal" data-backdrop="static" style="z-index: 1600;">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -356,16 +336,16 @@
                                     </div>
                                     <div class="col-12">
                                         <label for="link" class="form-label">Pranala</label>
-                                        <input type="text" class="form-control" id="desc" name="desc"
+                                        <input type="text" class="form-control" id="link" name="link"
                                             required>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="btn btn-primary mt-2">
                                             Upload Images
-                                            <input type="file" name="image" class="upload__inputfile"
-                                                id="edit_images" onchange="editImage()" accept="image/*">
+                                            <input type="file" name="edit_item_image" class="upload__inputfile"
+                                                id="edit_item_images" onchange="editItemImage()" accept="image/*">
                                         </label>
-                                        <img id="img-edit" class="edit-preview img-fluid col-sm-5"
+                                        <img id="img-edit-item" class="edit-item-preview img-fluid col-sm-5"
                                             style="display:block; object-fit:cover; margin-top:10px" />
                                     </div>
                                 </div>
@@ -509,6 +489,26 @@
                 alert("Only jpg/jpeg and png files are allowed!");
             }
         }
+
+        function editItemImage() {
+            const image = document.querySelector('#edit_item_images');
+            const imgPreview = document.querySelector('.edit-item-preview');
+
+            var fileName = document.getElementById("edit_item_images").value;
+            var idxDot = fileName.lastIndexOf(".") + 1;
+            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+
+            if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
+                const reader = new FileReader();
+                reader.readAsDataURL(image.files[0]);
+
+                reader.onload = function(event) {
+                    imgPreview.src = event.target.result;
+                }
+            } else {
+                alert("Only jpg/jpeg and png files are allowed!");
+            }
+        }
     </script>
 
     <script type="text/javascript">
@@ -528,7 +528,7 @@
             updateForm[0].reset();
         });
 
-        // edit modal
+        // edit item modal
         $('#editItemModal').bind('show.bs.modal', event => {
             const updateForm = $('form#update-form');
             const updateButton = $(event.relatedTarget);
@@ -537,7 +537,7 @@
             updateForm.attr('action', updateButton.attr('data-bs-act'));
             updateForm.find('#title').val(updateButton.attr('data-bs-title'));
             updateForm.find('#link').val(updateButton.attr('data-bs-link'));
-            updateForm.find('#img-edit').attr("src", path);
+            updateForm.find('#img-edit-item').attr("src", path);
         }).bind('hide.bs.modal', e => {
             const updateForm = $('form#update-form');
             updateForm.attr('action', '/');
@@ -569,13 +569,15 @@
         $(function() {
             $('a.detaildata').click(function() {
                 var detailModal = bootstrap.Modal.getOrCreateInstance('#itemDetailModal');
-                // detailModal.html('');    
+
                 var id = $(this).data('id');
                 var no = 1;
+
+                var path = 'storage/';
+
                 $.get('/getDetail/' + id, function(data) {
-                    detailModal.innerHTML = ''
                     detailModal.show();
-                    $('.modal-body').append(
+                    $('#body-detail').append(
                         '<table class="table datatable" id="table-item-detail">' +
                         '<thead>' +
                         '<tr>' +
@@ -588,26 +590,38 @@
                         '</thead>'
                     );
                     data.forEach(val => {
-                        $('.modal-body').append(
+                        $('#body-detail').append(
                             '<table class="table datatable" id="table-item-detail">' +
                             '<tbody>' +
                             '<tr>' +
                             '<td>' + no++ + '</td>' +
                             '<td>' + val.title + '</td>' +
                             '<td>' + val.link + '</td>' +
-                            '<td>' + val.image + '</td>' +
-                            '<td>' + val.image + '</td>' +
+                            '<td>' + '<img src="' + path + val.image +
+                            '" class="img-thumbnail" width="60px" height = "40px">' +
+                            '</td>' +
+                            '<td>' +
+                            '<button type="button" class="btn btn-light rounded-pill" title="Ubah" id="edit" name="edit" data-bs-toggle="modal" data-bs-target="#editItemModal" data-bs-act="' +
+                            '/update-item/' + val.id + '" data-bs-title="' +
+                            val.title + '"  data-bs-link="' + val.link +
+                            '" data-bs-image="' + val.image + '">' +
+                            '<i class="ri-edit-2-line"></i></button>' +
+                            '<button type="button" class="btn btn-light rounded-pill" title="Hapus" id="hapus" name="hapus" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-act="' +
+                            '/delete-item/' + val.id +
+                            '" data-bs-title="' +
+                            val.title + '">' +
+                            '<i class="ri-delete-bin-line"></i></button>' +
+                            '</td>' +
                             '</tr>' +
                             '</tbody>' +
                             '</table>'
                         )
                     })
-                    dataTable = new simpleDatatables.DataTable("#table-item-detail")
                 });
             });
 
             $("#itemDetailModal").on("hidden.bs.modal", function() {
-                $(".modal-body").html("");
+                $("#body-detail").html("");
             });
         });
     </script>

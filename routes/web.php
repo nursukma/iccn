@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AksiBersamaController;
 use App\Http\Controllers\MateriController;
+use App\Http\Controllers\PengurusController;
 use App\Http\Controllers\PrinsipKotaController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\TimelineController;
@@ -43,4 +44,8 @@ Route::get('/getAksiBersama', [AksiBersamaController::class, 'getAksiBersama'])-
 
 Route::post('/aksi-bersama/{id}', [AksiBersamaController::class, 'storeItem'])->name('aksi-bersama.item');
 Route::get('/detail-item/{id}', [AksiBersamaController::class, 'detailItem'])->name('aksi-bersama.detailItem');
+Route::delete('/delete-item/{id}', [AksiBersamaController::class, 'deleteItem'])->name('aksi-bersama.deleteItem');
+Route::put('/update-item/{id}', [AksiBersamaController::class, 'updateItem'])->name('aksi-bersama.updateItem');
 Route::get('/getDetail/{id}', [AksiBersamaController::class, 'detailAksi'])->name('aksi-bersama.detailAksi');
+
+Route::resource('pengurus', PengurusController::class);

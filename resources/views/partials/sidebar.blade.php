@@ -51,7 +51,7 @@
          </li><!-- End Data Ibu Nav -->
 
          <li class="nav-item">
-             <a class="nav-link collapsed " href="#">
+             <a class="nav-link collapsed " href="/program">
                  <i class="bi bi-card-list"></i><span>Program</span>
              </a>
          </li><!-- End Data Ibu Nav -->

@@ -5,6 +5,7 @@ use App\Http\Controllers\AksiBersamaController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\PengurusController;
 use App\Http\Controllers\PrinsipKotaController;
+use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\TimelineController;
 use Illuminate\Support\Facades\Route;
@@ -49,3 +50,7 @@ Route::put('/update-item/{id}', [AksiBersamaController::class, 'updateItem'])->n
 Route::get('/getDetail/{id}', [AksiBersamaController::class, 'detailAksi'])->name('aksi-bersama.detailAksi');
 
 Route::resource('pengurus', PengurusController::class);
+
+Route::resource('program', ProgramController::class);
+Route::get('/programDetail/{id}', [ProgramController::class, 'detailItem'])->name('program.detailItem');
+Route::post('/programStore/{id}', [ProgramController::class, 'storeItem'])->name('program.itemStore');

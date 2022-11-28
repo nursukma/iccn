@@ -60,7 +60,7 @@
 @section('content')
     <main class="main" id="main">
         <div class="pagetitle">
-            <h1>Data Aksi Bersama</h1>
+            <h1>Data Program</h1>
         </div>
 
         <div class="row">
@@ -80,13 +80,12 @@
                     <div class="card-body">
                         <div class="row mx-auto mt-1">
                             <div class="col-12">
-                                <table class="table datatable" id="table-aksi">
+                                <table class="table datatable" id="table-program">
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
                                             <th scope="col">Judul</th>
-                                            <th scope="col">Deskripsi</th>
-                                            <th scope="col">Gambar</th>
+                                            <th scope="col">Subjudul</th>
                                             <th scope="col">Aksi</th>
                                         </tr>
                                     </thead>
@@ -101,30 +100,25 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    {{ $item->desc }}
-                                                </td>
-                                                <td>
-                                                    <img src="{{ 'storage/' . $item->image }}" class="img-thumbnail"
-                                                        width="60px" height="40px">
+                                                    {{ $item->sub_title }}
                                                 </td>
                                                 <td>
                                                     <button type="button" class="btn btn-light rounded-pill"
                                                         title="Tambah Item" id='itemAdd' name='itemAdd'
                                                         data-bs-toggle="modal" data-bs-target="#itemModal"
-                                                        data-bs-act="{{ route('aksi-bersama.item', $item->id) }}">
+                                                        data-bs-act="{{ route('program.itemStore', $item->id) }}">
                                                         <i class="ri-add-circle-line"></i></button>
                                                     <button type="button" class="btn btn-light rounded-pill" title="Ubah"
                                                         id='edit' name='edit' data-bs-toggle="modal"
                                                         data-bs-target="#editModal"
-                                                        data-bs-act="{{ route('aksi-bersama.update', $item->id) }}"
+                                                        data-bs-act="{{ route('program.update', $item->id) }}"
                                                         data-bs-title="{{ $item->title }}"
-                                                        data-bs-desc=" {{ $item->desc }}"
-                                                        data-bs-image="{{ $item->image }}">
+                                                        data-bs-subtitle=" {{ $item->sub_title }}">
                                                         <i class="ri-edit-2-line"></i></button>
                                                     <button type="button" class="btn btn-light rounded-pill" title="Hapus"
                                                         id="hapus" name="hapus" data-bs-toggle="modal"
                                                         data-bs-target="#deleteModal"
-                                                        data-bs-act="{{ route('aksi-bersama.destroy', $item->id) }}"
+                                                        data-bs-act="{{ route('program.destroy', $item->id) }}"
                                                         data-bs-title="{{ $item->title }}">
                                                         <i class="ri-delete-bin-line"></i></button>
                                                 </td>
@@ -143,7 +137,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">Form Aksi Bersama Item</h5>
+                                <h5 class="modal-title" id="staticBackdropLabel">Form Program Item</h5>
                                 <button class="btn-close" type="button" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -184,7 +178,7 @@
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">Data Aksi Bersama Item</h5>
+                                <h5 class="modal-title" id="staticBackdropLabel">Data Program Item</h5>
                                 <button class="btn-close" type="button" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -194,38 +188,28 @@
                     </div>
                 </div>
 
-                <!-- Moda Tambah -->
+                <!-- Modal Tambah -->
                 <div class="modal fade" id="addModal" data-bs-backdrop="static" tabindex="-1" role="dialog"
                     aria-labelledby="addModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">Form Aksi Bersama</h5>
+                                <h5 class="modal-title" id="staticBackdropLabel">Form Program</h5>
                                 <button class="btn-close" type="button" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form class="row g-2 needs-validation" action="{{ route('aksi-bersama.store') }}"
-                                method="post" enctype="multipart/form-data" novalidate>
+                            <form class="row g-2 needs-validation" action="{{ route('program.store') }}" method="post"
+                                enctype="multipart/form-data" novalidate>
                                 @csrf
                                 <div class="modal-body">
                                     <div class="col-12">
-                                        <label for="link" class="form-label">Judul</label>
-                                        <input type="text" class="form-control" id="aksi_title" name="aksi_title"
+                                        <label for="title" class="form-label">Judul</label>
+                                        <input type="text" class="form-control" id="title" name="title"
                                             required>
                                     </div>
                                     <div class="col-12">
-                                        <label for="link" class="form-label">Deskripsi</label>
-                                        <input type="text" class="form-control" id="aksi_desc" name="aksi_desc"
-                                            required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="btn btn-primary mt-2">
-                                            Upload Images
-                                            <input type="file" name="aksi_image" class="upload__inputfile"
-                                                id="up_images" onchange="previewImage()" accept="image/*">
-                                        </label>
-                                        <img id="img-preview" class="img-preview img-fluid col-sm-5"
-                                            style="display:block; object-fit:cover; margin-top:10px" />
+                                        <label for="sub_title" class="form-label">Subjudul</label>
+                                        <input type="text" class="form-control" id="sub_title" name="sub_title">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -243,7 +227,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Ubah Data Aksi Bersama</h5>
+                                <h5 class="modal-title">Ubah Data Program</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -253,23 +237,14 @@
                                 @method('put')
                                 <div class="modal-body">
                                     <div class="col-12">
-                                        <label for="link" class="form-label">Judul</label>
-                                        <input type="text" class="form-control" id="title" name="title"
+                                        <label for="edit_title" class="form-label">Judul</label>
+                                        <input type="text" class="form-control" id="edit_title" name="edit_title"
                                             required>
                                     </div>
                                     <div class="col-12">
-                                        <label for="link" class="form-label">Deskripsi</label>
-                                        <input type="text" class="form-control" id="desc" name="desc"
-                                            required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="btn btn-primary mt-2">
-                                            Upload Images
-                                            <input type="file" name="image" class="upload__inputfile"
-                                                id="edit_images" onchange="editImage()" accept="image/*">
-                                        </label>
-                                        <img id="img-edit" class="edit-preview img-fluid col-sm-5"
-                                            style="display:block; object-fit:cover; margin-top:10px" />
+                                        <label for="edit_sub_title" class="form-label">Subjudul</label>
+                                        <input type="text" class="form-control" id="edit_sub_title"
+                                            name="edit_sub_title">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -364,112 +339,7 @@
 @endsection
 
 @section('page-script')
-    {{-- <script>
-        $(function() {
-            var path = 'storage/';
-            $('#table-aksi').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '/getAksiBersama',
-                columns: [{
-                        data: 'no'
-                    },
-                    {
-                        data: {
-                            id: 'id',
-                            title: 'title'
-                        },
-                        render: function(data, type, row) {
-                            return `<a class="text-info fw-bold detaildata" href="javascript:void(0)"
-                                                        onclick='detailItem(${data.id})'>
-                                                        ${data.title }
-                                                    </a>`
-                        }
-                    },
-                    {
-                        data: 'desc'
-                    },
-                    {
-                        data: 'image',
-                        render: function(data) {
-                            return `<img src="` + path + data + `" width='40px'; height:30px>`;
-                        }
-                    },
-                    {
-                        data: {
-                            id: 'id',
-                            title: 'title',
-                            orderable: false,
-                            searchable: false
-                        },
-                        render: function(data) {
-                            return `
-                            <d-flex flex-row align-items-center justify-content-between"> 
-                                <a title="Perbarui" class="btn btn-light rounded-pill" id='edit' name='edit' data-bs-toggle="modal"
-                                                        data-bs-target="#editModal"
-                                                        data-bs-title="` + data.title + `"
-                                                        data-bs-desc="` + data.desc + `"
-                                                        data-bs-image="` + data.image + `"
-                                                        data-bs-act="/aksi-bersama/` + data.id + `/edit"> 
-                                                        <i class="ri-edit-2-line"></i>
-                                </a> 
-                                <a title="Hapus" class="btn btn-light rounded-pill" title="Hapus"
-                                                        id="hapus" name="hapus" data-bs-toggle="modal"
-                                                        data-bs-target="#deleteModal"
-                                                        data-bs-act="/aksi-bersama/` + data.id + `"
-                                                        data-bs-title="` + data.title + `"> 
-                                                        <i class="ri-delete-bin-line"></i>
-                                </a> 
-                            </div>
-                            `;
-                        }
-                    },
-                ]
-            });
-        });
-    </script> --}}
-
     <script>
-        function previewImage() {
-            const image = document.querySelector('#up_images');
-            const imgPreview = document.querySelector('.img-preview');
-
-            var fileName = document.getElementById("up_images").value;
-            var idxDot = fileName.lastIndexOf(".") + 1;
-            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
-
-            if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
-                const reader = new FileReader();
-                reader.readAsDataURL(image.files[0]);
-
-                reader.onload = function(event) {
-                    imgPreview.src = event.target.result;
-                }
-            } else {
-                alert("Only jpg/jpeg and png files are allowed!");
-            }
-        }
-
-        function editImage() {
-            const image = document.querySelector('#edit_images');
-            const imgPreview = document.querySelector('.edit-preview');
-
-            var fileName = document.getElementById("edit_images").value;
-            var idxDot = fileName.lastIndexOf(".") + 1;
-            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
-
-            if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
-                const reader = new FileReader();
-                reader.readAsDataURL(image.files[0]);
-
-                reader.onload = function(event) {
-                    imgPreview.src = event.target.result;
-                }
-            } else {
-                alert("Only jpg/jpeg and png files are allowed!");
-            }
-        }
-
         function itemImage() {
             const image = document.querySelector('#item_images');
             const imgPreview = document.querySelector('.item-preview');
@@ -516,12 +386,10 @@
         $('#editModal').bind('show.bs.modal', event => {
             const updateForm = $('form#update-form');
             const updateButton = $(event.relatedTarget);
-            const path = 'storage/' + updateButton.attr('data-bs-image');
 
             updateForm.attr('action', updateButton.attr('data-bs-act'));
-            updateForm.find('#title').val(updateButton.attr('data-bs-title'));
-            updateForm.find('#desc').val(updateButton.attr('data-bs-desc'));
-            updateForm.find('#img-edit').attr("src", path);
+            updateForm.find('#edit_title').val(updateButton.attr('data-bs-title'));
+            updateForm.find('#edit_sub_title').val(updateButton.attr('data-bs-subtitle'));
         }).bind('hide.bs.modal', e => {
             const updateForm = $('form#update-form');
             updateForm.attr('action', '/');
@@ -575,7 +443,7 @@
 
                 var path = 'storage/';
 
-                $.get('/getDetail/' + id, function(data) {
+                $.get('/programDetail/' + id, function(data) {
                     detailModal.show();
                     $('#body-detail').append(
                         '<table class="table datatable" id="table-item-detail">' +

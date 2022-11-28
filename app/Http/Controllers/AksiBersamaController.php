@@ -215,7 +215,7 @@ class AksiBersamaController extends Controller
         $totalRecords = AksiBersamaItem::select('count(*) as allcount')->where('aksi_bersama_id', $id)->count();
         $filter = AksiBersamaItem::query();
         $filter->when($searchValue, function ($query) use ($searchValue) {
-            return $query->where('title', 'like', '%' . $searchValue . '%')->where('aksi_bersama_id', $id);
+            return $query->where('title', 'like', '%' . $searchValue . '%');
         });
 
         $totalRecordswithFilter = $filter->count();
@@ -223,7 +223,7 @@ class AksiBersamaController extends Controller
         // Fetch records
         $query = AksiBersamaItem::query();
         $query->when($searchValue, function ($query) use ($searchValue) {
-            return $query->where('title', 'like', '%' . $searchValue . '%')->where('aksi_bersama_id', $id);
+            return $query->where('title', 'like', '%' . $searchValue . '%');
         });
         $records = $query->orderBy('id', 'desc')
             ->skip($start)

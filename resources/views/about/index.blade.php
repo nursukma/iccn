@@ -159,7 +159,6 @@
             });
         });
     </script> --}}
-
     <script type="text/javascript">
         // delete modal
         $('#deleteModal').bind('show.bs.modal', event => {

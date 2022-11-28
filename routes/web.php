@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\AksiBersamaController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\PrinsipKotaController;
 use App\Http\Controllers\SliderController;
@@ -36,3 +37,10 @@ Route::get('/getMateri', [MateriController::class, 'getMateri'])->name('materi.a
 
 Route::resource('timeline', TimelineController::class);
 Route::get('/getTimeline', [TimelineController::class, 'getTimeline'])->name('timeline.all');
+
+Route::resource('aksi-bersama', AksiBersamaController::class);
+Route::get('/getAksiBersama', [AksiBersamaController::class, 'getAksiBersama'])->name('aksi-bersama.all');
+
+Route::post('/aksi-bersama/{id}', [AksiBersamaController::class, 'storeItem'])->name('aksi-bersama.item');
+Route::get('/detail-item/{id}', [AksiBersamaController::class, 'detailItem'])->name('aksi-bersama.detailItem');
+Route::get('/getDetail/{id}', [AksiBersamaController::class, 'detailAksi'])->name('aksi-bersama.detailAksi');

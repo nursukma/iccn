@@ -27,7 +27,7 @@
          </li><!-- End Data Anak Nav -->
 
          <li class="nav-item">
-             <a class="nav-link collapsed " href="#">
+             <a class="nav-link collapsed " href="/aksi-bersama">
                  <i class="bi bi-people-fill"></i><span>Aksi Bersama</span>
              </a>
          </li><!-- End Data Ibu Nav -->

@@ -11,7 +11,7 @@ class AksiBersama extends Model
     use HasFactory;
 
     protected $table = 'beranda.aksi_bersama';
-    protected $fillable = ['title', 'desc'];
+    protected $fillable = ['title', 'desc', 'image'];
 
     protected $primaryKey = 'id';
     protected $keyType = 'string';

@@ -2,6 +2,8 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -27,6 +29,10 @@
     <link href="{{ asset('build/assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
     <link href="{{ asset('build/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
     <link href="{{ asset('build/assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
+
+    {{-- Datatables --}}
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css"> --}}
 
     {{-- Toastr js --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
@@ -69,6 +75,9 @@
     <script src="{{ asset('build/assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
     <script src="{{ asset('build/assets/vendor/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('build/assets/vendor/php-email-form/validate.js') }}"></script>
+
+    {{-- Datatables --}}
+    {{-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script> --}}
 
     {{-- Toastr js --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>

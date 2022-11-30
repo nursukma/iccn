@@ -358,77 +358,45 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- Modal item hapus --}}
+                <div class="modal fade" id="deleteItemModal" tabindex="-1" data-bs-backdrop="static">
+                    <div class="modal-dialog" role="dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Konfirmasi</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form class="row g-3 needs-validation" id="delete-form" action="/" method="post"
+                                novalidate>
+                                @csrf
+                                @method('delete')
+                                <div class="modal-body">
+                                    <p class="text-center">
+                                        Yakin untuk menghapus data dengan judul <strong
+                                            class="badge border-danger border-1 text-danger" id="title"> </strong>?
+                                    </p>
+                                    <div class="alert alert-danger text-center" role="alert">
+                                        <i class="bi bi-exclamation-octagon me-1"></i>
+                                        <span class=""> Perhatian! data akan terhapus dari sistem.</span>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 @endsection
 
 @section('page-script')
-    {{-- <script>
-        $(function() {
-            var path = 'storage/';
-            $('#table-aksi').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '/getAksiBersama',
-                columns: [{
-                        data: 'no'
-                    },
-                    {
-                        data: {
-                            id: 'id',
-                            title: 'title'
-                        },
-                        render: function(data, type, row) {
-                            return `<a class="text-info fw-bold detaildata" href="javascript:void(0)"
-                                                        onclick='detailItem(${data.id})'>
-                                                        ${data.title }
-                                                    </a>`
-                        }
-                    },
-                    {
-                        data: 'desc'
-                    },
-                    {
-                        data: 'image',
-                        render: function(data) {
-                            return `<img src="` + path + data + `" width='40px'; height:30px>`;
-                        }
-                    },
-                    {
-                        data: {
-                            id: 'id',
-                            title: 'title',
-                            orderable: false,
-                            searchable: false
-                        },
-                        render: function(data) {
-                            return `
-                            <d-flex flex-row align-items-center justify-content-between"> 
-                                <a title="Perbarui" class="btn btn-light rounded-pill" id='edit' name='edit' data-bs-toggle="modal"
-                                                        data-bs-target="#editModal"
-                                                        data-bs-title="` + data.title + `"
-                                                        data-bs-desc="` + data.desc + `"
-                                                        data-bs-image="` + data.image + `"
-                                                        data-bs-act="/aksi-bersama/` + data.id + `/edit"> 
-                                                        <i class="ri-edit-2-line"></i>
-                                </a> 
-                                <a title="Hapus" class="btn btn-light rounded-pill" title="Hapus"
-                                                        id="hapus" name="hapus" data-bs-toggle="modal"
-                                                        data-bs-target="#deleteModal"
-                                                        data-bs-act="/aksi-bersama/` + data.id + `"
-                                                        data-bs-title="` + data.title + `"> 
-                                                        <i class="ri-delete-bin-line"></i>
-                                </a> 
-                            </div>
-                            `;
-                        }
-                    },
-                ]
-            });
-        });
-    </script> --}}
-
     <script>
         function previewImage() {
             const image = document.querySelector('#up_images');
@@ -528,22 +496,6 @@
             updateForm[0].reset();
         });
 
-        // edit item modal
-        $('#editItemModal').bind('show.bs.modal', event => {
-            const updateForm = $('form#update-form');
-            const updateButton = $(event.relatedTarget);
-            const path = 'storage/' + updateButton.attr('data-bs-image');
-
-            updateForm.attr('action', updateButton.attr('data-bs-act'));
-            updateForm.find('#title').val(updateButton.attr('data-bs-title'));
-            updateForm.find('#link').val(updateButton.attr('data-bs-link'));
-            updateForm.find('#img-edit-item').attr("src", path);
-        }).bind('hide.bs.modal', e => {
-            const updateForm = $('form#update-form');
-            updateForm.attr('action', '/');
-            updateForm[0].reset();
-        });
-
         // delete modal
         $('#deleteModal').bind('show.bs.modal', event => {
             const delButton = $(event.relatedTarget);
@@ -563,6 +515,39 @@
             updateForm.attr('action', '/');
             updateForm[0].reset();
         });
+
+        // edit item modal
+        $('#editItemModal').bind('show.bs.modal', event => {
+            const updateForm = $('form#update-form');
+            const updateButton = $(event.relatedTarget);
+
+            var id = updateButton.attr('data-bs-id');
+            $.get('/getAksi/' + id, function(data) {
+                const path = 'storage/' + data.image;
+
+                updateForm.attr('action', updateButton.attr('data-bs-act'));
+                updateForm.find('#title').val(data.title);
+                updateForm.find('#link').val(data.link);
+                updateForm.find('#img-edit-item').attr("src", path);
+            })
+        }).bind('hide.bs.modal', e => {
+            const updateForm = $('form#update-form');
+            updateForm.attr('action', '/');
+            updateForm[0].reset();
+        });
+
+        // delete item modal
+        $('#deleteItemModal').bind('show.bs.modal', event => {
+            const delButton = $(event.relatedTarget);
+            const delForm = $('form#delete-form');
+
+            var id = delButton.attr('data-bs-id')
+
+            $.get('/getAksi/' + id, function(data) {
+                delForm.attr('action', delButton.attr('data-bs-act'));
+                delForm.find('#title').text('"' + data.title + '"')
+            })
+        })
     </script>
 
     <script>
@@ -578,45 +563,41 @@
                 $.get('/getDetail/' + id, function(data) {
                     detailModal.show();
                     $('#body-detail').append(
-                        '<table class="table datatable" id="table-item-detail">' +
-                        '<thead>' +
-                        '<tr>' +
-                        '<td> No </td>' +
-                        '<td>Judul</td>' +
-                        '<td>Pranala</td>' +
-                        '<td>Gambar</td>' +
-                        '<td>Aksi</td>' +
-                        '</tr>' +
-                        '</thead>'
+                        '<table class="table datatable" id="table-item-detail">'
                     );
 
-                    data.forEach(val => {
-                        $('#body-detail').append(
-                            '<table class="table datatable" id="table-item-detail">' +
-                            '<tbody>' +
-                            '<tr>' +
-                            '<td>' + no++ + '</td>' +
-                            '<td>' + val.title + '</td>' +
-                            '<td>' + val.link + '</td>' +
-                            '<td>' + '<img src="' + path + val.image +
-                            '" class="img-thumbnail" width="60px" height = "40px">' +
-                            '</td>' +
-                            '<td>' +
-                            '<button type="button" class="btn btn-light rounded-pill" title="Ubah" id="edit" name="edit" data-bs-toggle="modal" data-bs-target="#editItemModal" data-bs-act="' +
-                            '/update-item/' + val.id + '" data-bs-title="' +
-                            val.title + '"  data-bs-link="' + val.link +
-                            '" data-bs-image="' + val.image + '">' +
-                            '<i class="ri-edit-2-line"></i></button>' +
-                            '<button type="button" class="btn btn-light rounded-pill" title="Hapus" id="hapus" name="hapus" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-act="' +
-                            '/delete-item/' + val.id +
-                            '" data-bs-title="' +
-                            val.title + '">' +
-                            '<i class="ri-delete-bin-line"></i></button>' +
-                            '</td>' +
-                            '</tr>' +
-                            '</tbody>'
-                            // '</table>'
-                        )
+                    let table = new simpleDatatables.DataTable("#table-item-detail", {
+                        data: {
+                            headings: ['No', 'ID', 'Judul', 'Pranala', 'Gambar',
+                                'Aksi'
+                            ],
+                            data: data.map(item => Object.values(item)),
+                        },
+                        perPage: 5,
+                        columns: [{
+                            select: 1,
+                            hidden: true
+                        }, {
+                            select: 4,
+                            render: function(data) {
+                                return `<img src="` + path + data +
+                                    `" width='40px'; height:30px>`;
+                            }
+                        }, {
+                            select: 5,
+                            render: function(data) {
+                                return `
+                        <button class="btn btn-light rounded-pill" title="Ubah" type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#editItemModal" data-bs-id='${data}' data-bs-act='/update-item/${data}'>
+                            <i class="ri-edit-2-line"></i>
+                        </button>
+                        <button class="btn btn-light rounded-pill" title="Hapus" type="button" data-bs-act='/delete-item/${data}' data-bs-toggle="modal"
+                                                        data-bs-target="#deleteItemModal" data-bs-id='${data}'">
+                            <i class="ri-delete-bin-line"></i>
+                        </button>
+                    `;
+                            }
+                        }]
                     })
                 });
             });

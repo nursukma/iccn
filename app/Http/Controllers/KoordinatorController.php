@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pengurus;
+use App\Models\Koordinator;
 use Illuminate\Http\Request;
 
-class PengurusController extends Controller
+class KoordinatorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class PengurusController extends Controller
      */
     public function index()
     {
-        $data = Pengurus::orderBy('created_at', 'desc')->get();
-        return view('pengurus.index', compact('data'));
+        $data = Koordinator::orderBy('created_at', 'desc')->get();
+        return view('koordinator.index', compact('data'));
     }
 
     /**
@@ -26,7 +26,7 @@ class PengurusController extends Controller
     public function create()
     {
         $action = 'add';
-        return view('pengurus.action', compact('action'));
+        return view('koordinator.action', compact('action'));
     }
 
     /**
@@ -42,17 +42,17 @@ class PengurusController extends Controller
             'title' => 'required'
         ]);
 
-        Pengurus::create($data);
-        return redirect('/pengurus')->with('message', 'Data berhasil ditambahkan!');
+        Koordinator::create($data);
+        return redirect('/koordinator')->with('message', 'Data berhasil ditambahkan!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Pengurus  $pengurus
+     * @param  \App\Models\Koordinator  $koordinator
      * @return \Illuminate\Http\Response
      */
-    public function show(Pengurus $pengurus)
+    public function show(Koordinator $koordinator)
     {
         //
     }
@@ -60,45 +60,42 @@ class PengurusController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Pengurus  $pengurus
+     * @param  \App\Models\Koordinator  $koordinator
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Koordinator $koordinator)
     {
         $action = 'edit';
-        $pengurus = Pengurus::findOrFail($id);
-        return view('pengurus.action', compact('action', 'pengurus'));
+        return view('koordinator.action', compact('action', 'koordinator'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pengurus  $pengurus
+     * @param  \App\Models\Koordinator  $koordinator
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Koordinator $koordinator)
     {
-        $pengurus = Pengurus::findOrFail($id);
         $data =  $request->validate([
             'desc' => 'required',
             'title' => 'required'
         ]);
 
-        $pengurus->update($data);
-        return redirect('/pengurus')->with('message', 'Data berhasil diubah!');
+        $koordinator->update($data);
+        return redirect('/koordinator')->with('message', 'Data berhasil diubah!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Pengurus  $pengurus
+     * @param  \App\Models\Koordinator  $koordinator
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Koordinator $koordinator)
     {
-        $pengurus = Pengurus::findOrFail($id);
-        $pengurus->delete();
-        return redirect('/pengurus')->with('message', 'Data berhasil dihapus!');
+        $koordinator->delete();
+        return redirect('/koordinator')->with('message', 'Data berhasil dihapus!');
     }
 }

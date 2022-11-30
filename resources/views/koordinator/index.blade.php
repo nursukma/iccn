@@ -6,7 +6,7 @@
 @section('content')
     <main class="main" id="main">
         <div class="pagetitle">
-            <h1>Data Berita dan Blog</h1>
+            <h1>Data Koordinator Organisasi</h1>
         </div>
 
         <div class="row">
@@ -15,7 +15,7 @@
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-end">
-                        <a href="{{ route('news.create') }}"
+                        <a href="{{ route('koordinator.create') }}"
                             class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                             <i class="fas fa-plus fa-sm text-white-50"></i>
                             Tambah
@@ -26,13 +26,12 @@
                     <div class="card-body">
                         <div class="row mx-auto mt-1">
                             <div class="col-12">
-                                <table class="table datatable" id="table-news">
+                                <table class="table datatable" id="table-about">
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
                                             <th scope="col">Judul</th>
-                                            <th scope="col">Penulis</th>
-                                            <th scope="col">Thumbnail</th>
+                                            <th scope="col">Deskripsi</th>
                                             <th scope="col">Aksi</th>
                                         </tr>
                                     </thead>
@@ -44,21 +43,17 @@
                                                     {{ $item->title }}
                                                 </td>
                                                 <td>
-                                                    {{ $item->penulis }}
+                                                    {{ $item->desc }}
                                                 </td>
                                                 <td>
-                                                    <img src="{{ 'storage/' . $item->image }}" class="img-thumbnail"
-                                                        width="60px" height="40px">
-                                                </td>
-                                                <td>
-                                                    <a href="{{ route('news.edit', $item->id) }}"
+                                                    <a href="{{ route('koordinator.edit', $item->id) }}"
                                                         class="btn btn-light rounded-pill" title="Ubah" id='edit'
                                                         name='edit'>
                                                         <i class="ri-edit-2-line"></i></a>
                                                     <button type="button" class="btn btn-light rounded-pill" title="Hapus"
                                                         id="hapus" name="hapus" data-bs-toggle="modal"
                                                         data-bs-target="#deleteModal"
-                                                        data-bs-act="{{ route('news.destroy', $item->id) }}"
+                                                        data-bs-act="{{ route('koordinator.destroy', $item->id) }}"
                                                         data-bs-title="{{ $item->title }}">
                                                         <i class="ri-delete-bin-line"></i></button>
                                                 </td>

@@ -2,11 +2,14 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AksiBersamaController;
+use App\Http\Controllers\KoordinatorController;
 use App\Http\Controllers\MateriController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PengurusController;
 use App\Http\Controllers\PrinsipKotaController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\SliderController;
+use App\Http\Controllers\StrukturController;
 use App\Http\Controllers\TimelineController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,9 +51,19 @@ Route::get('/detail-item/{id}', [AksiBersamaController::class, 'detailItem'])->n
 Route::delete('/delete-item/{id}', [AksiBersamaController::class, 'deleteItem'])->name('aksi-bersama.deleteItem');
 Route::put('/update-item/{id}', [AksiBersamaController::class, 'updateItem'])->name('aksi-bersama.updateItem');
 Route::get('/getDetail/{id}', [AksiBersamaController::class, 'detailAksi'])->name('aksi-bersama.detailAksi');
-
-Route::resource('pengurus', PengurusController::class);
+Route::get('/getAksi/{id}', [AksiBersamaController::class, 'getAksi'])->name('aksi-bersama.getAksi');
 
 Route::resource('program', ProgramController::class);
 Route::get('/programDetail/{id}', [ProgramController::class, 'detailItem'])->name('program.detailItem');
 Route::post('/programStore/{id}', [ProgramController::class, 'storeItem'])->name('program.itemStore');
+Route::put('/programUpdate/{id}', [ProgramController::class, 'updateItem'])->name('program.itemUpdate');
+Route::delete('/programDelete/{id}', [ProgramController::class, 'deleteItem'])->name('program.itemDelete');
+Route::get('/programItem/{id}', [ProgramController::class, 'showItem'])->name('program.showItem');
+
+Route::resource('pengurus', PengurusController::class);
+Route::resource('koordinator', KoordinatorController::class);
+
+Route::resource('struktur', StrukturController::class);
+Route::get('/getStruktur', [StrukturController::class, 'getStruktur']);
+
+Route::resource('news', NewsController::class);

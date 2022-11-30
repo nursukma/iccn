@@ -103,7 +103,21 @@ class ProgramController extends Controller
     public function detailItem($id)
     {
         $data = ProgramItem::where('program_id', $id)->orderBy('created_at', 'desc')->get();
-        return response()->json($data);
+        $arr = [];
+        $no = 1;
+        foreach ($data as $value) {
+            $arr[] = [
+                'no' => $no++,
+                'id' => $value->id,
+                'title' => $value->title,
+                'link' => $value->link,
+                'image' => $value->image,
+                'aksi' => $value->id
+            ];
+        }
+
+        // return response()->json($arr);
+        return json_encode($arr);
     }
 
     public function storeItem(Request $request, $id)
@@ -117,5 +131,35 @@ class ProgramController extends Controller
         $data = ProgramItem::create(['title' => $dataItem['title'], 'link' => $dataItem['link'], 'image' => $dataItem['image'], 'program_id' => $id]);
         // dd($dataItem);
         return redirect('/program')->with('message', 'Data berhasil ditambahkan!');
+    }
+
+    public function updateItem(Request $request, $id)
+    {
+        $data = ProgramItem::findOrFail($id);
+        $dataItem = $request->only(self::itemData);
+
+        if ($request->file('edit_item_image') == null) {
+            $dataItem['image'] = $data->image;
+        } else {
+            $imageItem_path = $request->file('edit_item_image')->store('image', 'public');
+            $dataItem['image'] = $imageItem_path;
+        }
+        $dataItem['program_id'] = $id;
+
+        $data->update(['title' => $dataItem['title'], 'link' => $dataItem['link'], 'image' => $dataItem['image']]);
+        return redirect('/program')->with('message', 'Data berhasil diubah!');
+    }
+
+    public function deleteItem($id)
+    {
+        $data = ProgramItem::findOrFail($id);
+        $data->delete();
+        return redirect('/program')->with('message', 'Data berhasil dihapus!');
+    }
+
+    public function showItem($id)
+    {
+        $data = ProgramItem::findOrFail($id);
+        return response()->json($data);
     }
 }

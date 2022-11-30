@@ -4,114 +4,121 @@
 @endsection
 
 @section('content')
-<main id="main">
-    <div class="pagetitle">
-        <h1>Data Organisasi</h1>
-    </div>
-
-    <div class="row">
-        <div class="col-xl-12 col-lg-10">
-            {{-- Struktur Organisasi --}}
-            <div class="card shadow mb-4">
-                <div class="card-header">
-                    <a href="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                        <i class="fas fa-plus fa-sm text-white"></i>
-                        Tambah
-                    </a>
-                </div>
-                <div class="card-body">
-                    <div class="row mx-auto">
-                        <div class="col-12">
-                            <table class="table" id="table-organisasi">
-                                <thead>
-                                    <tr>
-                                        <td>No</td>
-                                        <td>Jabatan</td>
-                                        <td>Nama</td>
-                                        <td>Foto</td>
-                                        <td>Aksi</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{-- @foreach ($data as $item) --}}
-                                    <tr>
-                                        <th scope="row">
-
-                                        </th>
-                                        <td>
-                                            {{-- {{ $item->$jabatan }} --}}
-                                        </td>
-                                        <td>
-                                            {{-- {{ $item->$nama }} --}}
-                                        </td>
-                                        <td>
-                                            {{-- <img src="{{ 'storage/' . $item->$image }}" alt="Foto"
-                                                class="img-thumbnail"> --}}
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('organisasi.edit'), $item->id) }}"
-                                                class="btn btn-light rounded-pill" title="Ubah" id='edit' name='edit'>
-                                                <i class="ri-edit-2-line"></i></a>
-                                            <button type="button" class="btn btn-light rounded-pill" title="Hapus"
-                                                id="hapus" name="hapus" data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal"
-                                                data-bs-act="{{ route('organisasi.destroy', $item->id) }}"
-                                                data-bs-title="{{ $item->title }}">
-                                                <i class="ri-delete-bin-line"></i></button>
-                                        </td>
-                                    </tr>
-                                    {{-- @endforeach --}}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Pengurus --}}
-            <div class="col-xl-12 col-lg-10">
-                <div class="card">
-
-                </div>
-            </div>
-
-            {{-- Koordinator Daerah --}}
-            <div class="col-xl-12 col-lg-10">
-
-            </div>
+    <main class="main" id="main">
+        <div class="pagetitle">
+            <h1>Data Struktur Organisasi</h1>
         </div>
 
-        {{-- Delete Modal --}}
-        <div class="modal fade" id="deleteModal" data-bs-backdrop="static" tabindex="-1">
-            <div class="modal-dialog" role="dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Konfirmasi</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="row">
+            <!-- Tables -->
+            <div class="col-xl-12 col-lg-10">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-end">
+                        <a href="{{ route('struktur.create') }}"
+                            class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                            <i class="fas fa-plus fa-sm text-white-50"></i>
+                            Tambah
+                        </a>
                     </div>
-                    <form id="delete-form" action="" class="row g-3 needs-validation" method="POST" novalidate>
-                        {{-- @csrf --}}
-                        {{-- @method('delete') --}}
-                        <div class="modal-body">
-                            <p class="text-center">
-                                Apakah anda yakin menghapus data?
-                            </p>
-                            <div class="alert alert-danger text-center" role="alert">
-                                <i class="bi bi-exclamation-octagon me-1"></i>
-                                <span>Perhatian! Data akan terhapus dari sistem.</span>
+
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="row mx-auto mt-1">
+                            <div class="col-12">
+                                <table class="table datatable" id="table-about">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No</th>
+                                            <th scope="col">Nama</th>
+                                            <th scope="col">Jabatan</th>
+                                            <th scope="col">Periode</th>
+                                            <th scope="col">Gambar</th>
+                                            <th scope="col">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($data as $item)
+                                            <tr>
+                                                <th scope="row">{{ $loop->iteration }}</th>
+                                                <td>
+                                                    {{ $item->nama }}
+                                                </td>
+                                                <td>
+                                                    {{ $item->jabatan }}
+                                                </td>
+                                                <td>
+                                                    {{ $item->periode }}
+                                                </td>
+                                                <td>
+                                                    <img src="{{ 'storage/' . $item->image }}" class="img-thumbnail"
+                                                        width="60px" height="40px">
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('struktur.edit', $item->id) }}"
+                                                        class="btn btn-light rounded-pill" title="Ubah" id='edit'
+                                                        name='edit'>
+                                                        <i class="ri-edit-2-line"></i></a>
+                                                    <button type="button" class="btn btn-light rounded-pill" title="Hapus"
+                                                        id="hapus" name="hapus" data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal"
+                                                        data-bs-act="{{ route('struktur.destroy', $item->id) }}"
+                                                        data-bs-nama="{{ $item->nama }}">
+                                                        <i class="ri-delete-bin-line"></i></button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-danger">Hapus</button>
+                    </div>
+                </div>
+
+                {{-- Modal hapus --}}
+                <div class="modal fade" id="deleteModal" tabindex="-1" data-bs-backdrop="static">
+                    <div class="modal-dialog" role="dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Konfirmasi</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form class="row g-3 needs-validation" id="delete-form" action="/" method="post"
+                                novalidate>
+                                @csrf
+                                @method('delete')
+                                <div class="modal-body">
+                                    <p class="text-center">
+                                        Yakin untuk menghapus data dengan nama <strong
+                                            class="badge border-danger border-1 text-danger" id="nama"> </strong>?
+                                    </p>
+                                    <div class="alert alert-danger text-center" role="alert">
+                                        <i class="bi bi-exclamation-octagon me-1"></i>
+                                        <span class=""> Perhatian! data akan terhapus dari sistem.</span>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</main>
+    </main>
 @endsection
 
 @section('page-script')
+    <script type="text/javascript">
+        // delete modal
+        $('#deleteModal').bind('show.bs.modal', event => {
+            const delButton = $(event.relatedTarget);
+            const delForm = $('form#delete-form');
+            delForm.attr('action', delButton.attr('data-bs-act'));
+            delForm.find('#nama').text('"' + delButton.attr('data-bs-nama') + '"')
+        })
+    </script>
 @endsection

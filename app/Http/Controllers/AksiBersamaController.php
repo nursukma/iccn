@@ -129,140 +129,22 @@ class AksiBersamaController extends Controller
         return redirect('/aksi-bersama')->with('message', 'Data berhasil ditambahkan!');
     }
 
-    public function getAksiBersama(Request $request)
-    {
-        ## Read value
-        $draw = $request->get('draw');
-        $start = $request->get("start");
-        $rowperpage = $request->get("length"); // Rows display per page
-
-        $columnIndex_arr = $request->get('order');
-        $columnName_arr = $request->get('columns');
-        $order_arr = $request->get('order');
-        $search_arr = $request->get('search');
-
-        $columnIndex = $columnIndex_arr[0]['column']; // Column index
-        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
-        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
-        $searchValue = $search_arr['value']; // Search value
-
-        // Total records
-        $totalRecords = AksiBersama::select('count(*) as allcount')->count();
-        $filter = AksiBersama::query();
-        $filter->when($searchValue, function ($query) use ($searchValue) {
-            return $query->where('title', 'like', '%' . $searchValue . '%');
-        });
-
-        $totalRecordswithFilter = $filter->count();
-
-        // Fetch records
-        $query = AksiBersama::query();
-        $query->when($searchValue, function ($query) use ($searchValue) {
-            return $query->where('title', 'like', '%' . $searchValue . '%');
-        });
-        $records = $query->orderBy('id', 'desc')
-            ->skip($start)
-            ->take($rowperpage)
-            ->get();
-
-        $data_arr = array();
-
-        $no = $start + 1;
-        foreach ($records as $record) {
-            $id = $record->id;
-            $title = $record->title;
-            $desc = $record->desc;
-            $image = $record->image;
-
-            $data_arr[] = array(
-                "no" => $no++,
-                "id" => $id,
-                "title" => $title,
-                "desc" => $desc,
-                "image" => $image
-            );
-        }
-
-        $response = array(
-            "draw" => intval($draw),
-            "iTotalRecords" => $totalRecords,
-            "iTotalDisplayRecords" => $totalRecordswithFilter,
-            "aaData" => $data_arr
-        );
-
-        echo json_encode($response);
-        exit;
-    }
-
-    public function detailItem(Request $request, $id)
-    {
-        ## Read value
-        $draw = $request->get('draw');
-        $start = $request->get("start");
-        $rowperpage = $request->get("length"); // Rows display per page
-
-        $columnIndex_arr = $request->get('order');
-        $columnName_arr = $request->get('columns');
-        $order_arr = $request->get('order');
-        $search_arr = $request->get('search');
-
-        $columnIndex = $columnIndex_arr[0]['column']; // Column index
-        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
-        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
-        $searchValue = $search_arr['value']; // Search value
-
-        // Total records
-        $totalRecords = AksiBersamaItem::select('count(*) as allcount')->where('aksi_bersama_id', $id)->count();
-        $filter = AksiBersamaItem::query();
-        $filter->when($searchValue, function ($query) use ($searchValue) {
-            return $query->where('title', 'like', '%' . $searchValue . '%');
-        });
-
-        $totalRecordswithFilter = $filter->count();
-
-        // Fetch records
-        $query = AksiBersamaItem::query();
-        $query->when($searchValue, function ($query) use ($searchValue) {
-            return $query->where('title', 'like', '%' . $searchValue . '%');
-        });
-        $records = $query->orderBy('id', 'desc')
-            ->skip($start)
-            ->take($rowperpage)
-            ->get();
-
-        $data_arr = array();
-
-        $no = $start + 1;
-        foreach ($records as $record) {
-            $id = $record->id;
-            $title = $record->title;
-            $link = $record->link;
-            $image = $record->image;
-
-            $data_arr[] = array(
-                "no" => $no++,
-                "id" => $id,
-                "title" => $title,
-                "link" => $link,
-                "image" => $image
-            );
-        }
-
-        $response = array(
-            "draw" => intval($draw),
-            "iTotalRecords" => $totalRecords,
-            "iTotalDisplayRecords" => $totalRecordswithFilter,
-            "aaData" => $data_arr
-        );
-
-        echo json_encode($response);
-        exit;
-    }
-
     public function detailAksi($id)
     {
         $data = AksiBersamaItem::where('aksi_bersama_id', $id)->orderBy('created_at', 'desc')->get();
-        return response()->json($data);
+        $arr = [];
+        $no = 1;
+        foreach ($data as $value) {
+            $arr[] = [
+                'no' => $no++,
+                'id' => $value->id,
+                'title' => $value->title,
+                'link' => $value->link,
+                'image' => $value->image,
+                'aksi' => $value->id
+            ];
+        }
+        return response()->json($arr);
     }
 
     public function deleteItem($id)
@@ -287,5 +169,11 @@ class AksiBersamaController extends Controller
 
         $data->update(['title' => $dataItem['title'], 'link' => $dataItem['link'], 'image' => $dataItem['image']]);
         return redirect('/aksi-bersama')->with('message', 'Data berhasil diubah!');
+    }
+
+    public function getAksi($id)
+    {
+        $data = AksiBersamaItem::findOrFail($id);
+        return response()->json($data);
     }
 }

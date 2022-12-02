@@ -63,7 +63,7 @@ class NewsController extends Controller
                 'penulis' => $request->penulis
             ]
         );
-        return redirect('/news');
+        return redirect('/news')->with('message', 'Data berhasil ditambahkan!');
     }
 
     /**
@@ -98,7 +98,24 @@ class NewsController extends Controller
      */
     public function update(Request $request, News $news)
     {
-        //
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'desc' => 'required',
+            'title' => 'required',
+            'penulis' => 'required'
+        ]);
+
+        $image_path = $request->file('image')->store('image', 'public');
+        $data = $news->update(
+            [
+                'desc' => $request->desc,
+                'thumbnail' => $image_path,
+                'title' =>  $request->title,
+                'penulis' => $request->penulis
+            ]
+        );
+
+        return redirect('/news')->with('message', 'Data berhasil diubah!');
     }
 
     /**
@@ -109,7 +126,8 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
-        //
+        $news->delete();
+        return redirect('/news')->with('message', 'Data berhasil dihapus!');
     }
 
     public function upImages(Request $request)

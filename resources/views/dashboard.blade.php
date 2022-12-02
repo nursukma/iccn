@@ -12,7 +12,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Selamat datang </span></h5>
-                            <span>Halo Admin</span>
+                            <span>Halo {{ auth()->user()->name }}</span>
                         </div>
                     </div>
                 </div>

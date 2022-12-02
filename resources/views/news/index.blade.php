@@ -47,7 +47,7 @@
                                                     {{ $item->penulis }}
                                                 </td>
                                                 <td>
-                                                    <img src="{{ 'storage/' . $item->image }}" class="img-thumbnail"
+                                                    <img src="{{ 'storage/' . $item->thumbnail }}" class="img-thumbnail"
                                                         width="60px" height="40px">
                                                 </td>
                                                 <td>

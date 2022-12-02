@@ -40,48 +40,56 @@
                             @method('put')
                         @endif
                         <div class="card-body">
-                            {{-- <div class="row g-3"> --}}
-                            <div class="col-md-12">
-                                <label for="title">Judul</label>
-                                <input type="text" class="form-control" id="title" name="title"
-                                    value="{{ $action == 'edit' ? $news->title : '' }}">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="penulis">Penulis</label>
-                                <input type="text" class="form-control" id="penulis" name="penulis"
-                                    value="{{ $action == 'edit' ? $news->penulis : '' }}">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="tanggal">Tanggal</label>
-                                <input type="text" class="form-control" id="tanggal" name="tanggal"
-                                    value="{{ $action == 'edit' ? $news->penulis : '' }}">
-                            </div>
-                            <label for="penulis">Thumbnail</label>
-                            <div class="col-md-6 mt-2">
-                                <label class="btn btn-primary mt-2">
-                                    Upload Images
-                                    <input type="file" name="image" class="upload__inputfile" id="up_images"
-                                        onchange="previewImage()">
-                                </label>
-                                <img class="img-preview img-fluid col-sm-5 mt-2"
-                                    src="{{ $action == 'edit' ? asset('storage/' . $news->image) : '' }}"
-                                    style="display:block; object-fit:cover" />
-                            </div>
-                            <div class="col-12 mt-2">
-                                <label for="floatingEmail">Deskripsi</label>
+                            <div class="row g-3 mt-1">
+                                <div class="col-md-12">
+                                    <label for="title">Judul</label>
+                                    <input type="text" class="form-control" id="title" name="title"
+                                        value="{{ $action == 'edit' ? $news->title : '' }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="penulis">Penulis</label>
+                                    <input type="text" class="form-control" id="penulis" name="penulis"
+                                        value="{{ $action == 'edit' ? $news->penulis : '' }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="tanggal">Tanggal</label>
+                                    <input type="text" class="form-control" id="tanggal" name="tanggal"
+                                        value="{{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}" readonly>
+                                </div>
 
-                                <input type="hidden" name="desc" value="{{ $action == 'edit' ? $news->desc : '' }}">
-                                <input type="hidden" name="action" value="{{ $action == 'edit' ? 'edit' : 'add' }}">
+                                <div class="col-md-6 mt-2">
+                                    <div class="col-md-6">
+                                        <label for="penulis" class="mb-0">Thumbnail</label>
+                                    </div>
+                                    <label class="btn btn-primary mt-2">
+                                        Upload Images
+                                        <input type="file" name="image" class="upload__inputfile" id="up_images"
+                                            onchange="previewImage()">
+                                    </label>
+                                    <img class="img-preview img-fluid col-sm-5 mt-2"
+                                        src="{{ $action == 'edit' ? asset('storage/' . $news->image) : '' }}"
+                                        style="display:block; object-fit:cover" />
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <label for="floatingEmail">Konten</label>
 
-                                <div id="editor" class="form-control" style="height: 200px">
+                                    <input type="hidden" name="desc" value="{{ $action == 'edit' ? $news->desc : '' }}">
+                                    <input type="hidden" name="action" value="{{ $action == 'edit' ? 'edit' : 'add' }}">
 
+                                    <div id="editor" class="form-control" style="height: 300px">
+
+                                    </div>
+                                    <div class="custom-file d-none">
+                                        <input ref="image" type="file" name="quill_image[]" class="custom-file-input"
+                                            id="imageUpload" aria-describedby="imageUploadAddon">
+                                        <label class="custom-file-label" for="imageUpload">Choose file</label>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-3">
+                                    <button type="submit" class="btn btn-success">Simpan</button>
+                                    <a href="/news" class="btn btn-secondary">Kembali</a>
                                 </div>
                             </div>
-                            <div class="col-12 mt-3">
-                                <button type="submit" class="btn btn-success">Simpan</button>
-                                <a href="/news" class="btn btn-secondary">Kembali</a>
-                            </div>
-                            {{-- </div> --}}
                         </div>
                     </form>
                 </div>
@@ -92,49 +100,52 @@
 
 @section('page-script')
     <script>
+        var toolbarOption = [
+            [{
+                font: []
+            }, {
+                size: []
+            }],
+            ["bold", "italic", "underline", "strike"],
+            [{
+                    color: []
+                },
+                {
+                    background: []
+                }
+            ],
+            [{
+                    script: "super"
+                },
+                {
+                    script: "sub"
+                }
+            ],
+            [{
+                    list: "ordered"
+                },
+                {
+                    list: "bullet"
+                },
+                {
+                    indent: "-1"
+                },
+                {
+                    indent: "+1"
+                }
+            ],
+            ["direction", {
+                align: []
+            }],
+            ["link", "image", "video"],
+            ["clean"],
+        ];
         var quill =
             new Quill("#editor", {
                 modules: {
-                    toolbar: [
-                        [{
-                            font: []
-                        }, {
-                            size: []
-                        }],
-                        ["bold", "italic", "underline", "strike"],
-                        [{
-                                color: []
-                            },
-                            {
-                                background: []
-                            }
-                        ],
-                        [{
-                                script: "super"
-                            },
-                            {
-                                script: "sub"
-                            }
-                        ],
-                        [{
-                                list: "ordered"
-                            },
-                            {
-                                list: "bullet"
-                            },
-                            {
-                                indent: "-1"
-                            },
-                            {
-                                indent: "+1"
-                            }
-                        ],
-                        ["direction", {
-                            align: []
-                        }],
-                        ["link"],
-                        ["clean"]
-                    ]
+                    toolbar: {
+                        container: toolbarOption,
+                    }
                 },
                 theme: "snow",
                 scrollingContainer: '#scrolling-container',
@@ -151,6 +162,75 @@
         var form = document.querySelector('.form-add');
         form.onsubmit = function() {
             news.value = quill.root.innerHTML;
+
+            // saveImages();
+        }
+
+        function selectLocalImage() {
+            const image = document.querySelector('#imageUpload');
+            image.click();
+
+            const range = quill.getSelection();
+
+            // Listen upload local image and save to server
+            image.onchange = () => {
+                const file = image.files[0];
+
+                // file type is only image.
+                if (/^image\//.test(file.type)) {
+                    upimage(file)
+                } else {
+                    console.warn('You could only upload images.');
+                }
+            };
+        }
+
+        function upimage(file) {
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            let self = this;
+            reader.onloadend = function() {
+                let base64data = reader.result;
+
+                //  Get cursor location
+                let length = quill.getSelection().index;
+
+                // Insert image at cursor location
+                quill.insertEmbed(length, 'image', base64data);
+
+                // Set cursor to the end
+                quill.setSelection(length + 1);
+            }
+        }
+
+        // quill editor add image handler
+        var toolbar = quill.getModule('toolbar');
+        toolbar.addHandler('image', selectLocalImage);
+
+        function saveImages() {
+            var formData = new FormData();
+            var imgQuill = document.geElementById('#imageUpload').files;
+            let files = $('#imageUpload').prop('quill_image');
+            for (let i = 0; i < imgQuill.length; i++) {
+                formData.append('quill_image[]', imgQuill[i]);
+            }
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('news.upImages') }}",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: (data) => {
+
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
         }
     </script>
 

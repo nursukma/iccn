@@ -37,7 +37,33 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // foreach (request()->file('quill_image') as $file) {
+        //     dd($file)
+        // }
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'desc' => 'required',
+            'title' => 'required',
+            'penulis' => 'required'
+        ]);
+
+        $image_path = $request->file('image')->store('image', 'public');
+
+        // if (request()->has('quill_image')) {
+        //     foreach (request()->file('quill_image') as $file) {
+        //         $file->store('news', 'public');
+        //     }
+        // }
+
+        $data = News::create(
+            [
+                'desc' => $request->desc,
+                'thumbnail' => $image_path,
+                'title' =>  $request->title,
+                'penulis' => $request->penulis
+            ]
+        );
+        return redirect('/news');
     }
 
     /**
@@ -59,7 +85,8 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        //
+        $action = 'edit';
+        return view('news.action', compact('action', 'news'));
     }
 
     /**
@@ -83,5 +110,12 @@ class NewsController extends Controller
     public function destroy(News $news)
     {
         //
+    }
+
+    public function upImages(Request $request)
+    {
+        dd($request->file('quill_image'));
+        $data = $request->file('quill_image')->store('news', 'public');
+        return response()->json($data);
     }
 }

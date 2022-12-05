@@ -37,20 +37,21 @@ class MateriController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'desc' => 'required',
-            'title' => 'required',
-            'materi' =>  'required|mimes:docx,doc,pdf|max:4096'
-        ]);
+        if ($request->file('image') != null || $request->file('materi') != null) {
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'desc' => 'required',
+                'title' => 'required',
+                'materi' =>  'required|mimes:docx,doc,pdf|max:4096'
+            ]);
 
-        // $imageName = $request->image;
+            $image_path = $request->file('image')->store('image', 'public');
+            $materi_path = $request->file('materi')->store('materi', 'public');
 
-        $image_path = $request->file('image')->store('image', 'public');
-        $materi_path = $request->file('materi')->store('materi', 'public');
-
-        $data = Materi::create(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title, 'file' => $materi_path]);
-        return redirect('/materi')->with('message', 'Data berhasil ditambahkan!');
+            Materi::create(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title, 'file' => $materi_path]);
+            return redirect('/materi')->with('message', 'Data berhasil ditambahkan!');
+        }
+        return back()->with('warning', 'Silakan unggah gambar!');
     }
 
     /**
@@ -85,7 +86,6 @@ class MateriController extends Controller
      */
     public function update(Request $request, Materi $materi)
     {
-        // dd($request->image);
         $request->validate([
             'image' => 'image|mimes:jpeg,png,jpg|max:2048',
             'desc' => 'required',
@@ -113,7 +113,7 @@ class MateriController extends Controller
             $materi_path = $request->file('materi')->store('materi', 'public');
         }
 
-        $data = $materi->update(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title, 'file' => $materi_path]);
+        $materi->update(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title, 'file' => $materi_path]);
         return redirect('/materi')->with('message', 'Data berhasil diubah!');
     }
 

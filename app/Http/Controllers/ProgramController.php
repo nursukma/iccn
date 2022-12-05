@@ -122,15 +122,18 @@ class ProgramController extends Controller
 
     public function storeItem(Request $request, $id)
     {
-        $dataItem = $request->only(self::itemData);
+        if ($request->file('item_image') != null) {
+            $dataItem = $request->only(self::itemData);
 
-        $imageItem_path = $request->file('item_image')->store('image', 'public');
-        $dataItem['image'] = $imageItem_path;
-        $dataItem['program_id'] = $id;
+            $imageItem_path = $request->file('item_image')->store('image', 'public');
+            $dataItem['image'] = $imageItem_path;
+            $dataItem['program_id'] = $id;
 
-        $data = ProgramItem::create(['title' => $dataItem['title'], 'link' => $dataItem['link'], 'image' => $dataItem['image'], 'program_id' => $id]);
-        // dd($dataItem);
-        return redirect('/program')->with('message', 'Data berhasil ditambahkan!');
+            $data = ProgramItem::create(['title' => $dataItem['title'], 'link' => $dataItem['link'], 'image' => $dataItem['image'], 'program_id' => $id]);
+            // dd($dataItem);
+            return redirect('/program')->with('message', 'Data berhasil ditambahkan!');
+        }
+        return back()->with('warning', 'Silakan unggah gambar!');
     }
 
     public function updateItem(Request $request, $id)

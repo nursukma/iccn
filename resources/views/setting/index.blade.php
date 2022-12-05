@@ -107,40 +107,60 @@
                                             <label for="nama_situs" class="col-md-4 col-lg-3 col-form-label">Nama
                                                 Situs</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="nama_situs" type="text" class="form-control" id="nama_situs"
-                                                    value="{{ $data != null ? $up->nama_situs : '' }}">
+                                                <div class="input-group has-validation">
+                                                    <input name="nama_situs" type="text" class="form-control"
+                                                        id="nama_situs" value="{{ $data != null ? $up->nama_situs : '' }}"
+                                                        required>
+                                                    <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="desc" class="col-md-4 col-lg-3 col-form-label">Deskripsi</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <textarea class="form-control" name="desc" id="desc" style="height: 250px">{{ $data != null ? $up->desc : '' }}
-                                                </textarea>
+                                                <div class="input-group has-validation">
+                                                    <textarea class="form-control" name="desc" id="desc" style="height: 250px" required>{{ $data != null ? $up->desc : '' }}
+                                                    </textarea>
+                                                    <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="alamat" class="col-md-4 col-lg-3 col-form-label">Alamat</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input type="text" class="form-control" id="alamat" name="alamat"
-                                                    value="{{ $data != null ? $up->alamat : '' }}">
+                                                <div class="input-group has-validation">
+                                                    <input type="text" class="form-control" id="alamat" name="alamat"
+                                                        value="{{ $data != null ? $up->alamat : '' }}" required>
+                                                    <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="whatsapp" class="col-md-4 col-lg-3 col-form-label">Whatsapp</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input type="number" class="form-control" id="whatsapp" name="whatsapp"
-                                                    value="{{ $data != null ? $up['kontak']['whatsapp'] : '' }}">
+                                                <div class="input-group has-validation">
+                                                    <input type="number" class="form-control" id="whatsapp"
+                                                        name="whatsapp"
+                                                        value="{{ $data != null ? $up['kontak']['whatsapp'] : '' }}"
+                                                        required>
+                                                    <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="email" class="col-md-4 col-lg-3 col-form-label">Surel</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input type="email" class="form-control" id="email" name="email"
-                                                    value="{{ $data != null ? $up['kontak']['email'] : '' }}">
+                                                <div class="input-group has-validation">
+                                                    <input type="email" class="form-control" id="email"
+                                                        name="email"
+                                                        value="{{ $data != null ? $up['kontak']['email'] : '' }}"
+                                                        required>
+                                                    <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -148,9 +168,13 @@
                                             <label for="instagram" class="col-md-4 col-lg-3 col-form-label">Instagram
                                                 Profile</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input type="text" class="form-control" id="instagram"
-                                                    name="instagram"
-                                                    value="{{ $data != null ? $up['kontak']['instagram'] : '' }}">
+                                                <div class="input-group has-validation">
+                                                    <input type="text" class="form-control" id="instagram"
+                                                        name="instagram"
+                                                        value="{{ $data != null ? $up['kontak']['instagram'] : '' }}"
+                                                        required>
+                                                    <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                                </div>
                                             </div>
                                         </div>
 

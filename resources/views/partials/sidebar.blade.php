@@ -33,7 +33,7 @@
          </li><!-- End Data Ibu Nav -->
 
          <li class="nav-item">
-             <a class="nav-link collapsed " href="#">
+             <a class="nav-link {{ request()->is('media') ? 'active' : 'collapsed' }}" href="/media">
                  <i class="bi bi-camera-fill"></i><span>Media ICCN</span>
              </a>
          </li><!-- End Data Ibu Nav -->
@@ -85,7 +85,7 @@
          <li class="nav-heading">Berita</li>
 
          <li class="nav-item">
-             <a class="nav-link collapsed " href="/news">
+             <a class="nav-link collapsed {{ request()->is('news*') ? 'active' : 'collapsed' }}" href="/news">
                  <i class="bi bi-newspaper"></i><span>Berita dan Blog</span>
              </a>
          </li><!-- End Data Ibu Nav -->
@@ -93,7 +93,7 @@
          <li class="nav-heading">Pengaturan</li>
 
          <li class="nav-item">
-             <a class="nav-link collapsed " href="/setting">
+             <a class="nav-link collapsed {{ request()->is('setting') ? 'active' : 'collapsed' }}" href="/setting">
                  <i class="bi bi-gear-fill"></i><span>Situs</span>
              </a>
          </li><!-- End Data Anak Nav -->

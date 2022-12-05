@@ -42,8 +42,11 @@
                             <div class="col-12">
                                 <div class="col-md-6 mt-2">
                                     <label for="title">Judul</label>
-                                    <input type="text" id="title" class="form-control" placeholder="Judul"
-                                        name="title" value="{{ $action == 'edit' ? $materi->title : '' }}" required>
+                                    <div class="input-group has-validation">
+                                        <input type="text" id="title" class="form-control" name="title"
+                                            value="{{ $action == 'edit' ? $materi->title : '' }}" required>
+                                        <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label class="btn btn-primary mt-2">

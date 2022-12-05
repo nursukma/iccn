@@ -37,16 +37,18 @@ class AboutController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'desc' => 'required',
-            'title' => 'required'
-        ]);
+        if ($request->file('image') != null) {
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'title' => 'required'
+            ]);
 
-        $image_path = $request->file('image')->store('image', 'public');
+            $image_path = $request->file('image')->store('image', 'public');
 
-        $data = About::create(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title]);
-        return redirect('/about')->with('message', 'Data berhasil ditambahkan!');
+            About::create(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title]);
+            return redirect('/about')->with('message', 'Data berhasil ditambahkan!');
+        }
+        return back()->with('warning', 'Silakan unggah gambar!');
     }
 
     /**
@@ -83,7 +85,6 @@ class AboutController extends Controller
     {
         $request->validate([
             'image' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'desc' => 'required',
             'title' => 'required'
         ]);
 

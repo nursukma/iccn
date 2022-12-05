@@ -43,8 +43,11 @@
                             <div class="row g-3 mt-1">
                                 <div class="col-md-12">
                                     <label for="title">Judul</label>
-                                    <input type="text" class="form-control" id="title" name="title"
-                                        value="{{ $action == 'edit' ? $news->title : '' }}">
+                                    <div class="input-group has-validation">
+                                        <input type="text" class="form-control" id="title" name="title"
+                                            value="{{ $action == 'edit' ? $news->title : '' }}" required>
+                                        <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="penulis">Penulis</label>

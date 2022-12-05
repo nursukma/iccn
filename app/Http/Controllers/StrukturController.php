@@ -37,17 +37,20 @@ class StrukturController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'nama' => 'required',
-            'jabatan' => 'required',
-            'periode' => 'required',
-            'jabatan' => 'required',
-            'image' =>  'image|mimes:jpeg,png,jpg|max:2048'
-        ]);
-        $data['image'] = $request->file('image')->store('image', 'public');
+        if ($request->file('image') != null) {
+            $data = $request->validate([
+                'nama' => 'required',
+                'jabatan' => 'required',
+                'periode' => 'required',
+                'jabatan' => 'required',
+                'image' =>  'image|mimes:jpeg,png,jpg|max:2048'
+            ]);
+            $data['image'] = $request->file('image')->store('image', 'public');
 
-        Struktur::create($data);
-        return redirect('/struktur')->with('message', 'Data berhasil ditambahkan!');
+            Struktur::create($data);
+            return redirect('/struktur')->with('message', 'Data berhasil ditambahkan!');
+        }
+        return back()->with('warning', 'Silakan unggah gambar!');
     }
 
     /**

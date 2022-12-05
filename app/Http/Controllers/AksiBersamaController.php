@@ -40,19 +40,21 @@ class AksiBersamaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'aksi_desc' => 'required',
-            'aksi_title' => 'required',
-            'aksi_image' => 'image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+        if ($request->file('image') != null) {
+            $request->validate([
+                'aksi_title' => 'required',
+                'aksi_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            ]);
 
-        $image_path = $request->file('aksi_image')->store('image', 'public');
+            $image_path = $request->file('aksi_image')->store('image', 'public');
 
-        $data = AksiBersama::create(['desc' => $request->aksi_desc, 'title' =>  $request->aksi_title, 'image' => $image_path]);
-        if (!$data) {
-            return redirect('/aksi-bersama')->with('error', 'Terjadi kesalahan!');
+            $data = AksiBersama::create(['desc' => $request->aksi_desc, 'title' =>  $request->aksi_title, 'image' => $image_path]);
+            if (!$data) {
+                return redirect('/aksi-bersama')->with('error', 'Terjadi kesalahan!');
+            }
+            return redirect('/aksi-bersama')->with('message', 'Data berhasil ditambahkan!');
         }
-        return redirect('/aksi-bersama')->with('message', 'Data berhasil ditambahkan!');
+        return back()->with('warning', 'Silakan unggah gambar!');
     }
 
     /**
@@ -86,7 +88,6 @@ class AksiBersamaController extends Controller
     public function update(Request $request, AksiBersama $aksiBersama)
     {
         $request->validate([
-            'desc' => 'required',
             'title' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);

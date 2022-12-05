@@ -38,17 +38,20 @@ class SliderController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'link' => 'required',
-            'title' => 'required'
-        ]);
+        if ($request->file('image') != null) {
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'link' => 'required',
+                'title' => 'required'
+            ]);
 
-        $image_path = $request->file('image')->store('image', 'public');
+            $image_path = $request->file('image')->store('image', 'public');
 
-        $data = Slider::create(['link' => $request->link, 'image' => $image_path, 'title' =>  $request->title]);
-        // dd($data);
-        return redirect('/sliders')->with('message', 'Data Berhasil ditambahkan!');
+            $data = Slider::create(['link' => $request->link, 'image' => $image_path, 'title' =>  $request->title]);
+            // dd($data);
+            return redirect('/sliders')->with('message', 'Data Berhasil ditambahkan!');
+        }
+        return back()->with('warning', 'Silakan unggah gambar!');
     }
 
     /**

@@ -14,7 +14,8 @@ class MediaController extends Controller
      */
     public function index()
     {
-        //
+        $data = Media::orderBy('created_at', 'desc')->get();
+        return view('media.index', compact('data'));
     }
 
     /**
@@ -35,7 +36,13 @@ class MediaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required',
+            'link' => 'required',
+        ]);
+
+        Media::create($data);
+        return redirect('media')->with('message', 'Data berhasil ditambahkan!');
     }
 
     /**
@@ -67,9 +74,16 @@ class MediaController extends Controller
      * @param  \App\Models\Media  $media
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Media $media)
+    public function update(Request $request, $id)
     {
-        //
+        $media = Media::findOrFail($id)->first();
+        $data = $request->validate([
+            'title' => 'required',
+            'link' => 'required',
+        ]);
+
+        $media->update($data);
+        return redirect('media')->with('message', 'Data berhasil diubah!');
     }
 
     /**
@@ -78,8 +92,10 @@ class MediaController extends Controller
      * @param  \App\Models\Media  $media
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Media $media)
+    public function destroy($id)
     {
-        //
+        $media = Media::findOrFail($id)->first();
+        $media->delete();
+        return back()->with('message', 'Data berhasil dihapus!');
     }
 }

@@ -44,8 +44,11 @@
                             <div class="col-12">
                                 <div class="col-md-6 mt-2">
                                     <label for="floatingName">Judul</label>
-                                    <input type="text" class="form-control" id="floatingName" placeholder="Judul"
-                                        name="title" value="{{ $action == 'edit' ? $about->title : '' }}">
+                                    <div class="input-group has-validation">
+                                        <input type="text" class="form-control" id="title" name="title"
+                                            value="{{ $action == 'edit' ? $about->title : '' }}" required>
+                                        <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6 mt-2">
                                     <label class="btn btn-primary mt-2">

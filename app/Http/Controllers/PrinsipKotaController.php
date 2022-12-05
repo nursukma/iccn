@@ -37,18 +37,19 @@ class PrinsipKotaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'desc' => 'required',
-            'title' => 'required'
-        ]);
+        if ($request->file('image') != null) {
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'desc' => 'required',
+                'title' => 'required'
+            ]);
 
-        // $imageName = $request->image;
+            $image_path = $request->file('image')->store('image', 'public');
 
-        $image_path = $request->file('image')->store('image', 'public');
-
-        $data = PrinsipKota::create(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title]);
-        return redirect('/prinsip-kota');
+            PrinsipKota::create(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title]);
+            return redirect('/prinsip-kota');
+        }
+        return back()->with('warning', 'Silakan unggah gambar!');
     }
 
     /**

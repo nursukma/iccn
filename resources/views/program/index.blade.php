@@ -147,11 +147,19 @@
                                 <div class="modal-body">
                                     <div class="col-12">
                                         <label for="link" class="form-label">Judul</label>
-                                        <input type="text" class="form-control" id="item_title" name="title" required>
+                                        <div class="input-group has-validation">
+                                            <input type="text" class="form-control" id="item_title" name="title"
+                                                required>
+                                            <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                        </div>
                                     </div>
                                     <div class="col-12">
                                         <label for="link" class="form-label">Pranala Pendukung</label>
-                                        <input type="text" class="form-control" id="item_link" name="link" required>
+                                        <div class="input-group has-validation">
+                                            <input type="text" class="form-control" id="item_link" name="link"
+                                                required>
+                                            <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                        </div>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="btn btn-primary mt-2">
@@ -204,12 +212,19 @@
                                 <div class="modal-body">
                                     <div class="col-12">
                                         <label for="title" class="form-label">Judul</label>
-                                        <input type="text" class="form-control" id="title" name="title"
-                                            required>
+                                        <div class="input-group has-validation">
+                                            <input type="text" class="form-control" id="title" name="title"
+                                                required>
+                                            <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                        </div>
                                     </div>
                                     <div class="col-12">
                                         <label for="sub_title" class="form-label">Subjudul</label>
-                                        <input type="text" class="form-control" id="sub_title" name="sub_title">
+                                        <div class="input-group has-validation">
+                                            <input type="text" class="form-control" id="sub_title" name="sub_title"
+                                                required>
+                                            <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -238,13 +253,19 @@
                                 <div class="modal-body">
                                     <div class="col-12">
                                         <label for="edit_title" class="form-label">Judul</label>
-                                        <input type="text" class="form-control" id="edit_title" name="edit_title"
-                                            required>
+                                        <div class="input-group has-validation">
+                                            <input type="text" class="form-control" id="edit_title" name="edit_title"
+                                                required>
+                                            <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                        </div>
                                     </div>
                                     <div class="col-12">
                                         <label for="edit_sub_title" class="form-label">Subjudul</label>
-                                        <input type="text" class="form-control" id="edit_sub_title"
-                                            name="edit_sub_title">
+                                        <div class="input-group has-validation">
+                                            <input type="text" class="form-control" id="edit_sub_title"
+                                                name="edit_sub_title" required>
+                                            <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

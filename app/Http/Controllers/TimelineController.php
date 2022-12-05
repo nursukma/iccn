@@ -37,15 +37,18 @@ class TimelineController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'title' => 'required'
-        ]);
+        if ($request->file('image') != null) {
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'title' => 'required'
+            ]);
 
-        $image_path = $request->file('image')->store('image', 'public');
+            $image_path = $request->file('image')->store('image', 'public');
 
-        $data = Timeline::create(['image' => $image_path, 'title' =>  $request->title]);
-        return redirect('/timeline')->with('message', 'Data berhasil ditambahkan!');
+            $data = Timeline::create(['image' => $image_path, 'title' =>  $request->title]);
+            return redirect('/timeline')->with('message', 'Data berhasil ditambahkan!');
+        }
+        return back()->with('warning', 'Silakan unggah gambar!');
     }
 
     /**

@@ -5,6 +5,7 @@ use App\Http\Controllers\AksiBersamaController;
 use App\Http\Controllers\KoordinatorController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MateriController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PengurusController;
 use App\Http\Controllers\PrinsipKotaController;
@@ -78,6 +79,8 @@ Route::group(['middleware' => ['auth', 'revalidate']], function () {
 
     Route::resource('setting', SettingController::class);
     Route::post('/upimages', [SettingController::class, 'upImages'])->name('setting.upImages');
+
+    Route::resource('media', MediaController::class);
 });
 Route::post('/logout', [LoginController::class, 'logout']);
 

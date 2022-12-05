@@ -40,30 +40,33 @@ class NewsController extends Controller
         // foreach (request()->file('quill_image') as $file) {
         //     dd($file)
         // }
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'desc' => 'required',
-            'title' => 'required',
-            'penulis' => 'required'
-        ]);
+        if ($request->file('image') != null) {
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'desc' => 'required',
+                'title' => 'required',
+                'penulis' => 'required'
+            ]);
 
-        $image_path = $request->file('image')->store('image', 'public');
+            $image_path = $request->file('image')->store('image', 'public');
 
-        // if (request()->has('quill_image')) {
-        //     foreach (request()->file('quill_image') as $file) {
-        //         $file->store('news', 'public');
-        //     }
-        // }
+            // if (request()->has('quill_image')) {
+            //     foreach (request()->file('quill_image') as $file) {
+            //         $file->store('news', 'public');
+            //     }
+            // }
 
-        $data = News::create(
-            [
-                'desc' => $request->desc,
-                'thumbnail' => $image_path,
-                'title' =>  $request->title,
-                'penulis' => $request->penulis
-            ]
-        );
-        return redirect('/news')->with('message', 'Data berhasil ditambahkan!');
+            $data = News::create(
+                [
+                    'desc' => $request->desc,
+                    'thumbnail' => $image_path,
+                    'title' =>  $request->title,
+                    'penulis' => $request->penulis
+                ]
+            );
+            return redirect('/news')->with('message', 'Data berhasil ditambahkan!');
+        }
+        return back()->with('warning', 'Silakan unggah gambar!');
     }
 
     /**
@@ -98,8 +101,8 @@ class NewsController extends Controller
      */
     public function update(Request $request, News $news)
     {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        $data = $request->validate([
+            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
             'desc' => 'required',
             'title' => 'required',
             'penulis' => 'required'
@@ -115,7 +118,7 @@ class NewsController extends Controller
             $image_path = $request->file('image')->store('image', 'public');
         }
 
-        $data = $news->update(
+        $news->update(
             [
                 'desc' => $request->desc,
                 'thumbnail' => $image_path,
@@ -124,7 +127,6 @@ class NewsController extends Controller
             ]
         );
 
-        dd($data);
         return redirect('/news')->with('message', 'Data berhasil diubah!');
     }
 

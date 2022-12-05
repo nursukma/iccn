@@ -1,30 +1,12 @@
 @extends('layouts.default')
 
 @section('page-style')
-    <style>
-        .upload__inputfile {
-            width: 0.1px;
-            height: 0.1px;
-            opacity: 0;
-            overflow: hidden;
-            position: absolute;
-            z-index: -1;
-        }
-
-        .img-bg {
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-            position: relative;
-            padding-bottom: 100%;
-        }
-    </style>
 @endsection
 
 @section('content')
     <main class="main" id="main">
         <div class="pagetitle">
-            <h1>Data Linimasi</h1>
+            <h1>Data Media</h1>
         </div>
 
         <div class="row">
@@ -44,12 +26,12 @@
                     <div class="card-body">
                         <div class="row mx-auto mt-1">
                             <div class="col-12">
-                                <table class="table datatable" id="table-timeline">
+                                <table class="table datatable" id="table-media">
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
                                             <th scope="col">Judul</th>
-                                            <th scope="col">Gambar</th>
+                                            <th scope="col">Pranala</th>
                                             <th scope="col">Aksi</th>
                                         </tr>
                                     </thead>
@@ -61,21 +43,20 @@
                                                     {{ $item->title }}
                                                 </td>
                                                 <td>
-                                                    <img src="{{ 'storage/' . $item->image }}" class="img-thumbnail"
-                                                        width="60px" height="40px">
+                                                    {{ $item->link }}
                                                 </td>
                                                 <td>
                                                     <button type="button" class="btn btn-light rounded-pill" title="Ubah"
                                                         id='edit' name='edit' data-bs-toggle="modal"
                                                         data-bs-target="#editModal"
-                                                        data-bs-act="{{ route('timeline.update', $item->id) }}"
+                                                        data-bs-act="{{ route('media.update', $item->id) }}"
                                                         data-bs-title="{{ $item->title }}"
-                                                        data-bs-image="{{ $item->image }}">
+                                                        data-bs-link="{{ $item->link }}">
                                                         <i class="ri-edit-2-line"></i></button>
                                                     <button type="button" class="btn btn-light rounded-pill" title="Hapus"
                                                         id="hapus" name="hapus" data-bs-toggle="modal"
                                                         data-bs-target="#deleteModal"
-                                                        data-bs-act="{{ route('timeline.destroy', $item->id) }}"
+                                                        data-bs-act="{{ route('media.destroy', $item->id) }}"
                                                         data-bs-title="{{ $item->title }}">
                                                         <i class="ri-delete-bin-line"></i></button>
                                                 </td>
@@ -94,11 +75,11 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">Form Linimasa</h5>
+                                <h5 class="modal-title" id="staticBackdropLabel">Form Media</h5>
                                 <button class="btn-close" type="button" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form class="row g-2 needs-validation" action="{{ route('timeline.store') }}" method="post"
+                            <form class="row g-2 needs-validation" action="{{ route('media.store') }}" method="post"
                                 enctype="multipart/form-data" novalidate>
                                 @csrf
                                 <div class="modal-body">
@@ -110,14 +91,13 @@
                                                 <div class="invalid-feedback">Harap isi bidang ini!</div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-2">
-                                            <label class="btn btn-primary mt-2">
-                                                Upload Images
-                                                <input type="file" name="image" class="upload__inputfile"
-                                                    id="up_images" onchange="previewImage()">
-                                            </label>
-                                            <img class="img-preview img-fluid col-sm-5"
-                                                style="display:block; object-fit:cover; margin-top:10px" />
+                                        <div class="col-12">
+                                            <label for="link" class="form-label">Pranala</label>
+                                            <div class="input-group has-validation">
+                                                <input type="text" class="form-control" id="link" name="link"
+                                                    required>
+                                                <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -135,31 +115,30 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Ubah Data Slider</h5>
+                                <h5 class="modal-title">Ubah Data Media</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form class="row g-2 needs-validation" id="update-form" action="/" method="post"
+                            <form class="row g-3 needs-validation" id="update-form" action="/" method="post"
                                 enctype="multipart/form-data" novalidate>
                                 @csrf
                                 @method('put')
                                 <div class="modal-body">
                                     <div class="col-12">
-                                        <label for="link" class="form-label">Judul</label>
+                                        <label for="title" class="form-label">Judul</label>
                                         <div class="input-group has-validation">
                                             <input type="text" class="form-control" id="title" name="title"
                                                 required>
                                             <div class="invalid-feedback">Harap isi bidang ini!</div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="btn btn-primary mt-2">
-                                            Upload Images
-                                            <input type="file" name="image" class="upload__inputfile"
-                                                id="edit_images" onchange="editImage()" accept="image/*">
-                                        </label>
-                                        <img id="img-edit" class="edit-preview img-fluid col-sm-5"
-                                            style="display:block; object-fit:cover; margin-top:10px" />
+                                    <div class="col-12">
+                                        <label for="link" class="form-label">Pranala</label>
+                                        <div class="input-group has-validation">
+                                            <input type="text" class="form-control" id="link" name="link"
+                                                required>
+                                            <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -210,103 +189,15 @@
 @endsection
 
 @section('page-script')
-    {{-- <script>
-        $(function() {
-            var path = 'storage/';
-            $('#table-timeline').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '/getTimeline',
-                columns: [{
-                        data: 'no'
-                    },
-                    {
-                        data: 'title'
-                    },
-                    {
-                        data: 'image',
-                        render: function(data) {
-                            return `<img src="` + path + data +
-                                `" width='240px';height='180px'>`;
-                        }
-                    },
-                    {
-                        data: {
-                            id: 'id',
-                            title: 'title',
-                            orderable: false,
-                            searchable: false
-                        },
-                        render: function(data) {
-                            return `
-                            <d-flex flex-row align-items-center justify-content-between"> 
-                                <a title="Perbarui" class="d-none d-sm-inline-block btn btn-sm btn-circle shadow-sm"
-                                    href="/timeline/` + data.id + `/edit"> 
-                                    <i class="fas fa-solid fa-pen-nib"></i> 
-                                </a> 
-                                <a title="Hapus" class="d-none d-sm-inline-block btn btn-sm btn-circle shadow-sm"
-                                id="hapus" name="hapus" data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal"
-                                                data-bs-act="/timeline/` + data.id + `"
-                                                data-bs-nama="` + data.title + `"> 
-                                    <i class="fas fa-solid fa-eraser"></i> 
-                                </a> 
-                            </div>
-                            `;
-                        }
-                    },
-                ]
-            });
-        });
-    </script> --}}
-
-    <script>
-        function previewImage() {
-            const image = document.querySelector('#up_images');
-            const imgPreview = document.querySelector('.img-preview');
-
-            imgPreview.style.display = 'block';
-            imgPreview.style.objectFit = 'cover';
-
-            const reader = new FileReader();
-            reader.readAsDataURL(image.files[0]);
-
-            reader.onload = function(event) {
-                imgPreview.src = event.target.result;
-            }
-        }
-
-        function editImage() {
-            const image = document.querySelector('#edit_images');
-            const imgPreview = document.querySelector('.edit-preview');
-
-            var fileName = document.getElementById("edit_images").value;
-            var idxDot = fileName.lastIndexOf(".") + 1;
-            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
-
-            if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
-                const reader = new FileReader();
-                reader.readAsDataURL(image.files[0]);
-
-                reader.onload = function(event) {
-                    imgPreview.src = event.target.result;
-                }
-            } else {
-                alert("Only jpg/jpeg and png files are allowed!");
-            }
-        }
-    </script>
-
     <script type="text/javascript">
         // edit modal
         $('#editModal').bind('show.bs.modal', event => {
             const updateForm = $('form#update-form');
             const updateButton = $(event.relatedTarget);
-            const path = 'storage/' + updateButton.attr('data-bs-image');
 
             updateForm.attr('action', updateButton.attr('data-bs-act'));
             updateForm.find('#title').val(updateButton.attr('data-bs-title'));
-            updateForm.find('#img-edit').attr("src", path);
+            updateForm.find('#link').val(updateButton.attr('data-bs-link'));
         }).bind('hide.bs.modal', e => {
             const updateForm = $('form#update-form');
             updateForm.attr('action', '/');

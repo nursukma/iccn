@@ -44,18 +44,27 @@
                                 <div class="col-12">
                                     <div class="col-md-6 mt-2">
                                         <label for="nama">Nama</label>
-                                        <input type="text" class="form-control" id="nama" name="nama"
-                                            value="{{ $action == 'edit' ? $struktur->nama : '' }}" required>
+                                        <div class="input-group has-validation">
+                                            <input type="text" class="form-control" id="nama" name="nama"
+                                                value="{{ $action == 'edit' ? $struktur->nama : '' }}" required>
+                                            <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                        </div>
                                     </div>
                                     <div class="col-md-6 mt-2">
                                         <label for="jabatan">Jabatan</label>
-                                        <input type="text" class="form-control" id="jabatan" name="jabatan"
-                                            value="{{ $action == 'edit' ? $struktur->jabatan : '' }}" required>
+                                        <div class="input-group has-validation">
+                                            <input type="text" class="form-control" id="jabatan" name="jabatan"
+                                                value="{{ $action == 'edit' ? $struktur->jabatan : '' }}" required>
+                                            <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                        </div>
                                     </div>
                                     <div class="col-md-6 mt-2">
                                         <label for="periode">Periode</label>
-                                        <input type="text" class="form-control" id="periode" name="periode"
-                                            value="{{ $action == 'edit' ? $struktur->periode : '' }}" required>
+                                        <div class="input-group has-validation">
+                                            <input type="text" class="form-control" id="periode" name="periode"
+                                                value="{{ $action == 'edit' ? $struktur->periode : '' }}" required>
+                                            <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                        </div>
                                     </div>
                                     <div class="col-md-6 mt-2">
                                         <label class="btn btn-primary">

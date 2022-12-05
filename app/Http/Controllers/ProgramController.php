@@ -141,6 +141,10 @@ class ProgramController extends Controller
         if ($request->file('edit_item_image') == null) {
             $dataItem['image'] = $data->image;
         } else {
+            $image_exist = 'storage/' . $data->image;
+            if (file_exists($image_exist))
+                unlink($image_exist);
+
             $imageItem_path = $request->file('edit_item_image')->store('image', 'public');
             $dataItem['image'] = $imageItem_path;
         }

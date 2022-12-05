@@ -9,6 +9,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PengurusController;
 use App\Http\Controllers\PrinsipKotaController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\StrukturController;
 use App\Http\Controllers\TimelineController;
@@ -35,22 +36,22 @@ Route::group(['middleware' => ['auth', 'revalidate']], function () {
     });
 
     Route::resource('sliders', SliderController::class);
-    Route::get('/getSliders', [SliderController::class, 'getSliders'])->name('sliders.all');
+    // Route::get('/getSliders', [SliderController::class, 'getSliders'])->name('sliders.all');
 
     Route::resource('about', AboutController::class);
-    Route::get('/getAbout', [AboutController::class, 'getAbout'])->name('about.all');
+    // Route::get('/getAbout', [AboutController::class, 'getAbout'])->name('about.all');
 
     Route::resource('prinsip-kota', PrinsipKotaController::class);
     Route::get('/getPrinsip', [PrinsipKotaController::class, 'getPrinsip'])->name('prinsip.all');
 
     Route::resource('materi', MateriController::class);
-    Route::get('/getMateri', [MateriController::class, 'getMateri'])->name('materi.all');
+    // Route::get('/getMateri', [MateriController::class, 'getMateri'])->name('materi.all');
 
     Route::resource('timeline', TimelineController::class);
-    Route::get('/getTimeline', [TimelineController::class, 'getTimeline'])->name('timeline.all');
+    // Route::get('/getTimeline', [TimelineController::class, 'getTimeline'])->name('timeline.all');
 
     Route::resource('aksi-bersama', AksiBersamaController::class);
-    Route::get('/getAksiBersama', [AksiBersamaController::class, 'getAksiBersama'])->name('aksi-bersama.all');
+    // Route::get('/getAksiBersama', [AksiBersamaController::class, 'getAksiBersama'])->name('aksi-bersama.all');
 
     Route::post('/aksi-bersama/{id}', [AksiBersamaController::class, 'storeItem'])->name('aksi-bersama.item');
     Route::get('/detail-item/{id}', [AksiBersamaController::class, 'detailItem'])->name('aksi-bersama.detailItem');
@@ -70,10 +71,13 @@ Route::group(['middleware' => ['auth', 'revalidate']], function () {
     Route::resource('koordinator', KoordinatorController::class);
 
     Route::resource('struktur', StrukturController::class);
-    Route::get('/getStruktur', [StrukturController::class, 'getStruktur']);
+    // Route::get('/getStruktur', [StrukturController::class, 'getStruktur']);
 
     Route::resource('news', NewsController::class);
     Route::post('/imagenews', [NewsController::class, 'upImages'])->name('news.upImages');
+
+    Route::resource('setting', SettingController::class);
+    Route::post('/upimages', [SettingController::class, 'upImages'])->name('setting.upImages');
 });
 Route::post('/logout', [LoginController::class, 'logout']);
 

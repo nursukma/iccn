@@ -158,8 +158,31 @@
             const reader = new FileReader();
             reader.readAsDataURL(image.files[0]);
 
-            reader.onload = function(event) {
-                imgPreview.src = event.target.result;
+            var fileName = document.getElementById("up_images").value;
+            var idxDot = fileName.lastIndexOf(".") + 1;
+            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+
+            const fileSize = image.files[0].size / 1024 / 1024; // in MiB
+
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right"
+            };
+
+            if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
+                const reader = new FileReader();
+                reader.readAsDataURL(image.files[0]);
+
+                reader.onload = function(event) {
+                    if (fileSize < 2) {
+                        imgPreview.src = event.target.result;
+                    } else {
+                        toastr.error("Ukuran gambar terlalu besar!");
+                    }
+                }
+            } else {
+                toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }
     </script>

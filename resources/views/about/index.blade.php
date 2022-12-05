@@ -44,7 +44,7 @@
                                                     {{ $item->title }}
                                                 </td>
                                                 <td>
-                                                    {{ $item->desc }}
+                                                    {!! $item->desc !!}
                                                 </td>
                                                 <td>
                                                     <img src="{{ 'storage/' . $item->image }}" class="img-thumbnail"

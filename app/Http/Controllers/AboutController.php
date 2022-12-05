@@ -43,12 +43,10 @@ class AboutController extends Controller
             'title' => 'required'
         ]);
 
-        // $imageName = $request->image;
-
         $image_path = $request->file('image')->store('image', 'public');
 
         $data = About::create(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title]);
-        return redirect('/about');
+        return redirect('/about')->with('message', 'Data berhasil ditambahkan!');
     }
 
     /**
@@ -92,11 +90,15 @@ class AboutController extends Controller
         if ($request->file('image') == null) {
             $image_path = $about->image;
         } else {
+            $image_exist = 'storage/' . $about->image;
+            if (file_exists($image_exist))
+                unlink($image_exist);
+
             $image_path = $request->file('image')->store('image', 'public');
         }
 
         $data = $about->update(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title]);
-        return redirect('/about');
+        return redirect('/about')->with('message', 'Data berhasil diubah!');
     }
 
     /**
@@ -108,6 +110,6 @@ class AboutController extends Controller
     public function destroy(About $about)
     {
         $about->delete();
-        return back();
+        return back()->with('message', 'Data berhasil dihapus!');
     }
 }

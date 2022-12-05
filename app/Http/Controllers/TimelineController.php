@@ -45,7 +45,7 @@ class TimelineController extends Controller
         $image_path = $request->file('image')->store('image', 'public');
 
         $data = Timeline::create(['image' => $image_path, 'title' =>  $request->title]);
-        return redirect('/timeline');
+        return redirect('/timeline')->with('message', 'Data berhasil ditambahkan!');
     }
 
     /**
@@ -88,12 +88,16 @@ class TimelineController extends Controller
         if ($request->file('image') == null) {
             $image_path = $timeline->image;
         } else {
+            $image_exist = 'storage/' . $timeline->image;
+            if (file_exists($image_exist))
+                unlink($image_exist);
+
             $image_path = $request->file('image')->store('image', 'public');
         }
 
         $data = $timeline->update(['image' => $image_path, 'title' =>  $request->title]);
         // dd($data);
-        return redirect('/timeline');
+        return redirect('/timeline')->with('message', 'Data berhasil diubah!');
     }
 
     /**
@@ -105,70 +109,6 @@ class TimelineController extends Controller
     public function destroy(Timeline $timeline)
     {
         $timeline->delete();
-        return back();
-    }
-
-    public function getTimeline(Request $request)
-    {
-        ## Read value
-        $draw = $request->get('draw');
-        $start = $request->get("start");
-        $rowperpage = $request->get("length"); // Rows display per page
-
-        $columnIndex_arr = $request->get('order');
-        $columnName_arr = $request->get('columns');
-        $order_arr = $request->get('order');
-        $search_arr = $request->get('search');
-
-        $columnIndex = $columnIndex_arr[0]['column']; // Column index
-        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
-        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
-        $searchValue = $search_arr['value']; // Search value
-
-        // Total records
-        $totalRecords = Timeline::select('count(*) as allcount')->count();
-        $filter = Timeline::query();
-        $filter->when($searchValue, function ($query) use ($searchValue) {
-            return $query->where('title', 'like', '%' . $searchValue . '%');
-        });
-
-        $totalRecordswithFilter = $filter->count();
-
-        // Fetch records
-        $query = Timeline::query();
-        $query->when($searchValue, function ($query) use ($searchValue) {
-            return $query->where('title', 'like', '%' . $searchValue . '%');
-        });
-        $records = $query->orderBy('id', 'desc')
-            ->skip($start)
-            ->take($rowperpage)
-            ->get();
-
-        $data_arr = array();
-
-        $no = $start + 1;
-        foreach ($records as $record) {
-            $id = $record->id;
-            $title = $record->title;
-            $desc = $record->desc;
-            $image = $record->image;
-
-            $data_arr[] = array(
-                "no" => $no++,
-                "id" => $id,
-                "title" => $title,
-                "image" => $image
-            );
-        }
-
-        $response = array(
-            "draw" => intval($draw),
-            "iTotalRecords" => $totalRecords,
-            "iTotalDisplayRecords" => $totalRecordswithFilter,
-            "aaData" => $data_arr
-        );
-
-        echo json_encode($response);
-        exit;
+        return back()->with('message', 'Data berhasil dihapus!');
     }
 }

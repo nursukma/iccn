@@ -67,7 +67,7 @@
                                             onchange="previewImage()">
                                     </label>
                                     <img class="img-preview img-fluid col-sm-5 mt-2"
-                                        src="{{ $action == 'edit' ? asset('storage/' . $news->image) : '' }}"
+                                        src="{{ $action == 'edit' ? asset('storage/' . $news->thumbnail) : '' }}"
                                         style="display:block; object-fit:cover" />
                                 </div>
                                 <div class="col-12 mt-2">
@@ -209,7 +209,7 @@
 
         function saveImages() {
             var formData = new FormData();
-            var imgQuill = document.geElementById('#imageUpload').files;
+            var imgQuill = document.getElementById('#imageUpload').files;
             let files = $('#imageUpload').prop('quill_image');
             for (let i = 0; i < imgQuill.length; i++) {
                 formData.append('quill_image[]', imgQuill[i]);
@@ -245,8 +245,31 @@
             const reader = new FileReader();
             reader.readAsDataURL(image.files[0]);
 
-            reader.onload = function(event) {
-                imgPreview.src = event.target.result;
+            var fileName = document.getElementById("up_images").value;
+            var idxDot = fileName.lastIndexOf(".") + 1;
+            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+
+            const fileSize = image.files[0].size / 1024 / 1024; // in MiB
+
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right"
+            };
+
+            if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
+                const reader = new FileReader();
+                reader.readAsDataURL(image.files[0]);
+
+                reader.onload = function(event) {
+                    if (fileSize < 2) {
+                        imgPreview.src = event.target.result;
+                    } else {
+                        toastr.error("Ukuran gambar terlalu besar!");
+                    }
+                }
+            } else {
+                toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }
     </script>

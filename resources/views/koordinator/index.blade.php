@@ -43,7 +43,7 @@
                                                     {{ $item->title }}
                                                 </td>
                                                 <td>
-                                                    {{ $item->desc }}
+                                                    {!! $item->desc !!}
                                                 </td>
                                                 <td>
                                                     <a href="{{ route('koordinator.edit', $item->id) }}"

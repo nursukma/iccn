@@ -50,7 +50,7 @@ class MateriController extends Controller
         $materi_path = $request->file('materi')->store('materi', 'public');
 
         $data = Materi::create(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title, 'file' => $materi_path]);
-        return redirect('/materi');
+        return redirect('/materi')->with('message', 'Data berhasil ditambahkan!');
     }
 
     /**
@@ -96,17 +96,25 @@ class MateriController extends Controller
         if ($request->file('image') == null) {
             $image_path = $materi->image;
         } else {
+            $image_exist = 'storage/' . $materi->image;
+            if (file_exists($image_exist))
+                unlink($image_exist);
+
             $image_path = $request->file('image')->store('image', 'public');
         }
 
         if ($request->file('materi') == null) {
             $materi_path = $materi->file;
         } else {
+            $file_exist = 'storage/' . $materi->image;
+            if (file_exists($file_exist))
+                unlink($file_exist);
+
             $materi_path = $request->file('materi')->store('materi', 'public');
         }
 
         $data = $materi->update(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title, 'file' => $materi_path]);
-        return redirect('/materi');
+        return redirect('/materi')->with('message', 'Data berhasil diubah!');
     }
 
     /**
@@ -118,73 +126,6 @@ class MateriController extends Controller
     public function destroy(Materi $materi)
     {
         $materi->delete();
-        return back();
-    }
-
-    public function getMateri(Request $request)
-    {
-        ## Read value
-        $draw = $request->get('draw');
-        $start = $request->get("start");
-        $rowperpage = $request->get("length"); // Rows display per page
-
-        $columnIndex_arr = $request->get('order');
-        $columnName_arr = $request->get('columns');
-        $order_arr = $request->get('order');
-        $search_arr = $request->get('search');
-
-        $columnIndex = $columnIndex_arr[0]['column']; // Column index
-        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
-        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
-        $searchValue = $search_arr['value']; // Search value
-
-        // Total records
-        $totalRecords = Materi::select('count(*) as allcount')->count();
-        $filter = Materi::query();
-        $filter->when($searchValue, function ($query) use ($searchValue) {
-            return $query->where('title', 'like', '%' . $searchValue . '%');
-        });
-
-        $totalRecordswithFilter = $filter->count();
-
-        // Fetch records
-        $query = Materi::query();
-        $query->when($searchValue, function ($query) use ($searchValue) {
-            return $query->where('title', 'like', '%' . $searchValue . '%');
-        });
-        $records = $query->orderBy('id', 'desc')
-            ->skip($start)
-            ->take($rowperpage)
-            ->get();
-
-        $data_arr = array();
-
-        $no = $start + 1;
-        foreach ($records as $record) {
-            $id = $record->id;
-            $title = $record->title;
-            $desc = $record->desc;
-            $image = $record->image;
-            $materi = $record->file;
-
-            $data_arr[] = array(
-                "no" => $no++,
-                "id" => $id,
-                "title" => $title,
-                "desc" => $desc,
-                "image" => $image,
-                "file" => $materi
-            );
-        }
-
-        $response = array(
-            "draw" => intval($draw),
-            "iTotalRecords" => $totalRecords,
-            "iTotalDisplayRecords" => $totalRecordswithFilter,
-            "aaData" => $data_arr
-        );
-
-        echo json_encode($response);
-        exit;
+        return back()->with('message', 'Data berhasil dihapus!');
     }
 }

@@ -94,6 +94,10 @@ class AksiBersamaController extends Controller
         if ($request->file('image') == null) {
             $image_path = $aksiBersama->image;
         } else {
+            $image_exist = 'storage/' . $aksiBersama->image;
+            if (file_exists($image_exist))
+                unlink($image_exist);
+
             $image_path = $request->file('image')->store('image', 'public');
         }
 

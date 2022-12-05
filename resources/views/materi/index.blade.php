@@ -45,7 +45,7 @@
                                                     {{ $item->title }}
                                                 </td>
                                                 <td>
-                                                    {{ $item->desc }}
+                                                    {!! $item->desc !!}
                                                 </td>
                                                 <td>
                                                     @if ($item->file == '')

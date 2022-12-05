@@ -105,7 +105,16 @@ class NewsController extends Controller
             'penulis' => 'required'
         ]);
 
-        $image_path = $request->file('image')->store('image', 'public');
+        if ($request->file('image') == null) {
+            $image_path = $news->thumbnail;
+        } else {
+            $image_exist = 'storage/' . $news->thumbnail;
+            if (file_exists($image_exist))
+                unlink($image_exist);
+
+            $image_path = $request->file('image')->store('image', 'public');
+        }
+
         $data = $news->update(
             [
                 'desc' => $request->desc,
@@ -115,6 +124,7 @@ class NewsController extends Controller
             ]
         );
 
+        dd($data);
         return redirect('/news')->with('message', 'Data berhasil diubah!');
     }
 

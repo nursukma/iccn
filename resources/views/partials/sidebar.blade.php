@@ -93,7 +93,7 @@
          <li class="nav-heading">Pengaturan</li>
 
          <li class="nav-item">
-             <a class="nav-link collapsed " href="/data-anak">
+             <a class="nav-link collapsed " href="/setting">
                  <i class="bi bi-gear-fill"></i><span>Situs</span>
              </a>
          </li><!-- End Data Anak Nav -->

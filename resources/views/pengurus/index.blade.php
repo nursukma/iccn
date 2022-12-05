@@ -43,7 +43,7 @@
                                                     {{ $item->title }}
                                                 </td>
                                                 <td>
-                                                    {{ $item->desc }}
+                                                    {!! $item->desc !!}
                                                 </td>
                                                 <td>
                                                     <a href="{{ route('pengurus.edit', $item->id) }}"

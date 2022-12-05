@@ -406,15 +406,27 @@
             var idxDot = fileName.lastIndexOf(".") + 1;
             var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
 
+            const fileSize = image.files[0].size / 1024 / 1024; // in MiB
+
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right"
+            };
+
             if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
                 const reader = new FileReader();
                 reader.readAsDataURL(image.files[0]);
 
                 reader.onload = function(event) {
-                    imgPreview.src = event.target.result;
+                    if (fileSize < 2) {
+                        imgPreview.src = event.target.result;
+                    } else {
+                        toastr.error("Ukuran gambar terlalu besar!");
+                    }
                 }
             } else {
-                alert("Only jpg/jpeg and png files are allowed!");
+                toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }
 
@@ -422,19 +434,31 @@
             const image = document.querySelector('#edit_images');
             const imgPreview = document.querySelector('.edit-preview');
 
-            var fileName = document.getElementById("edit_images").value;
+            var fileName = document.getElementById("up_images").value;
             var idxDot = fileName.lastIndexOf(".") + 1;
             var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+
+            const fileSize = image.files[0].size / 1024 / 1024; // in MiB
+
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right"
+            };
 
             if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
                 const reader = new FileReader();
                 reader.readAsDataURL(image.files[0]);
 
                 reader.onload = function(event) {
-                    imgPreview.src = event.target.result;
+                    if (fileSize < 2) {
+                        imgPreview.src = event.target.result;
+                    } else {
+                        toastr.error("Ukuran gambar terlalu besar!");
+                    }
                 }
             } else {
-                alert("Only jpg/jpeg and png files are allowed!");
+                toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }
 
@@ -442,19 +466,31 @@
             const image = document.querySelector('#item_images');
             const imgPreview = document.querySelector('.item-preview');
 
-            var fileName = document.getElementById("item_images").value;
+            var fileName = document.getElementById("up_images").value;
             var idxDot = fileName.lastIndexOf(".") + 1;
             var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+
+            const fileSize = image.files[0].size / 1024 / 1024; // in MiB
+
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right"
+            };
 
             if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
                 const reader = new FileReader();
                 reader.readAsDataURL(image.files[0]);
 
                 reader.onload = function(event) {
-                    imgPreview.src = event.target.result;
+                    if (fileSize < 2) {
+                        imgPreview.src = event.target.result;
+                    } else {
+                        toastr.error("Ukuran gambar terlalu besar!");
+                    }
                 }
             } else {
-                alert("Only jpg/jpeg and png files are allowed!");
+                toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }
 
@@ -462,19 +498,31 @@
             const image = document.querySelector('#edit_item_images');
             const imgPreview = document.querySelector('.edit-item-preview');
 
-            var fileName = document.getElementById("edit_item_images").value;
+            var fileName = document.getElementById("up_images").value;
             var idxDot = fileName.lastIndexOf(".") + 1;
             var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+
+            const fileSize = image.files[0].size / 1024 / 1024; // in MiB
+
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right"
+            };
 
             if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
                 const reader = new FileReader();
                 reader.readAsDataURL(image.files[0]);
 
                 reader.onload = function(event) {
-                    imgPreview.src = event.target.result;
+                    if (fileSize < 2) {
+                        imgPreview.src = event.target.result;
+                    } else {
+                        toastr.error("Ukuran gambar terlalu besar!");
+                    }
                 }
             } else {
-                alert("Only jpg/jpeg and png files are allowed!");
+                toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }
     </script>

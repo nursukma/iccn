@@ -93,6 +93,10 @@ class StrukturController extends Controller
         if ($request->file('image') == null) {
             $data['image'] = $struktur->image;
         } else {
+            $image_exist = 'storage/' . $struktur->image;
+            if (file_exists($image_exist))
+                unlink($image_exist);
+
             $data['image'] = $request->file('image')->store('image', 'public');
         }
 

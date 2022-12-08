@@ -38,18 +38,23 @@ class SliderController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->file('image') != null) {
-            $request->validate([
-                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-                'link' => 'required',
-                'title' => 'required'
-            ]);
+        if ($request->hasFile('image')) {
+            $formatFile = $request->file('image')->getClientOriginalExtension();
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+                $request->validate([
+                    'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                    'link' => 'required',
+                    'title' => 'required'
+                ]);
 
-            $image_path = $request->file('image')->store('image', 'public');
+                $image_path = $request->file('image')->store('image', 'public');
 
-            $data = Slider::create(['link' => $request->link, 'image' => $image_path, 'title' =>  $request->title]);
-            // dd($data);
-            return redirect('/sliders')->with('message', 'Data Berhasil ditambahkan!');
+                Slider::create(['link' => $request->link, 'image' => $image_path, 'title' =>  $request->title]);
+
+                return redirect('/sliders')->with('message', 'Data Berhasil ditambahkan!');
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
         }
         return back()->with('warning', 'Silakan unggah gambar!');
     }
@@ -86,24 +91,31 @@ class SliderController extends Controller
      */
     public function update(Request $request, Slider $slider)
     {
-        $request->validate([
-            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'link' => 'required',
-            'title' => 'required'
-        ]);
+        if ($request->hasFile('image')) {
+            $formatFile = $request->file('image')->getClientOriginalExtension();
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+                $request->validate([
+                    'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+                    'link' => 'required',
+                    'title' => 'required'
+                ]);
 
-        if ($request->file('image') == null) {
-            $image_path = $slider->image;
+                $image_exist = 'storage/' . $slider->image;
+                if (file_exists($image_exist))
+                    unlink($image_exist);
+
+                $image_path = $request->file('image')->store('image', 'public');
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
         } else {
-            $image_exist = 'storage/' . $slider->image;
-            if (file_exists($image_exist))
-                unlink($image_exist);
-
-            $image_path = $request->file('image')->store('image', 'public');
+            $image_path = $slider->image;
+            $request->validate([
+                'link' => 'required',
+                'title' => 'required'
+            ]);
         }
-
-        $data = $slider->update(['link' => $request->link, 'image' => $image_path, 'title' =>  $request->title]);
-        // dd($data);
+        $slider->update(['link' => $request->link, 'image' => $image_path, 'title' =>  $request->title]);
         return redirect('/sliders')->with('message', 'Data berhasil diubah!');
     }
 

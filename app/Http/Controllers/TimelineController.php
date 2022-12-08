@@ -37,16 +37,21 @@ class TimelineController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->file('image') != null) {
-            $request->validate([
-                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-                'title' => 'required'
-            ]);
+        if ($request->hasFile('image')) {
+            $formatFile = $request->file('image')->getClientOriginalExtension();
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+                $request->validate([
+                    'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                    'title' => 'required'
+                ]);
 
-            $image_path = $request->file('image')->store('image', 'public');
+                $image_path = $request->file('image')->store('image', 'public');
 
-            $data = Timeline::create(['image' => $image_path, 'title' =>  $request->title]);
-            return redirect('/timeline')->with('message', 'Data berhasil ditambahkan!');
+                Timeline::create(['image' => $image_path, 'title' =>  $request->title]);
+                return redirect('/timeline')->with('message', 'Data berhasil ditambahkan!');
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
         }
         return back()->with('warning', 'Silakan unggah gambar!');
     }
@@ -83,23 +88,27 @@ class TimelineController extends Controller
      */
     public function update(Request $request, Timeline $timeline)
     {
-        $request->validate([
-            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'title' => 'required'
-        ]);
+        if ($request->hasFile('image')) {
+            $formatFile = $request->file('image')->getClientOriginalExtension();
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+                $request->validate([
+                    'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+                    'title' => 'required'
+                ]);
 
-        if ($request->file('image') == null) {
-            $image_path = $timeline->image;
+                $image_exist = 'storage/' . $timeline->image;
+                if (file_exists($image_exist))
+                    unlink($image_exist);
+
+                $image_path = $request->file('image')->store('image', 'public');
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
         } else {
-            $image_exist = 'storage/' . $timeline->image;
-            if (file_exists($image_exist))
-                unlink($image_exist);
-
-            $image_path = $request->file('image')->store('image', 'public');
+            $image_path = $timeline->image;
         }
 
-        $data = $timeline->update(['image' => $image_path, 'title' =>  $request->title]);
-        // dd($data);
+        $timeline->update(['image' => $image_path, 'title' =>  $request->title]);
         return redirect('/timeline')->with('message', 'Data berhasil diubah!');
     }
 

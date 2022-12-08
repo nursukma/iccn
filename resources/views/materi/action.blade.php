@@ -52,11 +52,11 @@
                                     <label class="btn btn-primary mt-2">
                                         Upload Images
                                         <input type="file" name="image" class="upload__inputfile" id="up_images"
-                                            onchange="previewImage()">
+                                            onchange="previewImage()" accept="image/*">
                                     </label>
                                     <img class="img-preview img-fluid col-sm-3 mt-2"
                                         src="{{ $action == 'edit' ? asset('storage/' . $materi->image) : '' }}"
-                                        style="display:block; object-fit:cover; margin: 0 -15px" />
+                                        style="display:block; object-fit:cover; " />
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label class="btn btn-primary mt-2">
@@ -197,13 +197,14 @@
                 reader.readAsDataURL(image.files[0]);
 
                 reader.onload = function(event) {
-                    if (fileSize < 2) {
+                    if (fileSize < 3) {
                         imgPreview.src = event.target.result;
                     } else {
                         toastr.error("Ukuran gambar terlalu besar!");
                     }
                 }
             } else {
+                imgPreview.style.display = 'none';
                 toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }
@@ -214,8 +215,6 @@
 
             imgPreview.style.display = 'block';
             imgPreview.style.objectFit = 'cover';
-
-            imgPreview.src = '/build/assets/img/file-ada.svg';
 
             var fileName = document.getElementById("up_file").value;
             var idxDot = fileName.lastIndexOf(".") + 1;
@@ -234,13 +233,14 @@
                 reader.readAsDataURL(image.files[0]);
 
                 reader.onload = function(event) {
-                    if (fileSize < 2) {
-                        imgPreview.src = event.target.result;
+                    if (fileSize < 5) {
+                        imgPreview.src = '/build/assets/img/file-ada.svg';
                     } else {
                         toastr.error("Ukuran berkas terlalu besar!");
                     }
                 }
             } else {
+                imgPreview.style.display = 'none';
                 toastr.warning("Hanya boleh mengunggah berkas dokumen!");
             }
         }

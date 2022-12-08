@@ -153,11 +153,19 @@
                                 <div class="modal-body">
                                     <div class="col-12">
                                         <label for="link" class="form-label">Judul</label>
-                                        <input type="text" class="form-control" id="item_title" name="title" required>
+                                        <div class="input-group has-validation">
+                                            <input type="text" class="form-control" id="item_title" name="title"
+                                                required>
+                                            <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                        </div>
                                     </div>
                                     <div class="col-12">
                                         <label for="link" class="form-label">Pranala Pendukung</label>
-                                        <input type="text" class="form-control" id="item_link" name="link" required>
+                                        <div class="input-group has-validation">
+                                            <input type="text" class="form-control" id="item_link" name="link"
+                                                required>
+                                            <div class="invalid-feedback">Harap isi bidang ini!</div>
+                                        </div>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="btn btn-primary mt-2">
@@ -437,13 +445,14 @@
                 reader.readAsDataURL(image.files[0]);
 
                 reader.onload = function(event) {
-                    if (fileSize < 2) {
+                    if (fileSize < 3) {
                         imgPreview.src = event.target.result;
                     } else {
                         toastr.error("Ukuran gambar terlalu besar!");
                     }
                 }
             } else {
+                imgPreview.style.display = 'none';
                 toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }
@@ -452,7 +461,7 @@
             const image = document.querySelector('#edit_images');
             const imgPreview = document.querySelector('.edit-preview');
 
-            var fileName = document.getElementById("up_images").value;
+            var fileName = document.getElementById("edit_images").value;
             var idxDot = fileName.lastIndexOf(".") + 1;
             var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
 
@@ -469,13 +478,14 @@
                 reader.readAsDataURL(image.files[0]);
 
                 reader.onload = function(event) {
-                    if (fileSize < 2) {
+                    if (fileSize < 3) {
                         imgPreview.src = event.target.result;
                     } else {
                         toastr.error("Ukuran gambar terlalu besar!");
                     }
                 }
             } else {
+                imgPreview.style.display = 'none';
                 toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }
@@ -484,7 +494,7 @@
             const image = document.querySelector('#item_images');
             const imgPreview = document.querySelector('.item-preview');
 
-            var fileName = document.getElementById("up_images").value;
+            var fileName = document.getElementById("item_images").value;
             var idxDot = fileName.lastIndexOf(".") + 1;
             var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
 
@@ -501,13 +511,14 @@
                 reader.readAsDataURL(image.files[0]);
 
                 reader.onload = function(event) {
-                    if (fileSize < 2) {
+                    if (fileSize < 3) {
                         imgPreview.src = event.target.result;
                     } else {
                         toastr.error("Ukuran gambar terlalu besar!");
                     }
                 }
             } else {
+                imgPreview.style.display = 'none';
                 toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }
@@ -516,7 +527,7 @@
             const image = document.querySelector('#edit_item_images');
             const imgPreview = document.querySelector('.edit-item-preview');
 
-            var fileName = document.getElementById("up_images").value;
+            var fileName = document.getElementById("edit_item_images").value;
             var idxDot = fileName.lastIndexOf(".") + 1;
             var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
 
@@ -533,13 +544,14 @@
                 reader.readAsDataURL(image.files[0]);
 
                 reader.onload = function(event) {
-                    if (fileSize < 2) {
+                    if (fileSize < 3) {
                         imgPreview.src = event.target.result;
                     } else {
                         toastr.error("Ukuran gambar terlalu besar!");
                     }
                 }
             } else {
+                imgPreview.style.display = 'none';
                 toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }

@@ -114,9 +114,10 @@
                                             <label class="btn btn-primary mt-2">
                                                 Upload Images
                                                 <input type="file" name="image" class="upload__inputfile"
-                                                    id="up_images" onchange="previewImage()">
+                                                    id="up_images" onchange="previewImage()" accept="image/*">
                                             </label>
-                                            <img class="img-preview img-fluid col-sm-5"
+                                            <img class="img-preview
+                                                    img-fluid col-sm-5"
                                                 style="display:block; object-fit:cover; margin-top:10px" />
                                         </div>
                                     </div>
@@ -265,14 +266,32 @@
             const image = document.querySelector('#up_images');
             const imgPreview = document.querySelector('.img-preview');
 
-            imgPreview.style.display = 'block';
-            imgPreview.style.objectFit = 'cover';
+            var fileName = document.getElementById("up_images").value;
+            var idxDot = fileName.lastIndexOf(".") + 1;
+            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
 
-            const reader = new FileReader();
-            reader.readAsDataURL(image.files[0]);
+            const fileSize = image.files[0].size / 1024 / 1024; // in MiB
 
-            reader.onload = function(event) {
-                imgPreview.src = event.target.result;
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right"
+            };
+
+            if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
+                const reader = new FileReader();
+                reader.readAsDataURL(image.files[0]);
+
+                reader.onload = function(event) {
+                    if (fileSize < 2) {
+                        imgPreview.src = event.target.result;
+                    } else {
+                        toastr.error("Ukuran gambar terlalu besar!");
+                    }
+                }
+            } else {
+                imgPreview.style.display = 'none';
+                toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }
 
@@ -284,15 +303,28 @@
             var idxDot = fileName.lastIndexOf(".") + 1;
             var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
 
+            const fileSize = image.files[0].size / 1024 / 1024; // in MiB
+
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right"
+            };
+
             if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
                 const reader = new FileReader();
                 reader.readAsDataURL(image.files[0]);
 
                 reader.onload = function(event) {
-                    imgPreview.src = event.target.result;
+                    if (fileSize < 2) {
+                        imgPreview.src = event.target.result;
+                    } else {
+                        toastr.error("Ukuran gambar terlalu besar!");
+                    }
                 }
             } else {
-                alert("Only jpg/jpeg and png files are allowed!");
+                imgPreview.style.display = 'none';
+                toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }
     </script>

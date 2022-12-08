@@ -412,10 +412,6 @@
             var idxDot = fileName.lastIndexOf(".") + 1;
             var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
 
-            var fileName = document.getElementById("up_images").value;
-            var idxDot = fileName.lastIndexOf(".") + 1;
-            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
-
             const fileSize = image.files[0].size / 1024 / 1024; // in MiB
 
             toastr.options = {
@@ -436,6 +432,7 @@
                     }
                 }
             } else {
+                imgPreview.style.display = 'none';
                 toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }
@@ -444,7 +441,7 @@
             const image = document.querySelector('#edit_images');
             const imgPreview = document.querySelector('.edit-preview');
 
-            var fileName = document.getElementById("up_images").value;
+            var fileName = document.getElementById("edit_images").value;
             var idxDot = fileName.lastIndexOf(".") + 1;
             var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
 
@@ -468,6 +465,7 @@
                     }
                 }
             } else {
+                imgPreview.style.display = 'none';
                 toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }

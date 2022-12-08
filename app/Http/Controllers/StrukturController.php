@@ -26,7 +26,13 @@ class StrukturController extends Controller
     public function create()
     {
         $action = 'add';
-        return view('struktur.action', compact('action'));
+        $data = Struktur::first();
+        // if ($data) {
+        //     return view('struktur.action', compact('data', 'action'));
+        // } else {
+        //     return view('struktur.action', compact('action'));
+        // }
+        return view('struktur.action', compact('data', 'action'));
     }
 
     /**
@@ -37,18 +43,23 @@ class StrukturController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->file('image') != null) {
-            $data = $request->validate([
-                'nama' => 'required',
-                'jabatan' => 'required',
-                'periode' => 'required',
-                'jabatan' => 'required',
-                'image' =>  'image|mimes:jpeg,png,jpg|max:2048'
-            ]);
-            $data['image'] = $request->file('image')->store('image', 'public');
+        if ($request->hasFile('image')) {
+            $formatFile = $request->file('image')->getClientOriginalExtension();
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+                $data = $request->validate([
+                    'nama' => 'required',
+                    'jabatan' => 'required',
+                    'periode' => 'required',
+                    'jabatan' => 'required',
+                    'image' =>  'image|mimes:jpeg,png,jpg|max:2048'
+                ]);
+                $data['image'] = $request->file('image')->store('image', 'public');
 
-            Struktur::create($data);
-            return redirect('/struktur')->with('message', 'Data berhasil ditambahkan!');
+                Struktur::create($data);
+                return redirect('/struktur')->with('message', 'Data berhasil ditambahkan!');
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
         }
         return back()->with('warning', 'Silakan unggah gambar!');
     }
@@ -85,22 +96,27 @@ class StrukturController extends Controller
      */
     public function update(Request $request, Struktur $struktur)
     {
-        $data = $request->validate([
-            'nama' => 'required',
-            'jabatan' => 'required',
-            'periode' => 'required',
-            'jabatan' => 'required',
-            'image' =>  'image|mimes:jpeg,png,jpg|max:2048'
-        ]);
+        if ($request->hasFile('image')) {
+            $formatFile = $request->file('image')->getClientOriginalExtension();
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+                $data = $request->validate([
+                    'nama' => 'required',
+                    'jabatan' => 'required',
+                    'periode' => 'required',
+                    'jabatan' => 'required',
+                    'image' =>  'image|mimes:jpeg,png,jpg|max:2048'
+                ]);
 
-        if ($request->file('image') == null) {
-            $data['image'] = $struktur->image;
+                $image_exist = 'storage/' . $struktur->image;
+                if (file_exists($image_exist))
+                    unlink($image_exist);
+
+                $data['image'] = $request->file('image')->store('image', 'public');
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
         } else {
-            $image_exist = 'storage/' . $struktur->image;
-            if (file_exists($image_exist))
-                unlink($image_exist);
-
-            $data['image'] = $request->file('image')->store('image', 'public');
+            $data['image'] = $struktur->image;
         }
 
         if ($struktur->periode != $request->periode) {
@@ -111,7 +127,6 @@ class StrukturController extends Controller
         } else {
             $struktur->update($data);
         }
-
 
         return redirect('/struktur')->with('message', 'Data berhasil ditambahkan!');
     }

@@ -37,16 +37,22 @@ class AboutController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->file('image') != null) {
-            $request->validate([
-                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-                'title' => 'required'
-            ]);
+        if ($request->hasFile('image')) {
+            $formatFile = $request->file('image')->getClientOriginalExtension();
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
 
-            $image_path = $request->file('image')->store('image', 'public');
+                $request->validate([
+                    'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                    'title' => 'required'
+                ]);
 
-            About::create(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title]);
-            return redirect('/about')->with('message', 'Data berhasil ditambahkan!');
+                $image_path = $request->file('image')->store('image', 'public');
+
+                About::create(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title]);
+                return redirect('/about')->with('message', 'Data berhasil ditambahkan!');
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
         }
         return back()->with('warning', 'Silakan unggah gambar!');
     }
@@ -83,22 +89,31 @@ class AboutController extends Controller
      */
     public function update(Request $request, About $about)
     {
-        $request->validate([
-            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'title' => 'required'
-        ]);
+        if ($request->hasFile('image')) {
+            $formatFile = $request->file('image')->getClientOriginalExtension();
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+                $request->validate([
+                    'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+                    'title' => 'required'
+                ]);
 
-        if ($request->file('image') == null) {
-            $image_path = $about->image;
+                $image_exist = 'storage/' . $about->image;
+                if (file_exists($image_exist))
+                    unlink($image_exist);
+
+                $image_path = $request->file('image')->store('image', 'public');
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
         } else {
-            $image_exist = 'storage/' . $about->image;
-            if (file_exists($image_exist))
-                unlink($image_exist);
+            $request->validate([
+                'title' => 'required'
+            ]);
 
-            $image_path = $request->file('image')->store('image', 'public');
+            $image_path = $about->image;
         }
 
-        $data = $about->update(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title]);
+        $about->update(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title]);
         return redirect('/about')->with('message', 'Data berhasil diubah!');
     }
 

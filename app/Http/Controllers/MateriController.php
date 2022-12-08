@@ -37,21 +37,28 @@ class MateriController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->file('image') != null || $request->file('materi') != null) {
-            $request->validate([
-                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-                'desc' => 'required',
-                'title' => 'required',
-                'materi' =>  'required|mimes:docx,doc,pdf|max:4096'
-            ]);
+        if ($request->hasFile('image') && $request->hasFile('materi')) {
+            $formatImage = $request->file('image')->getClientOriginalExtension();
+            $formatFile = $request->file('materi')->getClientOriginalExtension();
 
-            $image_path = $request->file('image')->store('image', 'public');
-            $materi_path = $request->file('materi')->store('materi', 'public');
+            if (($formatImage == 'png' || $formatImage == 'jpg' || $formatImage == 'jpeg') && ($formatFile == 'doc' || $formatFile == 'docx' || $formatFile == 'pdf')) {
+                $request->validate([
+                    'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                    'desc' => 'required',
+                    'title' => 'required',
+                    'materi' =>  'required|mimes:docx,doc,pdf|max:4096'
+                ]);
 
-            Materi::create(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title, 'file' => $materi_path]);
-            return redirect('/materi')->with('message', 'Data berhasil ditambahkan!');
+                $image_path = $request->file('image')->store('image', 'public');
+                $materi_path = $request->file('materi')->store('materi', 'public');
+
+                Materi::create(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title, 'file' => $materi_path]);
+                return redirect('/materi')->with('message', 'Data berhasil ditambahkan!');
+            } else {
+                return back()->with('error', 'Format gambar/materi yang diunggah tidak sesuai!');
+            }
         }
-        return back()->with('warning', 'Silakan unggah gambar!');
+        return back()->with('warning', 'Silakan unggah gambar/materi!');
     }
 
     /**
@@ -86,12 +93,27 @@ class MateriController extends Controller
      */
     public function update(Request $request, Materi $materi)
     {
-        $request->validate([
-            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'desc' => 'required',
-            'title' => 'required',
-            'materi' => 'mimes:docx, doc, pdf|max:4096'
-        ]);
+        if ($request->hasFile('image')) {
+            $formatImage = $request->file('image')->getClientOriginalExtension();
+            if ($formatImage == 'png' || $formatImage == 'jpg' || $formatImage == 'jpeg') {
+                $request->validate([
+                    'image' => 'image|mimes:jpeg,png,jpg|max:2048'
+                ]);
+            } else {
+                return back()->with('error', 'Format gambar/materi yang diunggah tidak sesuai!');
+            }
+        }
+
+        if ($request->hasFile('materi')) {
+            $formatFile = $request->file('materi')->getClientOriginalExtension();
+            if ($formatFile == 'doc' || $formatFile == 'docx' || $formatFile == 'pdf') {
+                $request->validate([
+                    'materi' => 'mimes:docx, doc, pdf|max:4096'
+                ]);
+            } else {
+                return back()->with('error', 'Format gambar/materi yang diunggah tidak sesuai!');
+            }
+        }
 
         if ($request->file('image') == null) {
             $image_path = $materi->image;

@@ -40,31 +40,36 @@ class NewsController extends Controller
         // foreach (request()->file('quill_image') as $file) {
         //     dd($file)
         // }
-        if ($request->file('image') != null) {
-            $request->validate([
-                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-                'desc' => 'required',
-                'title' => 'required',
-                'penulis' => 'required'
-            ]);
+        if ($request->hasFile('image')) {
+            $formatFile = $request->file('image')->getClientOriginalExtension();
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+                $request->validate([
+                    'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                    'desc' => 'required',
+                    'title' => 'required',
+                    'penulis' => 'required'
+                ]);
 
-            $image_path = $request->file('image')->store('image', 'public');
+                $image_path = $request->file('image')->store('image', 'public');
 
-            // if (request()->has('quill_image')) {
-            //     foreach (request()->file('quill_image') as $file) {
-            //         $file->store('news', 'public');
-            //     }
-            // }
+                // if (request()->has('quill_image')) {
+                //     foreach (request()->file('quill_image') as $file) {
+                //         $file->store('news', 'public');
+                //     }
+                // }
 
-            $data = News::create(
-                [
-                    'desc' => $request->desc,
-                    'thumbnail' => $image_path,
-                    'title' =>  $request->title,
-                    'penulis' => $request->penulis
-                ]
-            );
-            return redirect('/news')->with('message', 'Data berhasil ditambahkan!');
+                $data = News::create(
+                    [
+                        'desc' => $request->desc,
+                        'thumbnail' => $image_path,
+                        'title' =>  $request->title,
+                        'penulis' => $request->penulis
+                    ]
+                );
+                return redirect('/news')->with('message', 'Data berhasil ditambahkan!');
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
         }
         return back()->with('warning', 'Silakan unggah gambar!');
     }
@@ -101,29 +106,39 @@ class NewsController extends Controller
      */
     public function update(Request $request, News $news)
     {
-        $data = $request->validate([
-            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'desc' => 'required',
-            'title' => 'required',
-            'penulis' => 'required'
-        ]);
+        if ($request->hasFile('image')) {
+            $formatFile = $request->file('image')->getClientOriginalExtension();
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+                $data = $request->validate([
+                    'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+                    'desc' => 'required',
+                    'title' => 'required',
+                    'penulis' => 'required'
+                ]);
 
-        if ($request->file('image') == null) {
-            $image_path = $news->thumbnail;
+                $image_exist = 'storage/' . $news->thumbnail;
+                if (file_exists($image_exist))
+                    unlink($image_exist);
+
+                $image_path = $request->file('image')->store('image', 'public');
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
         } else {
-            $image_exist = 'storage/' . $news->thumbnail;
-            if (file_exists($image_exist))
-                unlink($image_exist);
-
-            $image_path = $request->file('image')->store('image', 'public');
+            $data = $request->validate([
+                'desc' => 'required',
+                'title' => 'required',
+                'penulis' => 'required'
+            ]);
+            $image_path = $news->thumbnail;
         }
 
         $news->update(
             [
-                'desc' => $request->desc,
+                'desc' => $data['desc'],
                 'thumbnail' => $image_path,
-                'title' =>  $request->title,
-                'penulis' => $request->penulis
+                'title' =>  $data['title'],
+                'penulis' => $data['penulis']
             ]
         );
 

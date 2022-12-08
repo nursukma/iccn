@@ -62,7 +62,8 @@
                                         <label for="periode">Periode</label>
                                         <div class="input-group has-validation">
                                             <input type="text" class="form-control" id="periode" name="periode"
-                                                value="{{ $action == 'edit' ? $struktur->periode : '' }}" required>
+                                                value="{{ $action == 'edit' ? $struktur->periode : (!is_null($data) ? $data->periode : '') }}"
+                                                required>
                                             <div class="invalid-feedback">Harap isi bidang ini!</div>
                                         </div>
                                     </div>
@@ -70,7 +71,7 @@
                                         <label class="btn btn-primary">
                                             Upload Images
                                             <input type="file" name="image" class="upload__inputfile" id="up_images"
-                                                onchange="previewImage()">
+                                                onchange="previewImage()" accept="image/*">
                                         </label>
                                         <img class="img-preview img-fluid col-sm-5 mt-2"
                                             src="{{ $action == 'edit' ? asset('storage/' . $struktur->image) : '' }}"
@@ -119,13 +120,14 @@
                 reader.readAsDataURL(image.files[0]);
 
                 reader.onload = function(event) {
-                    if (fileSize < 2) {
+                    if (fileSize < 3) {
                         imgPreview.src = event.target.result;
                     } else {
                         toastr.error("Ukuran gambar terlalu besar!");
                     }
                 }
             } else {
+                imgPreview.style.display = 'none';
                 toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }

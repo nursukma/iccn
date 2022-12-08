@@ -37,17 +37,22 @@ class PrinsipKotaController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->file('image') != null) {
-            $request->validate([
-                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-                'desc' => 'required',
-                'title' => 'required'
-            ]);
+        if ($request->hasFile('image')) {
+            $formatFile = $request->file('image')->getClientOriginalExtension();
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+                $request->validate([
+                    'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                    'desc' => 'required',
+                    'title' => 'required'
+                ]);
 
-            $image_path = $request->file('image')->store('image', 'public');
+                $image_path = $request->file('image')->store('image', 'public');
 
-            PrinsipKota::create(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title]);
-            return redirect('/prinsip-kota');
+                PrinsipKota::create(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title]);
+                return redirect('/prinsip-kota')->with('message', 'Data berhasil ditambahkan!');
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
         }
         return back()->with('warning', 'Silakan unggah gambar!');
     }
@@ -72,7 +77,7 @@ class PrinsipKotaController extends Controller
     public function edit($id)
     {
         $action = 'edit';
-        $prinsip = PrinsipKota::findOrFail($id)->first();
+        $prinsip = PrinsipKota::findOrFail($id);
         return view('prinsip_kota.action', compact('action', 'prinsip'));
     }
 
@@ -85,27 +90,36 @@ class PrinsipKotaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $prinsip = PrinsipKota::findOrFail($id)->first();
+        $prinsip = PrinsipKota::findOrFail($id);
 
-        $request->validate([
-            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'desc' => 'required',
-            'title' => 'required'
-        ]);
+        if ($request->hasFile('image')) {
+            $formatFile = $request->file('image')->getClientOriginalExtension();
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+                $request->validate([
+                    'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+                    'desc' => 'required',
+                    'title' => 'required'
+                ]);
 
-        if ($request->file('image') == null) {
-            $image_path = $prinsip->image;
+                $image_exist = 'storage/' . $prinsip->image;
+                if (file_exists($image_exist))
+                    unlink($image_exist);
+
+                $image_path = $request->file('image')->store('image', 'public');
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
         } else {
-            $image_exist = 'storage/' . $prinsip->image;
-            if (file_exists($image_exist))
-                unlink($image_exist);
-
-            $image_path = $request->file('image')->store('image', 'public');
+            $request->validate([
+                'desc' => 'required',
+                'title' => 'required'
+            ]);
+            $image_path = $prinsip->image;
         }
 
-        $data = $prinsip->update(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title]);
-        // dd($data);
-        return redirect('/prinsip-kota');
+        $prinsip->update(['desc' => $request->desc, 'image' => $image_path, 'title' =>  $request->title]);
+
+        return redirect('/prinsip-kota')->with('message', 'Data berhasil diubah!');
     }
 
     /**
@@ -116,8 +130,8 @@ class PrinsipKotaController extends Controller
      */
     public function destroy($id)
     {
-        $prinsip = PrinsipKota::findOrFail($id)->first();
+        $prinsip = PrinsipKota::findOrFail($id);
         $prinsip->delete();
-        return back();
+        return back()->with('message', 'Data berhasil dihapus!');
     }
 }

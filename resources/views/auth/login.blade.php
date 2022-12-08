@@ -87,18 +87,17 @@
 
                                         <div class="col-12">
                                             <label for="yourPassword" class="form-label">Kata Sandi</label>
-                                            <input type="password" name="password" class="form-control"
-                                                id="yourPassword" required>
-                                            <div class="invalid-feedback">Harap isi bidang ini!</div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="remember"
-                                                    value="true" id="rememberMe">
-                                                <label class="form-check-label" for="rememberMe">Remember me</label>
+                                            <div class="input-group" id="show_hide_password">
+                                                <input type="password" name="password" class="form-control"
+                                                    id="yourPassword" required>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text" id="inputGroupPrepend">
+                                                        <i class="bi bi-eye-slash" aria-hidden="true"></i></span>
+                                                </div>
+                                                <div class="invalid-feedback">Harap isi bidang ini!</div>
                                             </div>
                                         </div>
+
                                         <div class="col-12">
                                             <button class="btn btn-primary w-100" type="submit">Login</button>
                                         </div>
@@ -149,6 +148,23 @@
             };
             toastr.error("{{ session('error') }}");
         @endif
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $("#show_hide_password span").on('click', function(event) {
+                event.preventDefault();
+                if ($('#show_hide_password input').attr("type") == "text") {
+                    $('#show_hide_password input').attr('type', 'password');
+                    $('#show_hide_password i').addClass("bi bi-eye-slash");
+                    $('#show_hide_password i').removeClass("bi bi-eye");
+                } else if ($('#show_hide_password input').attr("type") == "password") {
+                    $('#show_hide_password input').attr('type', 'text');
+                    $('#show_hide_password i').removeClass("bi bi-eye-slash");
+                    $('#show_hide_password i').addClass("bi bi-eye");
+                }
+            });
+        });
     </script>
 
 </body>

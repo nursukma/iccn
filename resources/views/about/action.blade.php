@@ -177,13 +177,14 @@
                 reader.readAsDataURL(image.files[0]);
 
                 reader.onload = function(event) {
-                    if (fileSize < 2) {
+                    if (fileSize < 3) {
                         imgPreview.src = event.target.result;
                     } else {
                         toastr.error("Ukuran gambar terlalu besar!");
                     }
                 }
             } else {
+                imgPreview.style.display = 'none';
                 toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }

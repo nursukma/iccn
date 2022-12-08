@@ -67,7 +67,7 @@
                                     <label class="btn btn-primary mt-2">
                                         Upload Images
                                         <input type="file" name="image" class="upload__inputfile" id="up_images"
-                                            onchange="previewImage()">
+                                            onchange="previewImage()" accept="image/*">
                                     </label>
                                     <img class="img-preview img-fluid col-sm-5 mt-2"
                                         src="{{ $action == 'edit' ? asset('storage/' . $news->thumbnail) : '' }}"
@@ -82,11 +82,11 @@
                                     <div id="editor" class="form-control" style="height: 300px">
 
                                     </div>
-                                    <div class="custom-file d-none">
+                                    {{-- <div class="custom-file d-none">
                                         <input ref="image" type="file" name="quill_image[]" class="custom-file-input"
                                             id="imageUpload" aria-describedby="imageUploadAddon">
                                         <label class="custom-file-label" for="imageUpload">Choose file</label>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="col-12 mt-3">
                                     <button type="submit" class="btn btn-success">Simpan</button>
@@ -169,72 +169,72 @@
             // saveImages();
         }
 
-        function selectLocalImage() {
-            const image = document.querySelector('#imageUpload');
-            image.click();
+        // function selectLocalImage() {
+        //     const image = document.querySelector('#imageUpload');
+        //     image.click();
 
-            const range = quill.getSelection();
+        //     const range = quill.getSelection();
 
-            // Listen upload local image and save to server
-            image.onchange = () => {
-                const file = image.files[0];
+        //     // Listen upload local image and save to server
+        //     image.onchange = () => {
+        //         const file = image.files[0];
 
-                // file type is only image.
-                if (/^image\//.test(file.type)) {
-                    upimage(file)
-                } else {
-                    console.warn('You could only upload images.');
-                }
-            };
-        }
+        //         // file type is only image.
+        //         if (/^image\//.test(file.type)) {
+        //             upimage(file)
+        //         } else {
+        //             console.warn('You could only upload images.');
+        //         }
+        //     };
+        // }
 
-        function upimage(file) {
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-            let self = this;
-            reader.onloadend = function() {
-                let base64data = reader.result;
+        // function upimage(file) {
+        //     let reader = new FileReader();
+        //     reader.readAsDataURL(file);
+        //     let self = this;
+        //     reader.onloadend = function() {
+        //         let base64data = reader.result;
 
-                //  Get cursor location
-                let length = quill.getSelection().index;
+        //         //  Get cursor location
+        //         let length = quill.getSelection().index;
 
-                // Insert image at cursor location
-                quill.insertEmbed(length, 'image', base64data);
+        //         // Insert image at cursor location
+        //         quill.insertEmbed(length, 'image', base64data);
 
-                // Set cursor to the end
-                quill.setSelection(length + 1);
-            }
-        }
+        //         // Set cursor to the end
+        //         quill.setSelection(length + 1);
+        //     }
+        // }
 
-        // quill editor add image handler
-        var toolbar = quill.getModule('toolbar');
-        toolbar.addHandler('image', selectLocalImage);
+        // // quill editor add image handler
+        // var toolbar = quill.getModule('toolbar');
+        // toolbar.addHandler('image', selectLocalImage);
 
-        function saveImages() {
-            var formData = new FormData();
-            var imgQuill = document.getElementById('#imageUpload').files;
-            let files = $('#imageUpload').prop('quill_image');
-            for (let i = 0; i < imgQuill.length; i++) {
-                formData.append('quill_image[]', imgQuill[i]);
-            }
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('news.upImages') }}",
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: (data) => {
+        // function saveImages() {
+        //     var formData = new FormData();
+        //     var imgQuill = document.getElementById('#imageUpload').files;
+        //     let files = $('#imageUpload').prop('quill_image');
+        //     for (let i = 0; i < imgQuill.length; i++) {
+        //         formData.append('quill_image[]', imgQuill[i]);
+        //     }
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: "{{ route('news.upImages') }}",
+        //         headers: {
+        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //         },
+        //         data: formData,
+        //         cache: false,
+        //         contentType: false,
+        //         processData: false,
+        //         success: (data) => {
 
-                },
-                error: function(data) {
-                    console.log(data);
-                }
-            });
-        }
+        //         },
+        //         error: function(data) {
+        //             console.log(data);
+        //         }
+        //     });
+        // }
     </script>
 
     <script>
@@ -265,13 +265,14 @@
                 reader.readAsDataURL(image.files[0]);
 
                 reader.onload = function(event) {
-                    if (fileSize < 2) {
+                    if (fileSize < 3) {
                         imgPreview.src = event.target.result;
                     } else {
                         toastr.error("Ukuran gambar terlalu besar!");
                     }
                 }
             } else {
+                imgPreview.style.display = 'none';
                 toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }

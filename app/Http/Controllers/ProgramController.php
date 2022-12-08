@@ -122,16 +122,21 @@ class ProgramController extends Controller
 
     public function storeItem(Request $request, $id)
     {
-        if ($request->file('item_image') != null) {
-            $dataItem = $request->only(self::itemData);
+        if ($request->hasFile('item_image')) {
+            $formatFile = $request->file('item_image')->getClientOriginalExtension();
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+                $dataItem = $request->only(self::itemData);
 
-            $imageItem_path = $request->file('item_image')->store('image', 'public');
-            $dataItem['image'] = $imageItem_path;
-            $dataItem['program_id'] = $id;
+                $imageItem_path = $request->file('item_image')->store('image', 'public');
+                $dataItem['image'] = $imageItem_path;
+                $dataItem['program_id'] = $id;
 
-            $data = ProgramItem::create(['title' => $dataItem['title'], 'link' => $dataItem['link'], 'image' => $dataItem['image'], 'program_id' => $id]);
-            // dd($dataItem);
-            return redirect('/program')->with('message', 'Data berhasil ditambahkan!');
+                ProgramItem::create(['title' => $dataItem['title'], 'link' => $dataItem['link'], 'image' => $dataItem['image'], 'program_id' => $id]);
+
+                return redirect('/program')->with('message', 'Data berhasil ditambahkan!');
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
         }
         return back()->with('warning', 'Silakan unggah gambar!');
     }
@@ -141,16 +146,22 @@ class ProgramController extends Controller
         $data = ProgramItem::findOrFail($id);
         $dataItem = $request->only(self::itemData);
 
-        if ($request->file('edit_item_image') == null) {
-            $dataItem['image'] = $data->image;
-        } else {
-            $image_exist = 'storage/' . $data->image;
-            if (file_exists($image_exist))
-                unlink($image_exist);
+        if ($request->hasFile('edit_item_image')) {
+            $formatFile = $request->file('edit_item_image')->getClientOriginalExtension();
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+                $image_exist = 'storage/' . $data->image;
+                if (file_exists($image_exist))
+                    unlink($image_exist);
 
-            $imageItem_path = $request->file('edit_item_image')->store('image', 'public');
-            $dataItem['image'] = $imageItem_path;
+                $imageItem_path = $request->file('edit_item_image')->store('image', 'public');
+                $dataItem['image'] = $imageItem_path;
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
+        } else {
+            $dataItem['image'] = $data->image;
         }
+
         $dataItem['program_id'] = $id;
 
         $data->update(['title' => $dataItem['title'], 'link' => $dataItem['link'], 'image' => $dataItem['image']]);

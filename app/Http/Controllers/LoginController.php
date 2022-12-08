@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Session\Store;
+use Session;
 
 class LoginController extends Controller
 {
+
     public function index()
     {
         return view('auth.login');
@@ -14,6 +17,10 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
+        // if (time() - $this->session->get('lastActivityTime') > $this->timeout) {
+        //     return back()->with('error', 'Sesi anda telah habis!');
+        // }
+
         $credentials = $request->validate([
             'username' => 'required',
             'password' => 'required'
@@ -22,7 +29,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/');
+            return redirect()->intended('/')->with('message', 'Berhasil masuk sistem');
         }
 
         return back()->with('error', 'Login gagal!');
@@ -34,6 +41,6 @@ class LoginController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/')->with('message', 'Berhasil keluar sistem!');
+        return redirect('/login')->with('message', 'Berhasil keluar sistem');
     }
 }

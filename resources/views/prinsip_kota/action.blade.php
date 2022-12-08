@@ -57,7 +57,7 @@
                                     <label class="btn btn-primary mt-2">
                                         Upload Images
                                         <input type="file" name="image" class="upload__inputfile" id="up_images"
-                                            onchange="previewImage()">
+                                            onchange="previewImage()" accept="image/*">
                                     </label>
                                     <img class="img-preview img-fluid col-sm-5"
                                         src="{{ $action == 'edit' ? asset('storage/' . $prinsip->image) : '' }}"
@@ -178,13 +178,14 @@
                 reader.readAsDataURL(image.files[0]);
 
                 reader.onload = function(event) {
-                    if (fileSize < 2) {
+                    if (fileSize < 3) {
                         imgPreview.src = event.target.result;
                     } else {
                         toastr.error("Ukuran gambar terlalu besar!");
                     }
                 }
             } else {
+                imgPreview.style.display = 'none';
                 toastr.warning("Hanya boleh mengunggah berkas gambar!");
             }
         }

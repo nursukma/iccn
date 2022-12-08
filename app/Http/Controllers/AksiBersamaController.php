@@ -40,21 +40,28 @@ class AksiBersamaController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->file('image') != null) {
-            $request->validate([
-                'aksi_title' => 'required',
-                'aksi_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            ]);
+        if ($request->hasFile('aksi_image')) {
+            $formatFile = $request->file('aksi_image')->getClientOriginalExtension();
 
-            $image_path = $request->file('aksi_image')->store('image', 'public');
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+                $request->validate([
+                    'aksi_title' => 'required',
+                    'aksi_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                ]);
 
-            $data = AksiBersama::create(['desc' => $request->aksi_desc, 'title' =>  $request->aksi_title, 'image' => $image_path]);
-            if (!$data) {
-                return redirect('/aksi-bersama')->with('error', 'Terjadi kesalahan!');
+                $image_path = $request->file('aksi_image')->store('image', 'public');
+
+                $data = AksiBersama::create(['desc' => $request->aksi_desc, 'title' =>  $request->aksi_title, 'image' => $image_path]);
+                if (!$data) {
+                    return redirect('/aksi-bersama')->with('error', 'Terjadi kesalahan!');
+                }
+                return redirect('/aksi-bersama')->with('message', 'Data berhasil ditambahkan!');
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
             }
-            return redirect('/aksi-bersama')->with('message', 'Data berhasil ditambahkan!');
+        } else {
+            return back()->with('warning', 'Silakan unggah gambar!');
         }
-        return back()->with('warning', 'Silakan unggah gambar!');
     }
 
     /**
@@ -87,25 +94,32 @@ class AksiBersamaController extends Controller
      */
     public function update(Request $request, AksiBersama $aksiBersama)
     {
-        $request->validate([
-            'title' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-
         if ($request->file('image') == null) {
             $image_path = $aksiBersama->image;
+
+            $request->validate([
+                'title' => 'required'
+            ]);
         } else {
-            $image_exist = 'storage/' . $aksiBersama->image;
-            if (file_exists($image_exist))
-                unlink($image_exist);
+            $formatFile = $request->file('image')->getClientOriginalExtension();
 
-            $image_path = $request->file('image')->store('image', 'public');
-        }
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+                $request->validate([
+                    'title' => 'required',
+                    'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+                ]);
 
-        $data = $aksiBersama->update(['desc' => $request->desc, 'title' =>  $request->title, 'image' => $image_path]);
-        if (!$data) {
-            return redirect('/aksi-bersama')->with('error', 'Terjadi kesalahan!');
-        }
+                $image_exist = 'storage/' . $aksiBersama->image;
+                if (file_exists($image_exist))
+                    unlink($image_exist);
+
+                $image_path = $request->file('image')->store('image', 'public');
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
+        };
+
+        $aksiBersama->update(['desc' => $request->desc, 'title' =>  $request->title, 'image' => $image_path]);
         return redirect('/aksi-bersama')->with('message', 'Data berhasil diubah!');
     }
 
@@ -123,15 +137,25 @@ class AksiBersamaController extends Controller
 
     public function storeItem(Request $request, $id)
     {
-        $dataItem = $request->only(self::itemData);
+        if ($request->hasFile('item_image')) {
+            $formatFile = $request->file('item_image')->getClientOriginalExtension();
 
-        $imageItem_path = $request->file('item_image')->store('image', 'public');
-        $dataItem['image'] = $imageItem_path;
-        $dataItem['aksi_besama_id'] = $id;
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+                $dataItem = $request->only(self::itemData);
 
-        $data = AksiBersamaItem::create(['title' => $dataItem['title'], 'link' => $dataItem['link'], 'image' => $dataItem['image'], 'aksi_bersama_id' => $id]);
-        // dd($dataItem);
-        return redirect('/aksi-bersama')->with('message', 'Data berhasil ditambahkan!');
+                $imageItem_path = $request->file('item_image')->store('image', 'public');
+                $dataItem['image'] = $imageItem_path;
+                $dataItem['aksi_besama_id'] = $id;
+
+                AksiBersamaItem::create(['title' => $dataItem['title'], 'link' => $dataItem['link'], 'image' => $dataItem['image'], 'aksi_bersama_id' => $id]);
+
+                return redirect('/aksi-bersama')->with('message', 'Data berhasil ditambahkan!');
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
+        } else {
+            return back()->with('warning', 'Silakan unggah gambar!');
+        }
     }
 
     public function detailAksi($id)
@@ -164,11 +188,18 @@ class AksiBersamaController extends Controller
         $data = AksiBersamaItem::findOrFail($id);
         $dataItem = $request->only(self::itemData);
 
-        if ($request->file('edit_item_image') == null) {
+        if (!$request->hasFile('edit_item_image')) {
             $dataItem['image'] = $data->image;
         } else {
-            $imageItem_path = $request->file('edit_item_image')->store('image', 'public');
-            $dataItem['image'] = $imageItem_path;
+            $formatFile = $request->file('edit_item_image')->getClientOriginalExtension();
+
+            if ($formatFile == 'png' || $formatFile == 'jpg' || $formatFile == 'jpeg') {
+
+                $imageItem_path = $request->file('edit_item_image')->store('image', 'public');
+                $dataItem['image'] = $imageItem_path;
+            } else {
+                return back()->with('error', 'Format gambar yang diunggah tidak sesuai!');
+            }
         }
         $dataItem['aksi_besama_id'] = $id;
 

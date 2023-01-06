@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -29,4 +31,11 @@ class Controller extends BaseController
             'original_name' => $original_name
         ]);
     }
+
+    // public function __construct()
+    // {
+    //     $site = Setting::all()->first();
+    //     View::share('site', $site);
+    //     $this->middleware('auth');
+    // }
 }

@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="col-12 mt-3">
                                     <button type="submit" class="btn btn-success">Simpan</button>
-                                    <a href="/about" class="btn btn-secondary">Kembali</a>
+                                    <a href="/koordinator" class="btn btn-secondary">Kembali</a>
                                 </div>
                             </div>
                             {{-- </div> --}}

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AksiBersamaController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\KoordinatorController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MateriController;
@@ -32,6 +33,7 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 
 Route::group(['middleware' => ['auth', 'revalidate']], function () {
+    // Route::get('/', [Controller::class, 'index']);
     Route::get('/', function () {
         return view('dashboard');
     });

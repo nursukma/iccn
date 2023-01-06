@@ -28,7 +28,7 @@
                         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
                             <img src="{{ $up->image == null ? asset('build/assets/img/profile-img.jpg') : 'storage/' . $up->image }}"
-                                class=" img-thumbnail img-preview">
+                                class="img-preview" style="width: 120px; height: 150px; object-fit: cover">
                             <label class="btn btn-primary mt-2">
                                 Upload Images
                                 <input type="file" name="image" class="upload__inputfile" id="up_images"

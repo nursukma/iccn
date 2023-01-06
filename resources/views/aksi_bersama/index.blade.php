@@ -188,7 +188,7 @@
                 </div>
 
                 <!-- Modal Detail Item -->
-                <div class="modal fade" id="itemDetailModal" style="z-index: 1400;">
+                <div class="modal fade" id="itemDetailModal" tabindex="-1" data-bs-backdrop="static">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -336,7 +336,7 @@
                 </div>
 
                 {{-- Modal edit item --}}
-                <div class="modal fade" id="editItemModal" data-backdrop="static" style="z-index: 1600;">
+                <div class="modal fade" id="editItemModal" tabindex="-1" data-bs-backdrop="static">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -665,7 +665,7 @@
                             select: 5,
                             render: function(data) {
                                 return `
-                        <button class="btn btn-light rounded-pill" title="Ubah" type="button" data-bs-toggle="modal"
+                        <button class="btn btn-light rounded-pill nestedEditModal" title="Ubah" type="button" data-bs-toggle="modal"
                                                         data-bs-target="#editItemModal" data-bs-id='${data}' data-bs-act='/update-item/${data}'>
                             <i class="ri-edit-2-line"></i>
                         </button>
@@ -684,5 +684,22 @@
                 $("#body-detail").html("");
             });
         });
+    </script>
+
+    <script>
+        // Array.from(document.getElementsByClassName('nestedEditModal')).forEach((e) => {
+        //     e.addEventListener('click', function(element) {
+        //         element.preventDefault();
+        //         if (e.hasAttribute('data-show-modal')) {
+        //             showModal(e.getAttribute('data-show-modal'));
+        //         }
+        //     });
+        // });
+        // // Show modal dialog
+        // function showModal(modal) {
+        //     const mid = document.getElementById(modal);
+        //     let myModal = new bootstrap.Modal(mid);
+        //     myModal.show();
+        // }
     </script>
 @endsection
